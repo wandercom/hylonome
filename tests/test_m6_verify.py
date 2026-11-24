@@ -180,7 +180,8 @@ def test_broken_construct_contracts_point_into_the_vocabulary(library, handoff):
         return html.replace('data-kd-construct="card"', 'data-kd-construct="order-summary"', 1)
     result = verify(library, "harbor", compliant(repo, '<p data-kd-slot="orphan">Note</p>', edit=edit), code=1)
     found = {(f["type"], f["rule"], f["target"]) for f in blocking(result) if f["rule"].startswith("site-")}
-    assert {("violation", "site-slot", "page"), ("violation", "site-slot", "form"), ("missing", "site-slot", "form.email"),
+    # compliant() wraps extra content in page-shell, so the stray slot is reported against that construct.
+    assert {("violation", "site-slot", "page-shell"), ("violation", "site-slot", "form"), ("missing", "site-slot", "form.email"),
             ("violation", "site-semantics", "footer"), ("violation", "site-construct", "page")} <= found
     missing = next(f for f in blocking(result) if f["type"] == "missing")
     # Harbor tracks the current vocabulary, so the citation is into that version, not the v1 fixture.
