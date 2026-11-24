@@ -2,7 +2,7 @@
 
 The Hylonome workbench can render two property-results examples using Wander’s published React
 components, design tokens, and Instrument Sans font. The pilot pins the package versions in the
-`wander.com` lockfile when the pilot was built. The example text and generated property photos
+`wander.com` lockfile. The example text and generated property photos
 are fictional.
 
 ## Run locally

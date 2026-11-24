@@ -5,9 +5,9 @@
   "packageManager": "pnpm@10.13.1",
   "scripts": {"build": "node build.mjs"},
   "dependencies": {
-    "@wandercom/design-system-fonts": "0.6.63",
-    "@wandercom/design-system-tokens": "0.6.63",
-    "@wandercom/design-system-web": "0.6.17",
+    "@wandercom/design-system-fonts": "0.6.91",
+    "@wandercom/design-system-tokens": "0.6.91",
+    "@wandercom/design-system-web": "0.6.91",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },

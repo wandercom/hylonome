@@ -6,14 +6,14 @@ importers:
   .:
     dependencies:
       '@wandercom/design-system-fonts':
-        specifier: 0.6.63
-        version: 0.6.63
+        specifier: 0.6.91
+        version: 0.6.91
       '@wandercom/design-system-tokens':
-        specifier: 0.6.63
-        version: 0.6.63
+        specifier: 0.6.91
+        version: 0.6.91
       '@wandercom/design-system-web':
-        specifier: 0.6.17
-        version: 0.6.17(@date-fns/tz@1.4.1)(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+        specifier: 0.6.91
+        version: 0.6.91(@date-fns/tz@1.4.1)(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       react:
         specifier: 19.3.0
         version: 19.3.0
@@ -798,34 +798,30 @@ packages:
   '@ungap/structured-clone@1.4.0':
     resolution:
       integrity: sha512-1mEZtMKPM09vDmQt5y7YvmN2+DFTP7Tg0EWXdic8/C6VRnpb33e4ghisCIE3WZjsE2N8mf+QV1Zqh7ZFYLWInQ==
-  '@wandercom/design-system-fonts@0.6.63':
+  '@wandercom/design-system-fonts@0.6.91':
     resolution:
-      integrity: sha512-1C07F76+tL3TSeRvJoE47+vi/g3aZj0lk3Rrm8h2VVP+tIiTVxJ0yEcK/WeJynm8Ctsts+bHURNb6/pBwlWhvg==
-      tarball: https://npm.pkg.github.com/download/@wandercom/design-system-fonts/0.6.63/0f9e1795168dcb5ea3d35f5ed689207408d23b27
-  '@wandercom/design-system-icons@0.6.17':
+      integrity: sha512-5iSUzQfOQaiKeaopTXjdl2NboiinUF57eI9TFvtPrP+nhLBDVajG5IK3LjmbsnGWWlaFjztHmzfoUABHNUhFxQ==
+      tarball: https://npm.pkg.github.com/download/@wandercom/design-system-fonts/0.6.91/41bdf254e6045afe430bd26596c91341786b6b0f
+  '@wandercom/design-system-icons@0.6.91':
     resolution:
-      integrity: sha512-kBXxEk7F1ZBRqF9QYwU6R7pOpwekoABXH7WqzaQRAohASAQbHrxIwqIxMzXIFklVk6pjeWuYwYheLqc7t7FdjA==
-      tarball: https://npm.pkg.github.com/download/@wandercom/design-system-icons/0.6.17/bafa96e2c989ff3559240595c5c2cdd9515794bc
+      integrity: sha512-VLtbYdUCw7n5Q7e1s69HaWZxiMS73QPdHsH4FW1KKRJOXxzP6tCblsBa2EnawFl82s+2fU3RlRnwZrSYROsSIg==
+      tarball: https://npm.pkg.github.com/download/@wandercom/design-system-icons/0.6.91/b06c60bd78555db594fed2f98495efd6e6d0d9ae
     peerDependencies:
       react: ^19.0.0
-  '@wandercom/design-system-shared@0.6.17':
+  '@wandercom/design-system-shared@0.6.91':
     resolution:
-      integrity: sha512-jHsIfizbSmI6rBhHWE2/2hJO1xj2oWy4qo0j+IMrVT1f/St3mfWPjKAByS/1augRkXuY+bFIBzMnulHOjcf/TQ==
-      tarball: https://npm.pkg.github.com/download/@wandercom/design-system-shared/0.6.17/47b0687b22c564fbe52d3d63d707b58d4ee37fb7
+      integrity: sha512-bHLYL/7G2rRWgRpQFWgzgdbGQgBqCK+lGAMcxZZDqThJIqOZN63MVVTfOmrdY27RXVfRGzEQAKozb2mg850PJg==
+      tarball: https://npm.pkg.github.com/download/@wandercom/design-system-shared/0.6.91/099604aa5fd2692fa99829f6aed5e228d291b210
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
-  '@wandercom/design-system-tokens@0.6.17':
+  '@wandercom/design-system-tokens@0.6.91':
     resolution:
-      integrity: sha512-GIMG27QcOlQ+xqdV9mrIEcLHW/RM9WoSdzVB+Fzb+E3vKEnB4z0Uhe2vYxVDyRa4oBf+DbaWwYDq375eRHu+fw==
-      tarball: https://npm.pkg.github.com/download/@wandercom/design-system-tokens/0.6.17/ee17d3a86883db18fb10e4648b16f74d0de5069e
-  '@wandercom/design-system-tokens@0.6.63':
+      integrity: sha512-RRwCPHEGThqv+Av4cZPQrxQOvceMLrnvUJZOQ40bSYLcclDIEyRmpMGys9pH3XGzjYSY7LPT0zXBo8xl99LRzw==
+      tarball: https://npm.pkg.github.com/download/@wandercom/design-system-tokens/0.6.91/36858fb8507bf7db3574c04cf2383c335d206006
+  '@wandercom/design-system-web@0.6.91':
     resolution:
-      integrity: sha512-m3e3vQM24ifWYpBnaaYDZIoDB7NDkawfH+a6x6dPm88KsWCwkseFpbxWh8lhRH/Z5y1GSHhcdmQv2feTViRnWg==
-      tarball: https://npm.pkg.github.com/download/@wandercom/design-system-tokens/0.6.63/080c1dd9200db76b5f6aae69cffdd04fb4a6be36
-  '@wandercom/design-system-web@0.6.17':
-    resolution:
-      integrity: sha512-c7wgOfDr2ajL9zbvi8v5+g7DGv0CZtcJ1bER51yUfx+kMU5KoVO8nw8TSD78b6DD2FVfp42uqg5FwgPs+3U5FQ==
-      tarball: https://npm.pkg.github.com/download/@wandercom/design-system-web/0.6.17/eb273e7b6ad60d2f0e957372d6e2a615f7f704a9
+      integrity: sha512-XDVoLVtEzG2woTI/cBwPGLRSpvCzw1vi5twLG7GprRi8yAiWETfeNXVT9dcgp1+gQ+OIVvOO4R+yfqIKtOPaGg==
+      tarball: https://npm.pkg.github.com/download/@wandercom/design-system-web/0.6.91/c548be8297abf43b1f0719e639fb092035cc67f4
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
@@ -2038,25 +2034,24 @@ snapshots:
   '@types/unist@2.0.11': {}
   '@types/unist@3.0.3': {}
   '@ungap/structured-clone@1.4.0': {}
-  '@wandercom/design-system-fonts@0.6.63': {}
-  '@wandercom/design-system-icons@0.6.17(react@19.3.0)':
+  '@wandercom/design-system-fonts@0.6.91': {}
+  '@wandercom/design-system-icons@0.6.91(react@19.3.0)':
     dependencies:
-      '@wandercom/design-system-shared': 0.6.17(react@19.3.0)
-      '@wandercom/design-system-tokens': 0.6.17
+      '@wandercom/design-system-shared': 0.6.91(react@19.3.0)
+      '@wandercom/design-system-tokens': 0.6.91
       class-variance-authority: 0.7.1
       react: 19.3.0
-  '@wandercom/design-system-shared@0.6.17(react@19.3.0)':
+  '@wandercom/design-system-shared@0.6.91(react@19.3.0)':
     dependencies:
-      '@wandercom/design-system-tokens': 0.6.17
+      '@wandercom/design-system-tokens': 0.6.91
       class-variance-authority: 0.7.1
       clsx: 2.1.1
       date-fns: 4.4.0
       react: 19.3.0
       tailwind-merge: 3.7.0
       thumbhash: 0.1.1
-  '@wandercom/design-system-tokens@0.6.17': {}
-  '@wandercom/design-system-tokens@0.6.63': {}
-  '@wandercom/design-system-web@0.6.17(@date-fns/tz@1.4.1)(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+  '@wandercom/design-system-tokens@0.6.91': {}
+  '@wandercom/design-system-web@0.6.91(@date-fns/tz@1.4.1)(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
       '@base-ui/react': 1.6.0(@date-fns/tz@1.4.1)(@types/react@19.2.7)(date-fns@4.4.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@radix-ui/react-avatar': 1.2.6(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -2067,13 +2062,13 @@ snapshots:
       '@radix-ui/react-progress': 1.1.16(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@radix-ui/react-radio-group': 1.4.7(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@radix-ui/react-separator': 1.1.15(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      '@radix-ui/react-slot': 1.3.3(@types/react@19.2.7)(react@19.3.0)
+      '@radix-ui/react-slot': 1.5.0(@types/react@19.2.7)(react@19.3.0)
       '@radix-ui/react-switch': 1.3.7(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@radix-ui/react-toggle': 1.1.18(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@radix-ui/react-toggle-group': 1.1.19(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@radix-ui/react-tooltip': 1.2.16(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      '@wandercom/design-system-icons': 0.6.17(react@19.3.0)
-      '@wandercom/design-system-shared': 0.6.17(react@19.3.0)
+      '@wandercom/design-system-icons': 0.6.91(react@19.3.0)
+      '@wandercom/design-system-shared': 0.6.91(react@19.3.0)
       class-variance-authority: 0.7.1
       clsx: 2.1.1
       cmdk: 1.1.1(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
