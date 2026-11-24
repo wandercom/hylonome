@@ -9,6 +9,8 @@
   {% endfor %}
 </nav>
 
+{% if state.notice %}<p role="status">{{ state.notice }}</p>{% endif %}
+
 <form method="post" action="/wander-preview" class="toolbar">
   <input type="hidden" name="page" value="{{ page }}">
   <input type="hidden" name="revision" value="{{ state.revision }}">

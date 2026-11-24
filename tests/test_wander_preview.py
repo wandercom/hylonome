@@ -5,6 +5,7 @@ from urllib.parse import urlencode
 import pytest
 
 from kinbase_design.workbench import create_app
+from kinbase_design.workbench.wander import DEFAULT_LAYOUT, OPTIONS, WIDTHS
 from tests.support import ROOT, request
 
 KIT = ROOT / "integrations" / "wander-preview"
@@ -59,7 +60,7 @@ def test_wander_previews_save_layout_and_capture_both_pages(library):
     mountain_before, mountain_after = bundles(request(restarted, URL + "?page=mountain-stays"))
     assert mountain_before != before and mountain_after != after
     for bundle in (before, after, mountain_before, mountain_after):
-        for width in (390, 768, 1280):
+        for width in WIDTHS:
             shot = request(restarted, bundle + f"/{width}.png")
             assert shot["headers"]["Content-Type"] == "image/png"
             assert shot["body"].startswith(b"\x89PNG\r\n\x1a\n")
@@ -77,6 +78,13 @@ def test_wander_previews_save_layout_and_capture_both_pages(library):
             ):
                 path = library.workspace / "wander-preview" / "renders" / bundle.rsplit("/", 1)[1] / "index.html"
                 page.goto(path.as_uri(), wait_until="load")
+                if bundle == before:
+                    for field in ("sectionSpace", "cardGap"):
+                        for token, label in OPTIONS[field][1].items():
+                            assert page.evaluate(
+                                """token => getComputedStyle(document.documentElement)
+                                     .getPropertyValue('--spacing-layout-' + token).trim()""", token,
+                            ) == label.replace(" ", "")
                 measurements = page.evaluate("""() => {
                   const grid = document.querySelector('[data-slot="grid"]');
                   const items = [...grid.children].map(item => item.getBoundingClientRect());
@@ -94,3 +102,12 @@ def test_wander_previews_save_layout_and_capture_both_pages(library):
                 }
         finally:
             browser.close()
+
+    layout = library.workspace / "wander-preview" / "layout.json"
+    layout.write_text('{ "revision": 1, "layout": "old-format" }')
+    recovery = request(restarted, URL)
+    assert b"The saved layout could not be loaded" in recovery["body"]
+    assert bundles(recovery) == [before]
+    assert submit(restarted, page="lake-stays", revision=0, **DEFAULT_LAYOUT)["status"] == 400
+    assert submit(restarted, page="lake-stays", revision=1, **DEFAULT_LAYOUT)["status"] == 303
+    assert b"The saved layout could not be loaded" not in request(restarted, URL)["body"]

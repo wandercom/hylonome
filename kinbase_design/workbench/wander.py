@@ -10,9 +10,13 @@ import subprocess
 from tempfile import TemporaryDirectory
 from urllib.parse import parse_qs, urlencode
 
+from ..artifacts.runtime import run_job
+from ..config import CAPTURE_TIMEOUT_MS
 from ..storage import inside, read_json, write_json
 
 PAGES = {"lake-stays": "Lakeside stays", "mountain-stays": "Mountain stays"}
+# The Wander pilot reviews a typical phone width. The main workbench's checks
+# also use 320 px to catch reflow on narrower screens.
 WIDTHS = (390, 768, 1280)
 OPTIONS = {
     "sectionSpace": ("Section padding", {"md": "24 px", "lg": "32 px", "xl": "40 px"}),
@@ -23,8 +27,8 @@ DEFAULT_LAYOUT = {"sectionSpace": "lg", "cardGap": "md", "tabletColumns": "two"}
 MEDIA = ("lake.webp", "forest.webp", "ridge.webp")
 BUILD_FILES = ("preview.css", "instrument-sans.woff2")
 SCREENSHOTS = tuple(f"{width}.png" for width in WIDTHS)
-THUMB_TIMEOUT_MS = 8000
 MAX_FORM_BYTES = 2048
+DEFAULT_LAYOUT_NOTICE = "The saved layout could not be loaded. Save to replace it with your current choices."
 
 
 def validated_layout(layout):
@@ -71,20 +75,36 @@ class WanderPreview:
             "render.mjs": self.script.read_bytes(),
             "pnpm-lock.yaml": inside(self.directory, "pnpm-lock.yaml").read_bytes(),
             "workbench/wander.py": Path(__file__).read_bytes(),
+            "workbench/wander_worker.py": Path(__file__).with_name("wander_worker.py").read_bytes(),
         }
         self.fingerprint = {
             name: hashlib.sha256(content).hexdigest() for name, content in build_inputs.items()
         }
 
     def state(self):
+        defaults = {"revision": 0, "layout": DEFAULT_LAYOUT, "previous": None, "notice": None}
         try:
             state = read_json(self.state_path)
         except FileNotFoundError:
-            return {"revision": 0, "layout": DEFAULT_LAYOUT, "previous": None}
-        validated_layout(state["layout"])
-        if state["previous"] is not None:
-            validated_layout(state["previous"])
-        return state
+            return defaults
+        except ValueError:
+            return {**defaults, "notice": DEFAULT_LAYOUT_NOTICE}
+        revision = state.get("revision") if isinstance(state, dict) else None
+        if type(revision) is not int or revision < 0:
+            return {**defaults, "notice": DEFAULT_LAYOUT_NOTICE}
+        try:
+            layout = validated_layout(state.get("layout"))
+        except ValueError:
+            return {**defaults, "revision": revision, "notice": DEFAULT_LAYOUT_NOTICE}
+        previous = state.get("previous")
+        notice = None
+        if previous is not None:
+            try:
+                validated_layout(previous)
+            except ValueError:
+                previous = None
+                notice = "The previous layout could not be loaded. Your current layout is still available."
+        return {"revision": revision, "layout": layout, "previous": previous, "notice": notice}
 
     @contextmanager
     def locked(self, name):
@@ -99,10 +119,11 @@ class WanderPreview:
             state = self.state()
             if revision != state["revision"]:
                 raise ValueError("The layout changed in another tab. Reload and try again.")
-            if layout != state["layout"]:
+            if layout != state["layout"] or state["notice"]:
                 self.render(page, layout)
                 write_json(self.state_path, {
-                    "revision": state["revision"] + 1, "layout": layout, "previous": state["layout"],
+                    "revision": state["revision"] + 1, "layout": layout,
+                    "previous": state["layout"] if layout != state["layout"] else state["previous"],
                 })
 
     def render(self, page, layout):
@@ -133,7 +154,9 @@ class WanderPreview:
                 (bundle / "index.html").write_bytes(result.stdout)
                 for name, content in self.resources.items():
                     (bundle / name).write_bytes(content)
-                capture(bundle)
+                run_job("kinbase_design.workbench.wander_worker",
+                        {"bundle": str(bundle), "widths": WIDTHS},
+                        timeout=2 * CAPTURE_TIMEOUT_MS / 1000)
                 bundle.rename(target)
         return key
 
@@ -171,33 +194,3 @@ class WanderPreview:
             web_version=self.versions["@wandercom/design-system-web"],
             token_version=self.versions["@wandercom/design-system-tokens"],
         ), "text/html; charset=utf-8", []
-
-
-def capture(bundle):
-    from playwright.sync_api import Error, sync_playwright
-
-    from ..checks.browser import prepare
-
-    try:
-        with sync_playwright() as engine:
-            browser = engine.chromium.launch(headless=True, timeout=THUMB_TIMEOUT_MS)
-            try:
-                page = browser.new_page(
-                    device_scale_factor=1, java_script_enabled=False, reduced_motion="reduce",
-                )
-                page.route("http*://**/*", lambda route: route.abort())
-                for width in WIDTHS:
-                    page.set_viewport_size({"width": width, "height": 900})
-                    prepare(page, bundle / "index.html", timeout_ms=THUMB_TIMEOUT_MS)
-                    if not page.evaluate("""() => [...document.fonts].some(
-                            font => font.family.replaceAll('"', '') === 'Instrument Sans' && font.status === 'loaded')
-                            && [...document.images].every(image => image.naturalWidth > 0)"""):
-                        raise ValueError("Wander preview font or property photos could not load.")
-                    page.screenshot(
-                        path=bundle / f"{width}.png", full_page=True,
-                        animations="disabled", timeout=THUMB_TIMEOUT_MS,
-                    )
-            finally:
-                browser.close()
-    except Error as exc:
-        raise ValueError("Chromium could not capture the Wander preview. Check the local browser install.") from exc

@@ -21,9 +21,14 @@ pnpm --dir integrations/wander-preview build
 ```
 
 Open **Wander preview** at `http://127.0.0.1:8765/`. The workbench captures 390, 768, and 1280 px
-screenshots on first view. Change section padding, card gap, or the tablet column count and select
+screenshots on first view. The 390 px image represents a typical phone layout.
+Change section padding, card gap, or the tablet column count and select
 **Save layout and render** to compare the two layouts. Open the other example to see the saved
 rules applied to different content.
+
+For a design review, pick one change at a time and compare it at all three widths. If a
+layout looks off, save the before and current screenshots and note the example, width,
+and spacing or column choice that should change.
 
 Layout edits and screenshots live in the configured private workspace under `wander-preview/`.
 The layout applies to both examples. Each render is generated from the saved layout and captured
@@ -33,6 +38,7 @@ or its renderer. The preview uses static markup for reviewing appearance.
 ## Test
 
 ```sh
+.venv/bin/python -m pip install pytest
 .venv/bin/python -m pytest tests/test_wander_preview.py
 ```
 
