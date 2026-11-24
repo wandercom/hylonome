@@ -701,4 +701,3 @@ Boundaries:
   is reported as coverage. Adding a construct remains a Vocabulary decision.
 - Compliance is about values and construct contracts. Layout composition, margins and taste are
   not judged.
-

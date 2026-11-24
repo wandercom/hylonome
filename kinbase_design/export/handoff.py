@@ -1,9 +1,11 @@
 """Private Apply bundles and explicitly requested local branches, never remotes."""
 from datetime import datetime,timezone
 import logging
+import shlex
 from pathlib import Path,PurePosixPath
 import subprocess
 from uuid import uuid4
+from ..builder import current_builder, builder_label
 from ..config import APPLY_GIT_TIMEOUT_SECONDS,APPLY_DEFAULT_TARGET_DIR,KINBASE_FEEDBACK_LENGTH
 from ..inventory import INVENTORY_FILE,inventory_check
 from ..language.versions import digest
@@ -44,13 +46,13 @@ def review(library,language_id,site):
     return {'site':str(site),**inventory_check(library,language_id,site/INVENTORY_FILE)}
 
 
-def write_generated_json(path,value,reference,adapter):
-    write_json(path,{**metadata(reference,adapter),**value})
+def write_generated_json(path,value,reference,adapter,builder=None):
+    write_json(path,{**metadata(reference,adapter,builder),**value})
 
 
 def verify_command(record):
     pages=record.get('verify_pages') or ['PAGE']
-    return ('kinbase-design verify '+record['language']+''.join(' --page '+page for page in pages)
+    return ('kinbase-design verify '+record['language']+''.join(' --page '+shlex.quote(page) for page in pages)
             +' --inventory '+INVENTORY_FILE)
 
 
@@ -90,9 +92,9 @@ def factory_sections(record):
 
 
 def task_text(record):
-    identity=metadata(record['language'],record['adapter'])['$description']
+    identity=metadata(record['language'],record['adapter'],record.get('builder'))['$description']
     lines=['<!-- '+identity+' -->','# Apply Kinbase Design',
-           '',f'Target repository: `{record["site"]}`',f'Local branch: `{record["branch"]}`',
+           '',builder_label(record.get('builder')), '',f'Target repository: `{record["site"]}`',f'Local branch: `{record["branch"]}`',
            f'Target directory: `{record["target_dir"]}`',f'Language: `{record["language"]}`',
            f'Adapter: `{record["adapter"]}`','',
            'Integrate the exported tokens and treatments with the site using its existing build conventions.',
@@ -134,7 +136,8 @@ def local_branch(record,bundle):
             output.write_bytes(inside(bundle,'contract',name.removeprefix(contract.FOLDER+'/')).read_bytes())
         paths=[record['target_dir']+'/'+name for name in record['export_files']+record['contract_files']]
         git(worktree,'add','--',*paths)
-        git(worktree,'-c','core.hooksPath=/dev/null','-c','commit.gpgsign=false','commit','-m','Apply '+record['language']+' with '+record['adapter'])
+        git(worktree,'-c','core.hooksPath=/dev/null','-c','commit.gpgsign=false','commit','-m','Apply '+record['language']+' with '+record['adapter'],
+            '-m',builder_label(record.get('builder')))
         commit=git(worktree,'rev-parse','HEAD')
     finally:
         # Only this newly created, isolated worktree is removed; the named branch remains local.
@@ -152,12 +155,13 @@ def apply(library,workspace,language_id,site,adapter,target_dir=None,page_urls=(
     inside(site,target_dir)
     findings=review(library,language_id,site)
     document=load_language(library,language_id);version=digest(document)
-    files=export_files(library,language_id,adapter)
+    builder=current_builder()
+    files=export_files(library,language_id,adapter,builder)
     handoff_id=identifier(language_id+'-'+version[:8]+'-'+uuid4().hex[:8])
     bundle=inside(workspace,'handoffs',handoff_id)
     capture,images=screenshots(workspace,page_urls,files,adapter) if page_urls else ({'pairs':[],'problems':[]},{})
-    exported=export(library,language_id,adapter,inside(bundle,'export'))
-    record={'id':handoff_id,'language':exported['language'],'adapter':exported['adapter'],'site':str(site),
+    exported=export(library,language_id,adapter,inside(bundle,'export'),builder)
+    record={'id':handoff_id,'builder':exported['builder'],'language':exported['language'],'adapter':exported['adapter'],'site':str(site),
             'target_dir':target_dir,'branch':'kinbase-design/'+language_id+'-'+version[:8],
             'export_files':sorted(files),'findings':findings,'screenshots':capture,
             'created':datetime.now(timezone.utc).isoformat(),'local_branch':None,
@@ -170,12 +174,12 @@ def apply(library,workspace,language_id,site,adapter,target_dir=None,page_urls=(
         path=inside(bundle,'contract',name.removeprefix(contract.FOLDER+'/'));path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(data)
     for name,data in images.items():
         path=inside(bundle,name);path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(data)
-    write_generated_json(inside(bundle,'findings.json'),findings,record['language'],record['adapter'])
+    write_generated_json(inside(bundle,'findings.json'),findings,record['language'],record['adapter'],record.get('builder'))
     inside(bundle,'TASK.md').write_text(task_text(record))
     if branch:record['local_branch']=local_branch(record,bundle)
     record['files']=['TASK.md','findings.json',*['export/'+name for name in files],
                      *['contract/'+name.removeprefix(contract.FOLDER+'/') for name in record['contract_files']],*images]
-    write_generated_json(inside(bundle,'handoff.json'),record,record['language'],record['adapter'])
+    write_generated_json(inside(bundle,'handoff.json'),record,record['language'],record['adapter'],record.get('builder'))
     logging.getLogger(__name__).info('apply language=%s adapter=%s branch=%s bundle=%s',language_id,adapter,bool(branch),handoff_id)
     return {'bundle':str(bundle),'handoff':handoff_id,'accepted':findings['accepted'],'branch':record['local_branch']}
 

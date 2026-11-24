@@ -15,6 +15,8 @@ question without the member that makes it true.
 """
 
 import json
+from pathlib import Path
+import shutil
 import re
 
 import pytest
@@ -394,14 +396,18 @@ def test_impact_lists_the_minted_versions_that_hold_the_token(library, language)
 
 def test_definitions_cite_the_vocabulary_member_and_each_language_treatment(library, language, vocabulary):
     role = meaning(library, "define", "label")
-    assert role["source"] == {"file": "vocabulary/v1/vocabulary.json", "pointer": f"/roles/{vocabulary['roles'].index('label')}"}
+    current = library.json("vocabulary")  # define cites the current vocabulary, not the v1 fixture
+    assert role["source"] == {"file": f"vocabulary/{current['version']}/vocabulary.json", "pointer": f"/roles/{current['roles'].index('label')}"}
     assert {"slot": "listing-card.price", "pointer": "/constructs/listing-card/slots/4"} in role["slots"]
     slot = meaning(library, "define", "listing-card.price")
-    assert slot["definition"] == vocabulary["constructs"]["listing-card"]["slots"][4]
-    treatment = slot["treatments"][0]
-    expected = library.json("resolve", language["id"], "listing-card.price")["properties"]["color"]["value"]
+    assert slot["definition"] == current["constructs"]["listing-card"]["slots"][4]
+    # Treatments list languages on the current vocabulary; the v1 fixture language is not one, so add shipped Harbor.
+    shutil.copytree(Path(__file__).resolve().parents[1] / "library" / "languages" / "harbor", library.path("harbor").parent)
+    slot = meaning(library, "define", "listing-card.price")
+    treatment = next(t for t in slot["treatments"] if t["language"] == "harbor")
+    expected = library.json("resolve", "harbor", "listing-card.price")["properties"]["color"]["value"]
     assert treatment["properties"]["color"]["value"] == expected
-    assert pointer_value(language, treatment["properties"]["color"]["pointer"]).startswith("{")
+    assert pointer_value(library.read("harbor"), treatment["properties"]["color"]["pointer"]).startswith("{")
     assert "error" in meaning(library, "define", "no-such-term", code=2)
 
 

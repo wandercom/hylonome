@@ -150,7 +150,8 @@ def test_values_outside_the_language_are_named_with_their_nearest_token(library,
         assert pointer_value(harbor, finding["pointer"]) == finding["observed"]
         assert "nearest is" in finding["message"] and finding["measured"]["element"]
     padding = next(f for f in blocking(result) if f["measured"]["property"] == "padding")
-    assert padding["pointer"] == "/style/space/sm/$value" and padding["threshold"] == "16px"
+    # 13px sits nearest the 12px action-block token (vocabulary v7 added it), not 16px sm.
+    assert padding["pointer"] == "/style/space/action-block/$value" and padding["threshold"] == "12px"
     hooks = next(f for f in result["findings"] if f["rule"] == "site-hooks")
     assert hooks["type"] == "coverage" and hooks["observed"] == 1
 
@@ -171,19 +172,21 @@ def test_a_restyled_slot_fails_against_the_resolved_treatment(library, harbor, h
 
 @pytest.mark.browser
 @pytest.mark.browser_timeout(300)
-def test_broken_construct_contracts_point_into_the_vocabulary(library, vocabulary, handoff):
+def test_broken_construct_contracts_point_into_the_vocabulary(library, handoff):
     repo, _ = handoff
     def edit(html):
         html = html.replace('data-kd-slot="form.email"', 'data-kd-slot="form.cardnumber"', 1)
         html = html.replace('<footer data-kd-construct="footer"', '<div data-kd-construct="footer"', 1).replace("</footer>", "</div>", 1)
         return html.replace('data-kd-construct="card"', 'data-kd-construct="order-summary"', 1)
-    result = verify(library, "harbor", compliant(repo, edit=edit), code=1)
+    result = verify(library, "harbor", compliant(repo, '<p data-kd-slot="orphan">Note</p>', edit=edit), code=1)
     found = {(f["type"], f["rule"], f["target"]) for f in blocking(result) if f["rule"].startswith("site-")}
-    assert {("violation", "site-slot", "form"), ("missing", "site-slot", "form.email"),
+    assert {("violation", "site-slot", "page"), ("violation", "site-slot", "form"), ("missing", "site-slot", "form.email"),
             ("violation", "site-semantics", "footer"), ("violation", "site-construct", "page")} <= found
     missing = next(f for f in blocking(result) if f["type"] == "missing")
-    assert missing["file"] == "vocabulary/v1/vocabulary.json"
-    assert pointer_value(vocabulary, missing["pointer"])["id"] == "email"
+    # Harbor tracks the current vocabulary, so the citation is into that version, not the v1 fixture.
+    current = library.json("vocabulary")
+    assert missing["file"] == f"vocabulary/{current['version']}/vocabulary.json"
+    assert pointer_value(current, missing["pointer"])["id"] == "email"
 
 
 @pytest.mark.browser

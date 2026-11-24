@@ -4,6 +4,7 @@ from ..checks.browser import BrowserUnavailable, axe_contrast, decode_background
 from ..checks.evaluate import Evaluation, breakpoint_at
 from ..checks.grouping import group_rendered
 from ..config import CHECK_TIMEOUT_MS, CHECK_VIEWPORT_HEIGHT
+from ..language.resolver import parse_scope
 from . import structure
 from .membership import ClosedSet, RULES, declared_properties, observations, token_pointer
 
@@ -83,6 +84,11 @@ def inspect(document, vocabulary, pages, output, widths, javascript=True, previe
                         for node in snapshot['nodes']:
                             if node['slot'] and not structure.resolvable(vocabulary, node):
                                 node['slot'] = None  # Reported as a contract finding; nothing to resolve.
+                            if node.get('part'):
+                                try:
+                                    parse_scope(node['part'], vocabulary)
+                                except ValueError:
+                                    node['part'] = None
                         snapshots[name] = (page, snapshot)
                         if width == widths[0]:
                             texts = [node for node in snapshot['nodes'] if node['visible'] and node['directText'].strip()]

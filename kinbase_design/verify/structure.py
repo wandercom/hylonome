@@ -81,4 +81,7 @@ def resolvable(vocabulary, node):
     """Whether a node's slot and state can be resolved; anything else was reported above."""
     owner, _, local = (node.get('slot') or '').partition('.')
     contract = vocabulary['constructs'].get(owner)
-    return bool(contract and local in slot_map(contract) and node['state'] in contract['states'])
+    if not contract or node['state'] not in contract['states']:
+        return False
+    definition = slot_map(contract).get(local)
+    return bool(definition and (not node.get('heading') or HEADING.fullmatch(definition['element'])))
