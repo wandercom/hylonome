@@ -1,8 +1,16 @@
 (args) => {
   const properties = args.properties;
   const all = [...document.body.querySelectorAll('*')].filter(e => !['SCRIPT','STYLE'].includes(e.tagName));
-  const scope = e => {const slot=e.dataset.kdSlot,root=e.closest('[data-kd-construct]');return slot?(slot.includes('.')?slot:root.dataset.kdConstruct+'.'+slot):null;};
-  const target = e => {const root=e.closest('[data-kd-construct]'),slot=e.closest('[data-kd-slot]');return slot&&slot.closest('[data-kd-construct]')===root?scope(slot):root?.dataset.kdConstruct || 'page';};
+  const scope = e => {
+    const slot = e.dataset.kdSlot, root = e.closest('[data-kd-construct]');
+    if (!slot || !root) return null;
+    return slot.includes('.') ? slot : root.dataset.kdConstruct + '.' + slot;
+  };
+  const target = e => {
+    const root = e.closest('[data-kd-construct]'), slot = e.closest('[data-kd-slot]');
+    return (slot && slot.closest('[data-kd-construct]') === root && scope(slot))
+      || root?.dataset.kdConstruct || 'page';
+  };
   const rect = e => {const r=e.getBoundingClientRect(); return [r.x+scrollX,r.y+scrollY,r.width,r.height];};
   const visible = e => {const r=e.getBoundingClientRect(),s=getComputedStyle(e);if(!(r.width>0&&r.height>0&&s.display!=='none'&&s.visibility!=='hidden'))return false;for(let p=e;p;p=p.parentElement)if(parseFloat(getComputedStyle(p).opacity)===0)return false;return true;};
   const interactive = e => e.matches('a[href],button,input:not([type="hidden"]),textarea,select,summary,[tabindex]') && e.tabIndex>=0;
@@ -20,6 +28,11 @@
     return ['absolute','fixed'].includes(s.position)||s.cssFloat!=='none'||!!parent&&['flex','inline-flex','grid','inline-grid'].includes(getComputedStyle(parent).display);
   };
   const nativeControl = __NATIVE_CONTROL__;
+  // A short, stable description of where an element is, for a person reading a finding.
+  const path = e => {const parts=[];for(let p=e;p&&p!==document.body&&parts.length<4;p=p.parentElement){
+    const same=p.parentElement?[...p.parentElement.children].filter(c=>c.tagName===p.tagName):[];
+    parts.unshift(p.tagName.toLowerCase()+(p.id?'#'+p.id:same.length>1?':nth-of-type('+(same.indexOf(p)+1)+')':''));if(p.id)break;}
+    return parts.join(' > ');};
   const nodes=all.map((e,index) => {
     e.setAttribute('data-kd-check',String(index));
     const s=getComputedStyle(e),r=e.getBoundingClientRect(),root=e.closest('[data-kd-construct]');
@@ -65,7 +78,8 @@
       const style=getComputedStyle(image);
       return {css:Object.fromEntries(properties.map(p=>[p,style.getPropertyValue(p)])),fontSize:parseFloat(style.fontSize)};
     }):null;
-    return {index,target:target(e),slot:scope(e),heading:/^H[1-6]$/.test(e.tagName)?Number(e.tagName[1]):null,part:e.dataset.kdPart&&root?root.dataset.kdConstruct+'~'+e.dataset.kdPart:null,state:root?.dataset.kdState||'default',
+    return {index,target:target(e),slot:scope(e),heading:/^H[1-6]$/.test(e.tagName)?Number(e.tagName[1]):null,part:e.dataset.kdPart&&root?root.dataset.kdConstruct+'~'+e.dataset.kdPart:null,state:root?.dataset.kdState||'default',tag:e.tagName.toLowerCase(),path:path(e),
+      borderWidth:parseFloat(s.borderTopWidth)||0,
       text,directText,visible:visible(e),blockified:blockified(e),box:rect(e),scroll:[e.scrollWidth,e.scrollHeight],
       css:Object.fromEntries(properties.map(p=>[p,s.getPropertyValue(p)])),fontSize,fontWeight,controlStyles,imageStyles,
       backgrounds:background(e),overImage,disabled,clipped,lineClamp:parseInt(s.webkitLineClamp)||0,
