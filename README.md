@@ -18,6 +18,10 @@ python -m kinbase_design serve
 ```
 
 Open `http://127.0.0.1:8765/`. The server binds only to `127.0.0.1` (port is configurable).
+
+The optional [Wander component preview](integrations/wander-preview/README.md) renders property
+results with the published Wander Design System and captures responsive layout comparisons.
+
 Browse the library, open Harbor, choose a page and a 320/768/1280 CSS-pixel viewport, or compare
 two languages. Turn annotations on and hover a slot to inspect its vocabulary role/emphasis and
 asset binding. Page links, width selection, annotations, comparison, upload/promotion, and

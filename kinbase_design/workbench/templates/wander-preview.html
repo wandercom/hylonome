@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Wander preview</h1>
+<p class="lede">Wander web {{ web_version }} · Tokens {{ token_version }}</p>
+
+<nav class="pages" aria-label="Example pages">
+  {% for id, name in pages.items() %}
+  <a href="/wander-preview?page={{ id }}"{% if id == page %} aria-current="page"{% endif %}>{{ name }}</a>
+  {% endfor %}
+</nav>
+
+{% if state.notice %}<p role="status">{{ state.notice }}</p>{% endif %}
+
+<form method="post" action="/wander-preview" class="toolbar">
+  <input type="hidden" name="page" value="{{ page }}">
+  <input type="hidden" name="revision" value="{{ state.revision }}">
+  {% for field, (label, choices) in options.items() %}
+  <label>{{ label }}
+    <select name="{{ field }}">
+      {% for value, name in choices.items() %}
+      <option value="{{ value }}"{% if state.layout[field] == value %} selected{% endif %}>{{ name }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  {% endfor %}
+  <button>Save layout and render</button>
+</form>
+
+{% for label, key in previews %}
+<section>
+  <h2>{{ label }}</h2>
+  <p><a href="/wander-preview/render/{{ key }}/index.html">Open rendered page</a></p>
+  <div class="ingest-grid">
+    {% for width in widths %}
+    <figure>
+      <figcaption>{{ width }} px</figcaption>
+      <a href="/wander-preview/render/{{ key }}/{{ width }}.png">
+        <img class="capture-thumb" src="/wander-preview/render/{{ key }}/{{ width }}.png"
+             alt="{{ label }} for {{ pages[page] }} at {{ width }} pixels">
+      </a>
+    </figure>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+{% endblock %}

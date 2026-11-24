@@ -1,0 +1,12 @@
+@import "tailwindcss" source(none);
+@import "@wandercom/design-system-tokens/tailwind.css";
+@import "@wandercom/design-system-web/styles.css";
+
+@source "./render.mjs";
+
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("instrument-sans.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
