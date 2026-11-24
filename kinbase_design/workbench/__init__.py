@@ -70,12 +70,16 @@ def multipart(environ, extra_fields=(), require_file=True):
     return fields, upload
 
 
-def create_app(library: str | Path, workspace: str | Path):
+def create_app(library: str | Path, workspace: str | Path, *, wander_preview: str | Path | None = None):
     library, workspace = roots(library, workspace)
+    wander = None
+    if wander_preview is not None:
+        from .wander import WanderPreview
+        wander = WanderPreview(workspace, wander_preview)
     environment = Environment(loader=FileSystemLoader(Path(__file__).parent / 'templates'), autoescape=select_autoescape(['html']))
 
     def html(template, **context):
-        return environment.get_template(template).render(**context).encode('utf-8')
+        return environment.get_template(template).render(wander_enabled=wander is not None, **context).encode('utf-8')
 
     def parameters(query, pages):
         page = query.get('page', ['index.html'])[0]
@@ -99,7 +103,9 @@ def create_app(library: str | Path, workspace: str | Path):
                 raise RequestError('Unknown route', 404)
             query = parse_qs(environ.get('QUERY_STRING', ''), max_num_fields=20)
             segments = path.strip('/').split('/')
-            if segments[0] == 'content':
+            if segments[0] == 'wander-preview' and wander is not None:
+                code,body,content_type,headers=wander.handle(environ,segments,query,html)
+            elif segments[0] == 'content':
                 from .content import handle
                 code,body,content_type,headers=handle(library,workspace,environ,segments,query,html)
             elif segments[0] == 'ingest':

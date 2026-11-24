@@ -68,6 +68,7 @@ def parser():
         if name == 'serve':
             sub.add_argument('--host', choices=['127.0.0.1'], default='127.0.0.1')
             sub.add_argument('--port', type=int, default=8765)
+            sub.add_argument('--wander-preview', metavar='DIRECTORY', help='enable the optional Wander component preview')
     for name in ('revise-language','restore-language','language-history'):
         sub=commands.add_parser(name,parents=[common]);sub.add_argument('language_id')
         if name=='language-history':continue
@@ -253,7 +254,8 @@ def main(argv=None):
             class RequestHandler(WSGIRequestHandler):
                 def log_message(self, format, *values):
                     logging.getLogger('kinbase_design.server').info('request result=%s', (format % values)[:200])
-            with make_server(args.host, args.port, create_app(library, workspace), handler_class=RequestHandler) as server:
+            app = create_app(library, workspace, wander_preview=args.wander_preview)
+            with make_server(args.host, args.port, app, handler_class=RequestHandler) as server:
                 print(f'listening http://{args.host}:{server.server_port}/', flush=True)
                 server.serve_forever()
         return 0
