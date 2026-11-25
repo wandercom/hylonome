@@ -11,7 +11,7 @@ import math
 import pytest
 
 from tests.content_support import content_library, save_content, write_content
-from tests.support import PAGES
+from tests.support import PAGES, V8_EXTRA_PAGES
 
 
 pytestmark = [pytest.mark.browser, pytest.mark.browser_timeout(420)]
@@ -40,7 +40,8 @@ def composition_report(library, language, out, content=None, widths=WIDTHS):
     assert set(report["checked"]["widths"]) == set(widths), report
     assert report["checked"]["pages"], "No page was checked"
     if content is None:
-        assert set(report["checked"]["pages"]) == set(PAGES)
+        expected_pages = PAGES + V8_EXTRA_PAGES if library.read(language)["vocabulary"] == "v8" else PAGES
+        assert set(report["checked"]["pages"]) == set(expected_pages)
     return report
 
 

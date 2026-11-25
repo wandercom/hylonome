@@ -16,10 +16,7 @@ import shutil
 
 import pytest
 
-from tests.support import ROOT
-
-NEW_PAGES = ("checkout.html", "account.html", "dashboard.html", "article.html", "pricing.html", "sign-in.html")
-CLASSIC = ("index.html", "search.html", "listing.html", "form.html", "states.html")
+from tests.support import PAGES as CLASSIC, ROOT, V8_EXTRA_PAGES as NEW_PAGES
 
 
 @pytest.fixture
