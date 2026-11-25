@@ -1,10 +1,12 @@
 """Automation boundary over the same operations used by the workbench."""
 import argparse
+from pathlib import Path
+import re
 import json
 import logging
 import sys
 from wsgiref.simple_server import make_server, WSGIRequestHandler
-from . import vocabulary
+from . import package, vocabulary
 from .artifacts import import_file
 from .assets import promote
 from .config import roots
@@ -59,6 +61,8 @@ def parser():
         if name == 'draft':
             sub.add_argument('--from', dest='artifacts', action='append', required=True)
             sub.add_argument('--language', required=True)
+        if name == 'save-draft':
+            sub.add_argument('--target', help='directory to save the package in; default: the library languages directory')
         if name in {'save-draft','fidelity','questions','answer'}:
             sub.add_argument('draft_id')
         if name == 'answer':
@@ -129,6 +133,11 @@ def parser():
             sub.add_argument('pair');sub.add_argument('choice', choices=['A','B','neither'])
             sub.add_argument('--comment', default='');sub.add_argument('--supersedes')
         if name == 'derive':sub.add_argument('--language', required=True)
+    for name in ('approve','approvals'):
+        sub = commands.add_parser(name, parents=[common])
+        sub.add_argument('language_id', help='language id in the library, or a path to a design package')
+        if name == 'approve':
+            sub.add_argument('--note', default='')
     meaning = commands.add_parser('meaning', parents=[common])
     actions = meaning.add_subparsers(dest='meaning_action', required=True)
     for name in ('discover','show','choose','sync','propose','draft','apply','check','impact','define'):
@@ -161,156 +170,175 @@ def output(value):
     print(json.dumps(value, ensure_ascii=False, allow_nan=False))
 
 
+def dispatch(args, library, workspace):
+    """Run one command against a library; a package path has already been staged as one."""
+    if args.command in {'revise-language','restore-language','language-history','feedback-language'}:
+        from .language.revisions import revise,restore,history
+        if args.command=='feedback-language':
+            from .language.feedback import feedback
+            result=feedback(library,args.language_id,args.feedback,scope=args.scope,expected_version=args.expected_version,out=args.out,content=args.content)
+        elif args.command=='language-history':result=history(library,args.language_id)
+        else:
+            operation=revise if args.command=='revise-language' else restore
+            value=json.loads(args.changes) if args.command=='revise-language' else args.version
+            result=operation(library,args.language_id,value,reason=args.reason,expected_version=args.expected_version,out=args.out,content=args.content)
+        output(result)
+        return 1 if result.get('accepted') is False or result.get('rendered',{}).get('built') is False or result.get('rendered',{}).get('validated') is False else 0
+    elif args.command == 'factory-task':
+        from .export.factory import submit
+        result = submit(library,workspace,args.handoff_id,args.run,args.factory,args.runs,args.budget,args.dry_run)
+        output(result)
+        return 0 if args.dry_run or result['exit']==0 else 1
+    elif args.command == 'render-page':
+        from .content import render_page
+        result = render_page(library,args.language_id,args.content,args.out)
+        output(result)
+        return 0 if result['validated'] else 1
+    elif args.command == 'map-sections':
+        from .content.mapping import map_sections
+        result = map_sections(args.mapping,args.sections,args.out)
+        output({key:result[key] for key in ('out','blocks','unmapped','findings')})
+        return 0 if result['accepted'] else 1
+    elif args.command == 'hooks':
+        output(vocabulary.hook_contract(vocabulary.load(library,args.vocabulary)))
+    elif args.command == 'evidence-export':
+        from .design_evidence import export
+        output(export(workspace, args.artifact, args.out))
+    elif args.command == 'figma':
+        from . import figma
+        if args.action == 'identity':
+            identity = figma.client().get('me')
+            output({k: identity.get(k) for k in ('id', 'handle', 'email')})
+        else:
+            if not args.file_key: raise ValueError('figma pull requires --file-key')
+            output(figma.snapshot(workspace, args.file_key, args.version, nodes=args.render_node, variables=args.variables, comments=args.comments, source_nodes=args.source_node))
+    elif args.command == 'generate':
+        from . import generate
+        action=args.generate_action
+        if action=='start':result=generate.start(library,workspace,args.brief,args.artifact)
+        elif action=='interview':result=generate.interview(workspace,args.session,json.loads(args.answers))
+        elif action=='moodboard':result=generate.moodboard(library,workspace,args.session,args.pin,args.remove)
+        elif action=='pair':result=generate.pair(library,workspace,args.session)
+        elif action=='choose':result=generate.choose(workspace,args.session,args.pair,args.choice,args.comment,args.supersedes)
+        elif action=='settled':result=generate.settled(workspace,args.session)
+        else:result=generate.derive(library,workspace,args.session,args.language)
+        output(result)
+        if isinstance(result,dict) and result.get('accepted') is False:return 1
+    elif args.command == 'meaning':
+        from . import meaning
+        action=args.meaning_action
+        if action=='discover':result=meaning.discover(library,workspace,args.corpus,args.artifacts,args.only)
+        elif action=='show':result=meaning.show(library,workspace,args.corpus)
+        elif action=='choose':
+            chosen={m:getattr(args,m) for m in ('property','emphasis','role','state') if getattr(args,m)}
+            result=meaning.choose(library,workspace,args.corpus,args.subject,args.author,chosen or None,args.gap,args.accept,args.note)
+        elif action=='sync':result=meaning.sync(library,workspace,args.corpus)
+        elif action=='propose':result=meaning.propose(library,workspace,args.corpus,args.author,args.subject)
+        elif action=='draft':result=meaning.draft(library,workspace,args.corpus,args.language,args.context)
+        elif action=='apply':result=meaning.apply(library,workspace,args.corpus,args.draft_id)
+        elif action=='check':result=meaning.check(library,workspace,args.language_id,args.corpus)
+        elif action=='impact':result=meaning.impact(library,args.token,args.language,workspace,args.corpus)
+        else:result=meaning.define(library,args.term,workspace,args.corpus)
+        output(result)
+        if isinstance(result,dict) and result.get('accepted') is False:return 1
+    elif args.command in {'approve','approvals'}:
+        from . import approval
+        output(approval.approve(library,args.language_id,args.note) if args.command=='approve' else approval.status(library,args.language_id))
+    elif args.command == 'vocabulary':
+        output(vocabulary.load(library,args.vocabulary))
+    elif args.command == 'validate':
+        result = validate(library, args.language_id)
+        output(result)
+        return 0 if result['accepted'] else 1
+    elif args.command in {'resolve', 'build-preview'}:
+        document = load_language(library,args.language_id)
+        result = validate(library, args.language_id,document)
+        if not result['accepted']:
+            output(result)
+            return 1
+        if args.command == 'resolve':
+            output(resolve(document, vocabulary.load(library, document['vocabulary']), args.scope, args.state, args.breakpoint))
+        else:
+            from .render import build_preview
+            identity={}
+            build_preview(library, args.language_id, args.out,document=document,render_inputs=identity)
+            output({'language': args.language_id, 'built': True,'render_inputs':identity})
+    elif args.command == 'apply':
+        from .export.handoff import apply
+        output(apply(library,workspace,args.language_id,args.site,args.adapter,args.target_dir,args.page_url,args.branch,args.request,args.verify_page,
+                     package=args.package))
+    elif args.command == 'verify':
+        from .verify import verify
+        result=verify(library,workspace,args.reference,args.page,args.out,args.widths,args.inventory,not args.no_javascript)
+        output(result)
+        return 0 if result['accepted'] else 1
+    elif args.command == 'inventory-check':
+        from .inventory import inventory_check
+        result=inventory_check(library,args.language_id,args.inventory)
+        output(result)
+        return 0 if result['accepted'] else 1
+    elif args.command == 'export':
+        from .export import export
+        result = validate(library, args.language_id)
+        if not result['accepted']:
+            output(result)
+            return 1
+        output(export(library, args.language_id, args.adapter, args.out))
+    elif args.command == 'check':
+        from .checks import check
+        result = check(library, args.language_id, args.out, args.widths,args.content)
+        output(result)
+        return 0 if result['accepted'] else 1
+    elif args.command == 'mint':
+        result = mint(library, args.language_id)
+        output(result)
+        return 0 if 'ref' in result else 1
+    elif args.command == 'import-artifact':
+        output({'artifact': import_file(workspace, args.file, args.kind)})
+    elif args.command == 'capture':
+        from .artifacts.capture import capture
+        output(capture(workspace,args.url,args.widths))
+    elif args.command in {'draft','save-draft','questions','answer','fidelity'}:
+        from .ingest import draft,save_draft,questions,answer
+        if args.command=='draft':result=draft(library,workspace,args.artifacts,args.language)
+        elif args.command=='save-draft':result=save_draft(library,workspace,args.draft_id,args.target)
+        elif args.command=='questions':result=questions(workspace,args.draft_id)
+        elif args.command=='answer':result=answer(library,workspace,args.draft_id,args.question_id,args.candidate_id)
+        else:
+            from .ingest.fidelity import fidelity
+            result=fidelity(library,workspace,args.draft_id)
+        output(result)
+        if isinstance(result,dict) and result.get('accepted') is False:return 1
+    elif args.command == 'promote':
+        output(promote(library, workspace, args.language_id, args.artifact, args.asset_id,
+                       args.kind, args.variant, args.weight, args.style, args.family))
+    elif args.command == 'serve':
+        from .workbench import create_app
+        class RequestHandler(WSGIRequestHandler):
+            def log_message(self, format, *values):
+                logging.getLogger('kinbase_design.server').info('request result=%s', (format % values)[:200])
+        with make_server(args.host, args.port, create_app(library, workspace), handler_class=RequestHandler) as server:
+            print(f'listening http://{args.host}:{server.server_port}/', flush=True)
+            server.serve_forever()
+    return 0
+
+
 def main(argv=None):
     args = parser().parse_args(argv)
     logging.basicConfig(level=logging.INFO, format='%(levelname)s %(name)s %(message)s')
     try:
         library, workspace = roots(getattr(args, 'library', None), getattr(args, 'workspace', None))
-        if args.command in {'revise-language','restore-language','language-history','feedback-language'}:
-            from .language.revisions import revise,restore,history
-            if args.command=='feedback-language':
-                from .language.feedback import feedback
-                result=feedback(library,args.language_id,args.feedback,scope=args.scope,expected_version=args.expected_version,out=args.out,content=args.content)
-            elif args.command=='language-history':result=history(library,args.language_id)
-            else:
-                operation=revise if args.command=='revise-language' else restore
-                value=json.loads(args.changes) if args.command=='revise-language' else args.version
-                result=operation(library,args.language_id,value,reason=args.reason,expected_version=args.expected_version,out=args.out,content=args.content)
-            output(result)
-            return 1 if result.get('accepted') is False or result.get('rendered',{}).get('built') is False or result.get('rendered',{}).get('validated') is False else 0
-        elif args.command == 'factory-task':
-            from .export.factory import submit
-            result = submit(library,workspace,args.handoff_id,args.run,args.factory,args.runs,args.budget,args.dry_run)
-            output(result)
-            return 0 if args.dry_run or result['exit']==0 else 1
-        elif args.command == 'render-page':
-            from .content import render_page
-            result = render_page(library,args.language_id,args.content,args.out)
-            output(result)
-            return 0 if result['validated'] else 1
-        elif args.command == 'map-sections':
-            from .content.mapping import map_sections
-            result = map_sections(args.mapping,args.sections,args.out)
-            output({key:result[key] for key in ('out','blocks','unmapped','findings')})
-            return 0 if result['accepted'] else 1
-        elif args.command == 'hooks':
-            output(vocabulary.hook_contract(vocabulary.load(library,args.vocabulary)))
-        elif args.command == 'evidence-export':
-            from .design_evidence import export
-            output(export(workspace, args.artifact, args.out))
-        elif args.command == 'figma':
-            from . import figma
-            if args.action == 'identity':
-                identity = figma.client().get('me')
-                output({k: identity.get(k) for k in ('id', 'handle', 'email')})
-            else:
-                if not args.file_key: raise ValueError('figma pull requires --file-key')
-                output(figma.snapshot(workspace, args.file_key, args.version, nodes=args.render_node, variables=args.variables, comments=args.comments, source_nodes=args.source_node))
-        elif args.command == 'generate':
-            from . import generate
-            action=args.generate_action
-            if action=='start':result=generate.start(library,workspace,args.brief,args.artifact)
-            elif action=='interview':result=generate.interview(workspace,args.session,json.loads(args.answers))
-            elif action=='moodboard':result=generate.moodboard(library,workspace,args.session,args.pin,args.remove)
-            elif action=='pair':result=generate.pair(library,workspace,args.session)
-            elif action=='choose':result=generate.choose(workspace,args.session,args.pair,args.choice,args.comment,args.supersedes)
-            elif action=='settled':result=generate.settled(workspace,args.session)
-            else:result=generate.derive(library,workspace,args.session,args.language)
-            output(result)
-            if isinstance(result,dict) and result.get('accepted') is False:return 1
-        elif args.command == 'meaning':
-            from . import meaning
-            action=args.meaning_action
-            if action=='discover':result=meaning.discover(library,workspace,args.corpus,args.artifacts,args.only)
-            elif action=='show':result=meaning.show(library,workspace,args.corpus)
-            elif action=='choose':
-                chosen={m:getattr(args,m) for m in ('property','emphasis','role','state') if getattr(args,m)}
-                result=meaning.choose(library,workspace,args.corpus,args.subject,args.author,chosen or None,args.gap,args.accept,args.note)
-            elif action=='sync':result=meaning.sync(library,workspace,args.corpus)
-            elif action=='propose':result=meaning.propose(library,workspace,args.corpus,args.author,args.subject)
-            elif action=='draft':result=meaning.draft(library,workspace,args.corpus,args.language,args.context)
-            elif action=='apply':result=meaning.apply(library,workspace,args.corpus,args.draft_id)
-            elif action=='check':result=meaning.check(library,workspace,args.language_id,args.corpus)
-            elif action=='impact':result=meaning.impact(library,args.token,args.language,workspace,args.corpus)
-            else:result=meaning.define(library,args.term,workspace,args.corpus)
-            output(result)
-            if isinstance(result,dict) and result.get('accepted') is False:return 1
-        elif args.command == 'vocabulary':
-            output(vocabulary.load(library,args.vocabulary))
-        elif args.command == 'validate':
-            result = validate(library, args.language_id)
-            output(result)
-            return 0 if result['accepted'] else 1
-        elif args.command in {'resolve', 'build-preview'}:
-            document = load_language(library,args.language_id)
-            result = validate(library, args.language_id,document)
-            if not result['accepted']:
-                output(result)
-                return 1
-            if args.command == 'resolve':
-                output(resolve(document, vocabulary.load(library, document['vocabulary']), args.scope, args.state, args.breakpoint))
-            else:
-                from .render import build_preview
-                identity={}
-                build_preview(library, args.language_id, args.out,document=document,render_inputs=identity)
-                output({'language': args.language_id, 'built': True,'render_inputs':identity})
-        elif args.command == 'apply':
-            from .export.handoff import apply
-            output(apply(library,workspace,args.language_id,args.site,args.adapter,args.target_dir,args.page_url,args.branch,args.request,args.verify_page))
-        elif args.command == 'verify':
-            from .verify import verify
-            result=verify(library,workspace,args.reference,args.page,args.out,args.widths,args.inventory,not args.no_javascript)
-            output(result)
-            return 0 if result['accepted'] else 1
-        elif args.command == 'inventory-check':
-            from .inventory import inventory_check
-            result=inventory_check(library,args.language_id,args.inventory)
-            output(result)
-            return 0 if result['accepted'] else 1
-        elif args.command == 'export':
-            from .export import export
-            result = validate(library, args.language_id)
-            if not result['accepted']:
-                output(result)
-                return 1
-            output(export(library, args.language_id, args.adapter, args.out))
-        elif args.command == 'check':
-            from .checks import check
-            result = check(library, args.language_id, args.out, args.widths,args.content)
-            output(result)
-            return 0 if result['accepted'] else 1
-        elif args.command == 'mint':
-            result = mint(library, args.language_id)
-            output(result)
-            return 0 if 'ref' in result else 1
-        elif args.command == 'import-artifact':
-            output({'artifact': import_file(workspace, args.file, args.kind)})
-        elif args.command == 'capture':
-            from .artifacts.capture import capture
-            output(capture(workspace,args.url,args.widths))
-        elif args.command in {'draft','save-draft','questions','answer','fidelity'}:
-            from .ingest import draft,save_draft,questions,answer
-            if args.command=='draft':result=draft(library,workspace,args.artifacts,args.language)
-            elif args.command=='save-draft':result=save_draft(library,workspace,args.draft_id)
-            elif args.command=='questions':result=questions(workspace,args.draft_id)
-            elif args.command=='answer':result=answer(library,workspace,args.draft_id,args.question_id,args.candidate_id)
-            else:
-                from .ingest.fidelity import fidelity
-                result=fidelity(library,workspace,args.draft_id)
-            output(result)
-            if isinstance(result,dict) and result.get('accepted') is False:return 1
-        elif args.command == 'promote':
-            output(promote(library, workspace, args.language_id, args.artifact, args.asset_id,
-                           args.kind, args.variant, args.weight, args.style, args.family))
-        elif args.command == 'serve':
-            from .workbench import create_app
-            class RequestHandler(WSGIRequestHandler):
-                def log_message(self, format, *values):
-                    logging.getLogger('kinbase_design.server').info('request result=%s', (format % values)[:200])
-            with make_server(args.host, args.port, create_app(library, workspace), handler_class=RequestHandler) as server:
-                print(f'listening http://{args.host}:{server.server_port}/', flush=True)
-                server.serve_forever()
-        return 0
+        reference, pinned = getattr(args, 'language_id', None), ''
+        if args.command == 'verify':
+            match = re.fullmatch(r'(.+)@([0-9a-f]{64})', args.reference)
+            reference, pinned = (match[1], match[2]) if match else (args.reference, '')
+        with package.opened(library, reference) as (library, identity):
+            args.package = str(Path(reference).expanduser().resolve()) if package.is_path(reference) else None
+            if args.command == 'verify':
+                args.reference = identity + ('@' + pinned if pinned else '')
+            elif reference is not None:
+                args.language_id = identity
+            return dispatch(args, library, workspace)
     except (ValueError, OSError, KeyError) as exc:
         if args.command == 'factory-task':
             print(' '.join(str(exc).split()), file=sys.stderr)

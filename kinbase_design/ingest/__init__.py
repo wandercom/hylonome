@@ -89,7 +89,27 @@ def draft(library,workspace,artifact_ids,language_id,settings=None):
     return summary(library,workspace,language_id)
 
 
-def save_draft(library,workspace,draft_id):
+def save_draft(library,workspace,draft_id,target=None):
+    """Save a draft as a design package: in the library by default, or under a target directory."""
+    destination=Path(target).expanduser().resolve()/identifier(draft_id) if target is not None else None
+    if destination is None or destination==inside(library,'languages',draft_id):
+        return save_package(library,workspace,draft_id)
+    from tempfile import TemporaryDirectory
+    from ..package import bundle_vocabulary
+    with TemporaryDirectory(prefix='hylonome-save-') as temporary:
+        staged=Path(temporary)
+        shutil.copytree(inside(library,'vocabulary'),staged/'vocabulary')
+        if (destination/'working.json').is_file():
+            shutil.copytree(destination,staged/'languages'/draft_id,ignore=shutil.ignore_patterns('vocabulary'))
+        result=save_package(staged,workspace,draft_id)
+        if not result.get('saved'):return result
+        destination.mkdir(parents=True,exist_ok=True)
+        shutil.copytree(staged/'languages'/draft_id,destination,dirs_exist_ok=True)
+        bundle_vocabulary(library,destination,load_draft(workspace,draft_id)['vocabulary'])
+    return {**result,'package':str(destination)}
+
+
+def save_package(library,workspace,draft_id):
     document=load_draft(workspace,draft_id);root=folder(workspace,draft_id)
     with stage(library,workspace,draft_id) as staged:
         validation=validate(staged,draft_id)

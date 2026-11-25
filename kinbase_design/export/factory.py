@@ -173,7 +173,11 @@ def stderr_tail(stream):
 def submit(library, workspace, handoff_id, run_id, factory=None, runs=None, budget=None, dry_run=False):
     if not re.fullmatch(r'[a-z0-9][a-z0-9._-]{0,63}',run_id):
         raise ValueError('RUN_ID must be 1–64 characters of [a-z0-9][a-z0-9._-]*')
-    record,bundle,repo,document,files = checked_handoff(library,workspace,handoff_id)
+    from ..package import opened
+    try:package_path = read_handoff(workspace,handoff_id).get('package')
+    except (ValueError,OSError):package_path = None
+    with opened(library,package_path) as (staged,_):
+        record,bundle,repo,document,files = checked_handoff(staged if package_path else library,workspace,handoff_id)
     entrypoint = factory if factory is not None else os.environ.get('KINBASE_DESIGN_FACTORY')
     if not dry_run:
         if not entrypoint:raise ValueError('Factory entrypoint is required (--factory or KINBASE_DESIGN_FACTORY)')

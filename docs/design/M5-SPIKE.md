@@ -6,7 +6,7 @@ check reports stayed in a private scratch workspace. No Palermo language, value 
 in this repository; the names and values quoted below are observations.
 
 No mapping was certified and no reviewer made a choice. Kinbase is not configured here. The
-precision notes are one read by the builder, not Jeremy's hand review, which P1 still needs.
+precision notes are one read by the builder, not the design authority's hand review, which P1 still needs.
 
 ## Source
 
@@ -139,7 +139,7 @@ Found on Palermo, fixed generally, each with a test on an invented fixture:
 
 ## Still open
 
-- Jeremy's hand review of mapping precision on a sample (P1).
+- The design authority's hand review of mapping precision on a sample (P1).
 - Reviewer choices for type sizes, muted text and the hue-named status colours, then certification
   (P2, P3). None exists.
 - Component treatments (Button, Card, Input, Badge, Tabs) through capture and fidelity review.

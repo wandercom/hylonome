@@ -151,7 +151,9 @@ def verify(library, workspace, reference, pages, out=None, widths=None, inventor
                          'message': f'{unhooked} of {summary["text_elements"]} text elements are outside any Vocabulary slot; '
                                     'they were judged against the language\'s closed set only'})
     result = report(language_id, findings)
-    result.update(language=language_id + '@' + version, checked=checked, summary=summary, out=str(output))
+    from ..approval import status
+    result.update(language=language_id + '@' + version, checked=checked, summary=summary, out=str(output),
+                  approval=status(library, language_id, version))
     write_json(inside(output, 'report.json'), result)
     log.info('verify language=%s pages=%d accepted=%s findings=%d', language_id, len(targets), result['accepted'], len(findings))
     return result

@@ -12,3 +12,6 @@ node_modules/
 .DS_Store
 
 .venv/
+
+# Local Hylonome configuration, including who may approve designs.
+.hylonome/

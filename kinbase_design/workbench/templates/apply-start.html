@@ -4,6 +4,7 @@
 <p>Inventory drafting from a BFF contract is deferred until the target BFF is decided (D3). The site owns <code>kinbase-design.inventory.json</code>.</p>
 <form method="post" action="/apply">
 <label>Language <select name="language" required>{% for language in languages %}<option value="{{ language.id }}">{{ language.name }}</option>{% endfor %}</select></label>
+<label>Or a design package path, anywhere on this machine (optional; overrides the language above) <input name="package" placeholder="/path/to/packages/my-language"></label>
 <label>Target repository path <input name="site" required placeholder="/path/to/site"></label>
 <label>Adapter <select name="adapter">{% for adapter in adapters %}<option>{{ adapter }}</option>{% endfor %}</select></label>
 <label>Target directory within repository <input name="target_dir" value="kinbase-design" required></label>

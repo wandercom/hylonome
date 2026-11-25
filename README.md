@@ -1163,3 +1163,54 @@ Open **Content pages** (`/content`). Place a content JSON file and its media ben
 choose 320, 375, 768 or 1280 CSS px. The server renders the same file map as `render-page` in the
 existing scrollable preview canvases. Forms, comparison and resource loading require no
 JavaScript. Private content stays in the workspace; no capture or network fetch is performed.
+
+## Design packages and sign-off
+
+Hylonome is generic: it holds design languages for any organisation, and nothing in it names a
+person or a product. A **design package** is a directory: `working.json`, immutable `versions/`,
+approved `assets/`, shared `provenance/` and `approvals/`. The library's `languages/` directory
+holds packages, but a package can live anywhere: in another repository, a `packages/` folder, or
+a downloaded directory. Every command that takes a language accepts a package path instead:
+
+```sh
+hylonome validate ../brand-site/packages/my-language
+hylonome apply ../brand-site/packages/my-language --site ../brand-site --adapter generic --branch
+hylonome verify ../brand-site/packages/my-language --page http://localhost:3000/checkout
+```
+
+The package is staged with the Vocabulary it pins, run against, and its working copy and new
+records (minted versions, approvals) are written back; nothing in it is deleted. `hylonome` and
+`kinbase-design` are the same command.
+
+Saving a generated or ingested draft takes a target. Without one it goes to the library's
+`languages/` directory; with one, the package is written there and carries a copy of its
+Vocabulary version, so it stays usable wherever it is moved:
+
+```sh
+hylonome save-draft my-language                       # library/languages/my-language
+hylonome save-draft my-language --target ../brand-site/packages
+```
+
+**Sign-off.** A version can be approved by an account this installation trusts. Who that is
+belongs in local, git-ignored configuration, `.hylonome/config.toml` (or
+`~/.config/hylonome/config.toml`, or the file named by `HYLONOME_CONFIG`):
+
+```toml
+[approval]
+approvers = ["github-login", "another-login"]
+require = false   # true: Apply refuses a version no configured approver signed off
+```
+
+```sh
+hylonome approve my-language --note "Matches the brand review"
+hylonome approvals my-language
+```
+
+`approve` validates and mints the version, asks the GitHub CLI which account is signed in
+(`gh api user`), and records that account against the exact version hash in the package's
+`approvals/`. A typed name is never accepted. A changed design is a new version and needs its own
+sign-off. Apply, the hand-off and `verify` report the status; with `require = true`, Apply
+refuses an unapproved version before exporting anything. A record is not a cryptographic
+signature: its trust comes from the configured approver list and from the history of the
+repository that holds it.
+
