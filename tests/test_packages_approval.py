@@ -66,6 +66,28 @@ def test_an_external_package_works_by_path_and_records_return_home(library, tmp_
     assert not library.path("harbor").exists(), "a path package must not be copied into the library"
 
 
+def test_two_external_package_edits_keep_the_revision_chain(library, tmp_path):
+    package = portable_harbor(library, tmp_path)
+    path = str(package)
+    initial = library.json("language-history", path)
+    version = initial["current"]
+    archived = {p.name: p.read_bytes() for p in (package / "versions").glob("*.json")}
+    receipts = []
+    for reason, color in (("First tone", "#345678"), ("Second tone", "#234567")):
+        receipt = library.json("revise-language", path, "--changes", json.dumps({
+            "/style/color/primary/$value": color}), "--reason", reason, "--expected-version", version)
+        assert receipt["changed"]
+        receipts.append((version, receipt["version"], reason))
+        version = receipt["version"]
+    # Each CLI invocation opens a fresh staging directory, including this read.
+    reopened = library.json("language-history", path)
+    assert reopened["current"] == version
+    assert reopened["revisions"][:len(initial["revisions"])] == initial["revisions"]
+    assert [(r["before"], r["after"], r["reason"])
+            for r in reopened["revisions"][len(initial["revisions"]):]] == receipts
+    assert all((package / "versions" / name).read_bytes() == data for name, data in archived.items())
+
+
 def test_a_package_without_its_vocabulary_is_refused_clearly(library, tmp_path):
     package = portable_harbor(library, tmp_path)
     document = json.loads((package / "working.json").read_text())

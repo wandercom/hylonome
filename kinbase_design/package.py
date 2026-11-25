@@ -16,7 +16,7 @@ from tempfile import TemporaryDirectory
 from .storage import ID, identifier, inside, read_json
 
 PACKAGE_FILE = 'working.json'
-MUTABLE = ('working.json',)          # the working copy
+MUTABLE = (PACKAGE_FILE, 'revisions.json')  # working copy and its revision journal
 APPENDABLE = ('approvals',)          # records that gain entries
 
 
