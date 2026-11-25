@@ -80,7 +80,9 @@ def test_saved_container_matches_source_at_every_captured_breakpoint(
                 seen.add(width)
     assert seen == set(widths), ("No saved page container was measured at a captured width", seen, widths)
     assert max(widths) in seen
-    checked = composition_report(library, document["id"], tmp_path / "saved-check", widths=widths)
+    # Vocabulary v8 renders 11 pages at every captured width; retain every
+    # viewport assertion without using the shorter five-page test deadline.
+    checked = composition_report(library, document["id"], tmp_path / "saved-check", widths=widths, timeout=420)
     assert_composition_passes(checked)
     assert len(fixture_site.requests) == requests, "Saved-language operations revisited the source"
     assert tree_hashes(root) == immutable, "Saved-language operations mutated capture evidence"

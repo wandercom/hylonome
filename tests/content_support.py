@@ -1,7 +1,7 @@
 """Synthetic content and public-boundary readers for design-examples amendments 01/02.
 
 No implementation imports, mocks, or captured candidate baselines. All copy and
-images are generated here; no Wander or third-party material enters fixtures.
+images are generated here; no proprietary or third-party material enters fixtures.
 """
 import json
 from pathlib import Path

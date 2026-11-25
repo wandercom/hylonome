@@ -165,7 +165,7 @@ def language(language_id,vocabulary,values,resources,preferences=None):
                 if slot['asset_kind']=='logo':props={'width':logo_width}
                 elif slot['asset_kind']=='image':props.update({'aspect-ratio':'3 / 2','object-fit':'cover'})
             if vocabulary.get('content_pages') and slot['element'] in {'h1','h2','h3','h4','h5','h6'}:
-                props['font-size']=sizes['card' if construct in {'card','listing-card'} else 'title' if slot['element']=='h1' else 'subtitle']
+                props['font-size']=sizes['card' if construct in {'card','listing-card'} or slot['element'] in {'h3','h4','h5','h6'} else 'title' if slot['element']=='h1' else 'subtitle']
             if props:treatment['slots'][slot['id']]={'properties':props}
         doc['components'][construct]=treatment
     # Make the attention and formality decisions visible on the common A/B screen.
@@ -193,7 +193,7 @@ def language(language_id,vocabulary,values,resources,preferences=None):
         powers={'title':2,'subtitle':1,'body':0,'subtext':-.5,'label':0,'caption':-1,'action':0,'control':0,'media':0}
         for construct,spec in vocabulary['constructs'].items():
             for slot in spec['slots']:
-                if slot['element']!='p':continue
+                if slot['element']!='p' and not slot.get('prose-measure'):continue
                 role=slot['role'];power=powers[role]
                 cap=40*16*min(ratio**power for ratio in DOMAINS['type-scale'])
                 measure=put('shape','measure-'+role,'dimension',f'{cap:.5f}px')

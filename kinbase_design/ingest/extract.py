@@ -323,7 +323,7 @@ def derive(language_id,vocabulary,sources,suggestions=(),settings=None):
                     for level,ref in heading_scale.items():
                         document['overrides'].append({'scope':construct+'.'+slot['id']+'.h'+str(level),
                             'properties':{'font-size':ref},'reason':'Inferred heading scale for the rendered semantic level without DOM evidence'})
-                if slot['kind']=='text' and slot['element']=='p':
+                if slot['kind']=='text' and (slot['element']=='p' or slot.get('prose-measure')):
                     component.setdefault('slots',{}).setdefault(slot['id'],{}).setdefault('properties',{})['max-width']=token('dimension','40rem',inferred)
     treatments={}
     # Select a representative repeated collection from the widest capture of
@@ -654,7 +654,10 @@ def derive(language_id,vocabulary,sources,suggestions=(),settings=None):
                 adjustments={}
                 state_surfaces=[Tokens(document['style']).reference(s['background-color'])[1]
                                 for s in document['components'].get(construct,{}).get('states',{}).values() if 'background-color' in s]
-                if root.get('background-color') or (px(root.get('border-width')) or 0)>0 or state_surfaces:
+                # The native dialog and table-cell preview defaults paint a
+                # border even when the capture supplied no surface treatment.
+                default_painted = spec['root'] in {'dialog','td','th'}
+                if root.get('background-color') or (px(root.get('border-width')) or 0)>0 or state_surfaces or default_painted:
                     inner=effective(construct+'~content',bp) if 'content' in spec.get('parts',{}) else {}
                     if (px(inner.get('padding-inline',inner.get('padding'))) or 0)<8:
                         if construct in {'card','listing-card'} and 'gutter' in vocabulary.get('composition_rules',[]) and (px(root.get('padding-inline',root.get('padding'))) or 0)==0:

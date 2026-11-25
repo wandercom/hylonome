@@ -8,13 +8,13 @@ claim. Source observations below are inputs to Vocabulary v1, not imported site 
 
 | Source | Page / source path | Expression in Vocabulary v1 |
 | --- | --- | --- |
-| `wandercom/site-builder-test-sites@1866456` | `components/pages/home.tsx`, `components/hero.tsx`, `components/property-card.tsx` | `nav`, `hero` (eyebrow/title/body/two actions), `content-section` (about band), repeated `listing-card`, `content-section` (owner band), `footer` |
-| `wandercom/site-builder-test-sites@1866456` | `components/pages/rentals.tsx`, `components/property-card.tsx`, `fixtures/casa-bonita/properties.json` | `nav`, compact `hero`, `content-section` (collection introduction), repeated `listing-card`, `footer` |
-| `wandercom/page-sections@9d1447d` (`dev`) | `apps/sections-preview/src/data/sections/PropertyGallery.ts`, `apps/sections-preview/src/data/fixtures.ts`, `packages/components/src/shared/components/PropertyGallery/PropertyCard.tsx` | optional `content-section` heading plus a collection of `listing-card`; 0/1/many collections; `empty-state` for zero results; static `loading` depictions |
+| `site-builder-test-sites@1866456` | `components/pages/home.tsx`, `components/hero.tsx`, `components/property-card.tsx` | `nav`, `hero` (eyebrow/title/body/two actions), `content-section` (about band), repeated `listing-card`, `content-section` (owner band), `footer` |
+| `site-builder-test-sites@1866456` | `components/pages/rentals.tsx`, `components/property-card.tsx`, `fixtures/casa-bonita/properties.json` | `nav`, compact `hero`, `content-section` (collection introduction), repeated `listing-card`, `footer` |
+| `page-sections@9d1447d` (`dev`) | `apps/sections-preview/src/data/sections/PropertyGallery.ts`, `apps/sections-preview/src/data/fixtures.ts`, `packages/components/src/shared/components/PropertyGallery/PropertyCard.tsx` | optional `content-section` heading plus a collection of `listing-card`; 0/1/many collections; `empty-state` for zero results; static `loading` depictions |
 
-No production Wander site page or saved production HTML was found in the supplied clones.
-`page-sections` includes real production-facing components and curated Wander CDN URLs, but
-those are not a captured Wander page. The rentals fixture supplies the third inspected page;
+No production site page or saved production HTML was found in the supplied clones.
+`page-sections` includes real production-facing components and curated CDN URLs, but
+those are not a captured production page. The rentals fixture supplies the third inspected page;
 production-page reconstruction remains unobserved. Remote assets were not fetched.
 
 ## Structural findings and vocabulary revision
@@ -70,7 +70,7 @@ M0 property/value set cannot encode these expressions. They are explicit coverag
 not literal CSS smuggled into token references. Breakpoint treatments can approximate fixed
 sample widths, but no responsive fidelity result has been measured.
 
-`wandercom/design-system@373cb5e`, `packages/tokens/src/*.tokens.json`, provides DTCG token-tree
+`design-system@373cb5e`, `packages/tokens/src/*.tokens.json`, provides DTCG token-tree
 examples; `packages/fonts/instrument-sans/` supplies the demonstration font. M0 implements the
 contract's supported token subset, not arbitrary Terrazzo or CSS syntax.
 
@@ -96,4 +96,4 @@ Throwaway local checks passed for token normalization, override removal restorin
 required-slot reading order, malformed-schema findings, unchanged identity after renaming, asset
 promotion and successful validation/minting of Harbor. These checks do not replace independent
 Factory tests or rendered acceptance. M0 has no measured contrast, image legibility, screenshot
-fidelity, or production Wander-page result; those remain unverified.
+fidelity, or production-page result; those remain unverified.

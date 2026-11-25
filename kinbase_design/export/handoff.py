@@ -96,7 +96,8 @@ def task_text(record):
     lines=['<!-- '+identity+' -->','# Apply Kinbase Design',
            '',builder_label(record.get('builder')), '',f'Target repository: `{record["site"]}`',f'Local branch: `{record["branch"]}`',
            f'Target directory: `{record["target_dir"]}`',f'Language: `{record["language"]}`',
-           f'Adapter: `{record["adapter"]}`','',
+           f'Adapter: `{record["adapter"]}`',
+           'Sign-off: '+record.get('approval',{}).get('label','not recorded'),'',
            'Integrate the exported tokens and treatments with the site using its existing build conventions.',
            'Keep the inventory current. Resolve uncovered missing/violation findings and review unresolved evidence.',
            'Validate the real site after integration. Before/after images show stylesheet injection only, not the site’s real build.',
@@ -145,7 +146,7 @@ def local_branch(record,bundle):
     return {'branch':branch,'commit':commit}
 
 
-def apply(library,workspace,language_id,site,adapter,target_dir=None,page_urls=(),branch=False,request=None,verify_pages=()):
+def apply(library,workspace,language_id,site,adapter,target_dir=None,page_urls=(),branch=False,request=None,verify_pages=(),package=None):
     if adapter not in ADAPTERS:raise ValueError('Unknown export adapter: '+adapter)
     if request is not None and (not isinstance(request,str) or not request.strip() or len(request)>KINBASE_FEEDBACK_LENGTH):
         raise ValueError('The request is empty or too long')
@@ -155,6 +156,10 @@ def apply(library,workspace,language_id,site,adapter,target_dir=None,page_urls=(
     inside(site,target_dir)
     findings=review(library,language_id,site)
     document=load_language(library,language_id);version=digest(document)
+    from .. import approval
+    signoff=approval.status(library,language_id,version)
+    if signoff['required'] and not signoff['approved']:
+        raise ValueError('This installation requires sign-off: '+language_id+'@'+version+' is not approved by a configured approver')
     builder=current_builder()
     files=export_files(library,language_id,adapter,builder)
     handoff_id=identifier(language_id+'-'+version[:8]+'-'+uuid4().hex[:8])
@@ -165,7 +170,9 @@ def apply(library,workspace,language_id,site,adapter,target_dir=None,page_urls=(
             'target_dir':target_dir,'branch':'kinbase-design/'+language_id+'-'+version[:8],
             'export_files':sorted(files),'findings':findings,'screenshots':capture,
             'created':datetime.now(timezone.utc).isoformat(),'local_branch':None,
-            'request':request.strip() if request else None,'verify_pages':list(verify_pages),'with_branch':bool(branch)}
+            'request':request.strip() if request else None,'verify_pages':list(verify_pages),'with_branch':bool(branch),
+            'package':str(package) if package else None}
+    record['approval']=signoff
     vocabulary=load_vocabulary(library,document['vocabulary'])
     pack=contract.files(document,vocabulary,load_samples(library,document['vocabulary']),record['language'],record['adapter'],
                         target_dir,sorted(files),verify_command(record))

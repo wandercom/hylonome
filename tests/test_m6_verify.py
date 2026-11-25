@@ -93,7 +93,10 @@ def test_handoff_gives_each_factory_role_its_own_input(library, harbor, handoff)
         assert expected["treatments"][scope][state] == {name: value["value"] for name, value in resolved.items()}
     assert expected["closed_set"]["colors"]["color.primary"] == pointer_value(harbor, "/style/color/primary/$value")
     contract = (repo / TARGET / "kinbase-design" / "CONTRACT.md").read_text()
-    assert reference in contract and "| `form` | `<form>` | title, name, email, message, action |" in contract
+    assert reference in contract and "| `form` | `<form>` | title, action |" in contract
+    assert "| `field` | `<div>` | label, control |" in contract
+    assert 'data-kd-construct="field"' in (repo / TARGET / "kinbase-design" / "markup" / "form.html").read_text() or \
+        'data-kd-construct="field"' in (repo / TARGET / "kinbase-design" / "markup" / "field.html").read_text()
     assert "expected" not in contract.lower().replace("expected.json", "")  # the builder's contract holds no oracle values
 
 
@@ -175,19 +178,19 @@ def test_a_restyled_slot_fails_against_the_resolved_treatment(library, harbor, h
 def test_broken_construct_contracts_point_into_the_vocabulary(library, handoff):
     repo, _ = handoff
     def edit(html):
-        html = html.replace('data-kd-slot="form.email"', 'data-kd-slot="form.cardnumber"', 1)
+        html = html.replace('data-kd-slot="form.title"', 'data-kd-slot="form.cardnumber"', 1)
         html = html.replace('<footer data-kd-construct="footer"', '<div data-kd-construct="footer"', 1).replace("</footer>", "</div>", 1)
-        return html.replace('data-kd-construct="card"', 'data-kd-construct="order-summary"', 1)
+        return html.replace('data-kd-construct="card"', 'data-kd-construct="unknown-construct"', 1)
     result = verify(library, "harbor", compliant(repo, '<p data-kd-slot="orphan">Note</p>', edit=edit), code=1)
     found = {(f["type"], f["rule"], f["target"]) for f in blocking(result) if f["rule"].startswith("site-")}
     # compliant() wraps extra content in page-shell, so the stray slot is reported against that construct.
-    assert {("violation", "site-slot", "page-shell"), ("violation", "site-slot", "form"), ("missing", "site-slot", "form.email"),
+    assert {("violation", "site-slot", "page-shell"), ("violation", "site-slot", "form"), ("missing", "site-slot", "form.title"),
             ("violation", "site-semantics", "footer"), ("violation", "site-construct", "page")} <= found
-    missing = next(f for f in blocking(result) if f["type"] == "missing")
+    missing = next(f for f in blocking(result) if f["type"] == "missing" and f["target"] == "form.title")
     # Harbor tracks the current vocabulary, so the citation is into that version, not the v1 fixture.
     current = library.json("vocabulary")
     assert missing["file"] == f"vocabulary/{current['version']}/vocabulary.json"
-    assert pointer_value(current, missing["pointer"])["id"] == "email"
+    assert pointer_value(current, missing["pointer"])["id"] == "title"
 
 
 @pytest.mark.browser

@@ -7,11 +7,11 @@ Review history:
 - then corrected twice by root review:
   1. structural variants, JS scope, WCAG exceptions, contrast method, ingest fidelity;
   2. visual workbench, concrete Kinbase integration, design assets, honest acceptance;
-- then updated for Jeremy's clarification of Kinbase's learning and authority role, and of
+- then updated for the product owner's clarification of Kinbase's learning and authority role, and of
   library storage.
 
 None of these corrections went through Sim, Advocate or Constrain (REVIEW.md §7–9).
-Jeremy's direction: "Excellent. Few constraints, inspiration."
+Product owner's direction: "Excellent. Few constraints, inspiration."
 
 Labels: **(U)** user direction from request.md or the root-relayed quotes; **(V)** verified code or
 document at a cited revision; **(EA)** engineering assumption or proposal.
@@ -45,8 +45,8 @@ accessibility or honest validation. Everything else is a default the user can ch
 
 **Kinbase's purpose here is the same as for software** (U, verbatim): "Monitoring docs and figma
 and slack and linear and git to establish shifting standards and behaviors. To allow this system
-to learn as it receives feedback from users (with authority ladder so Lauren's feedback matters
-more than a CS team member's)."
+to learn as it receives feedback from users (with an authority ladder, so a design authority's
+feedback matters more than a support team member's)."
 
 The design system therefore **learns**:
 - Kinbase observes design sources and feedback, and establishes the current design standards
@@ -54,7 +54,8 @@ The design system therefore **learns**:
 - Kinbase Design reads those standards and applies them in its journeys.
 - Workbench feedback flows back to Kinbase as evidence.
 
-Within the design authority scope, Lauren Dorman's feedback outranks generic CS feedback. That
+Within the design authority scope, the registered design authority's feedback outranks general
+feedback. Who holds that authority is configuration, never a name in this system. That
 ordering comes from Kinbase's scoped-authority model, not from a ranking inside Kinbase Design
 (§7).
 
@@ -235,8 +236,8 @@ agent-friendly first, JS for effect and help).
 7. **Save** to the library. Optionally, propose it as direction in Kinbase. The proposal becomes
    current only through the scoped authority (§7.2).
 
-Before/after comparison on the target's own pages at Apply is the final confirmation. Test bed
-(V): wandercom/site-builder-test-sites.
+Before/after comparison on the target's own pages at Apply is the final confirmation. Test bed:
+a set of small fixture sites.
 
 ### 6.3 Generate journey (user choices drive)
 1. **Visual interview**: palette strips, type specimens, density and shape examples, and
@@ -299,8 +300,8 @@ taste.
   reason.
 - Endpoint-to-construct mapping is a frontend design decision. Kinbase Design can draft it from a
   BFF contract.
-- Current BFF state (V): wandercom/bff-site has three authed routes; PR #3 is open and blocked.
-  wandercom/sites-harness is described as the Sites BFF.
+- A site's backend-for-frontend contract, where one exists, is the source for drafting an
+  inventory. No particular BFF is assumed.
 
 Findings, typed:
 - `missing`: a construct, slot, state or asset that the inventory or language requires is
@@ -326,9 +327,9 @@ acceptance.
 
 ## 7. Kinbase: learning design standards under scoped authority
 
-Jeremy confirmed the identity and the purpose (U, §1). Below, the existing Kinbase capabilities are
+The product owner confirmed the identity and the purpose (U, §1). Below, the existing Kinbase capabilities are
 separated from the adapters and configuration this use would need. All are verified against
-wandercom/kinbase@c9267ae: `spec/architecture.md` §4 and §6, `spec/glossary.md`, `spec/cli.md`,
+kinbase@c9267ae: `spec/architecture.md` §4 and §6, `spec/glossary.md`, `spec/cli.md`,
 and the Kindex reader guide. Kinbase is a proof of concept: its acceptance suite passes (371 nodes),
 but the outcome experiment has not run and the concept is unproven. It has no design concept yet.
 
@@ -370,7 +371,7 @@ but the outcome experiment has not run and the concept is unproven. It has no de
 1. **Design sources Kinbase can observe today.** The library is stored in a Git repository: its
    own repo, or a subfolder of an existing GitHub project (§9). That makes language versions,
    asset changes and design docs observable through `git_history`, `docs_adr` and `github_export`.
-   PR reviews and comments by Lauren, a CS team member or anyone else arrive with reviewer
+   PR reviews and comments by the design authority, a support team member or anyone else arrive with reviewer
    identity, and merged changes carry `merged-default` trust.
 2. **Workbench feedback as evidence.** A comment on a preview or a flag on a component is
    recorded with its author and the target `lang@hash` and construct.
@@ -379,17 +380,17 @@ but the outcome experiment has not run and the concept is unproven. It has no de
    - Intake carries agent provenance, so the result is an observation or a candidate. It can
      never become a mandatory rule by itself.
 3. **Authority ladder.** Ordering comes from Kinbase's scoped authority, not from Kinbase Design.
-   - Lauren Dorman would be registered as the authority for design question scopes, by the
-     Company steward and on configuration. Her signed answers and digest approvals within that
-     scope admit authoritative design facts.
-   - A CS team member's feedback stays observation-level evidence. It can corroborate, raise an
-     owned Unknown, or prompt a question to Lauren, but it cannot set design direction.
-   - Lauren's authority covers design scopes only. It is not universal across domains.
+   - A design authority would be registered for design question scopes, by the organisation's
+     steward and on configuration. Their signed answers and digest approvals within that scope
+     admit authoritative design facts.
+   - Other feedback stays observation-level evidence. It can corroborate, raise an owned Unknown,
+     or prompt a question to the design authority, but it cannot set design direction.
+   - Design authority covers design scopes only. It is not universal across domains.
 4. **No automatic promotion.**
    - Unreviewed feedback, recurring complaints and A/B tendencies remain evidence.
    - They become standards only through the scoped authority's approval or answer.
    - When evidence conflicts or is insufficient, Kinbase's reducer yields an owned Unknown, which
-     reaches Lauren through `kinbase questions ask`.
+     reaches the design authority through `kinbase questions ask`.
 5. **Kinbase Design applies the current standards.** The workbench reads the current design facts
    for the relevant scope (`kinbase explain`/`project`) and uses them by standing:
    - **Authoritative design facts** in scope are fixed inputs, like supplied assets, with
@@ -407,7 +408,7 @@ but the outcome experiment has not run and the concept is unproven. It has no de
    - The Factory Validator pins whatever `explain` reports as current, or the `lang@hash` the
      task names explicitly. Conflicts and Unknowns are surfaced to the user, never guessed.
 7. **Coding sessions** in Kinbase-certified repos receive the current design facts through
-   Kinbase's existing hooks and projection. Builders see Lauren's standards without extra wiring.
+   Kinbase's existing hooks and projection. Builders see the current design standards without extra wiring.
    Executable checks stay in Kinbase Design's validator, because a fact informs and does not
    enforce (U).
 
@@ -415,14 +416,14 @@ Preview, ingest, generate and export keep working with Kinbase unavailable. Stan
 *unknown (Kinbase unreachable)*, and nothing is invented.
 
 ### 7.3 Required adapters, configuration and gaps (not assumed to exist)
-- **G1 Design authority scopes.** Design question scopes need to be registered with Lauren as the
-  named authority (person, key, channel). This is registry configuration; no design scope is
+- **G1 Design authority scopes.** Design question scopes need to be registered with a named
+  authority (person, key, channel) by each organisation. This is registry configuration; no design scope is
   verified to exist.
 - **G2 Logical keys.** The convention for design facts (per brand, site, construct or rule) that
   lets `explain` find "the current standard for X" is not defined.
 - **G3 Resubmission identity.** Supersession and retraction are reducer behavior (V). Whether
   identical resubmitted text counts as a new event is unverified.
-- **G4 Certification.** Which wandercom repos are Kinbase-initialized and certified is unknown.
+- **G4 Certification.** Which repositories are Kinbase-initialized and certified is unknown.
   Without certification, no hooks, projection or observation of the library's repo happen.
 - **G5 Source adapters not found.** **Figma, Slack, Linear and Google Docs adapters are not
   present in the inspected kinbase@c9267ae source adapter list** (`spec/architecture.md` §4;
@@ -435,8 +436,8 @@ Preview, ingest, generate and export keep working with Kinbase unavailable. Stan
 - **G6 Workbench feedback identity.** `kin kinbase submit` always records agent provenance. To
   carry the human author's standing directly, feedback would need a Kinbase source adapter or an
   authority path that preserves principal identity. Until then, authority flows only through
-  Lauren's approvals and answers, or through her GitHub reviews.
-- **G7 Proof-of-concept acceptability.** Whether Jeremy accepts an unproven Kinbase in this
+  the design authority's approvals and answers, or through their GitHub reviews.
+- **G7 Proof-of-concept acceptability.** Whether an organisation accepts an unproven Kinbase in this
   production design loop.
 
 ## 8. Independent design testing loop
@@ -475,7 +476,7 @@ Rendered checks run in a real browser at configured widths.
 
 The Tester checks conformance, not taste. The following are not evidence: regex over docs,
 arbitrary class or literal pins, purposeless screenshots, tests of doubles (U). No
-design-grammar checker exists in wandercom (V). agent-skills#118 is an open draft (V).
+design-grammar checker was found in the inspected repositories (V). agent-skills#118 is an open draft (V).
 
 **Loop discipline** (U): drop unproductive objections immediately; reassess at round 3; escalate
 by round 4.
@@ -609,7 +610,7 @@ local workspace (private)
 ## 11. Open decisions and deferred assumptions
 
 - **D1**: the Kinbase learning loop in §7.2, and the gaps G1–G7. Above all:
-  - registering design authority scopes, with Lauren as the authority;
+  - registering design authority scopes and who holds them;
   - logical keys;
   - which design sources get new Kinbase adapters (Figma, Slack, Linear, Google Docs) and with
     what access;
@@ -701,3 +702,25 @@ Boundaries:
   is reported as coverage. Adding a construct remains a Vocabulary decision.
 - Compliance is about values and construct contracts. Layout composition, margins and taste are
   not judged.
+
+## 14. The element library and standard pages (EA)
+
+The vocabulary must hold the elements real products are built from, or a request such as "build
+a checkout page in this language" falls outside constructs and is judged only by the closed set.
+Vocabulary v8 adds 30 generic constructs, chosen from a survey of first-party product front ends
+and common design systems, and generalises `form` with an optional `fields` container. It is
+additive: every v7 contract except `form`'s is unchanged, and `form`'s contact slots become
+optional rather than removed, so v7 languages keep their meaning.
+
+A language's preview is a fixed set of standard pages: semantic HTML that does not change between
+languages, with the language laid on top. The five classic pages stay; six composed pages
+(checkout, account, dashboard, article, pricing, sign-in) exercise the library in realistic,
+domain-neutral content; the states page shows every construct in every declared state. Rendered
+checks and site verification run on all of them.
+
+Open decisions (vocabulary versions, not side effects of an import): status emphases (`positive`,
+`caution`), an inverse surface, a `complete` step state, and avatar, video and map asset kinds.
+Common design-system elements not yet constructs, each waiting on one of those decisions or on a
+no-JS contract: badge (status emphases), avatar (asset kind), toast and tooltip (transient,
+JavaScript-dependent), skeleton loading (a state, not an element).
+

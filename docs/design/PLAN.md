@@ -33,8 +33,8 @@ Build:
 - **Workbench**: the library grid and the preview viewer (width switcher, state gallery).
 
 Stress test (timeboxed spike, results recorded):
-- Express three real pages in Vocabulary v1: a wandercom site page, a site-builder-test-sites
-  fixture, and a page-sections preview.
+- Express three real pages in Vocabulary v1: a production site page, a fixture site page, and a
+  page-sections preview.
 - Run a throwaway ingest spike on them to find structure that needs variants, values that will
   not quantize, and the assets they need.
 - Revise v1 from what the spike finds.
@@ -101,7 +101,7 @@ show as unknown.
 
 Kinbase work that can start early, with no code and no external messages from this planning task:
 at M0 kickoff, the user or root raises G1–G4 and G6 with the Kinbase owner and the Company steward:
-- registering design authority scopes, with Lauren as the authority;
+- registering design authority scopes and who holds them;
 - the logical-key convention for design facts;
 - resubmission identity;
 - which repos are certified, including the one that holds the library subfolder;
@@ -118,7 +118,7 @@ Mechanizes the M2 mapping step and makes the role clarification operational for 
 
 - **P1 Discovery over one corpus.** Built: CSS custom property, DTCG and prose sources; candidate
   mappings with provenance; the mapped-or-gap invariant. Run once over Palermo's published
-  stylesheet (M5-SPIKE.md): 283 tokens, every one mapped or a gap, nothing certified. Jeremy's hand
+  stylesheet (M5-SPIKE.md): 283 tokens, every one mapped or a gap, nothing certified. the design authority's hand
   review of mapping precision on a sample is still open; the spike holds only the builder's read.
 - **P2 A language from mappings.** Built: draft, apply and save through the ingest path, with the
   standing of each placed value on record. Two private Palermo drafts pass R1–R5 and fail the
@@ -143,12 +143,21 @@ Open:
   that already loads the export.
 - Vocabulary v1 cannot express a general form. `form` has fixed contact slots, so checkout fields
   fall outside constructs. This is the first Vocabulary change the checkout example needs.
-- A Wander language. A private draft from the design-system token files validates and places text,
+- A language drafted from a first-party token set. A private draft validates and places text,
   surface, button and input colours without review; it fails the rendered checks on target size
   and control boundary, because component treatments are not in the token files. It needs
   reviewer choices for type sizes, a capture of real pages for components, and certification.
 
 Exit: B22–B24 pass.
+
+### M7 — Element library and standard pages (SPEC §14)
+Built: vocabulary v8 (30 new constructs, a general form), six composed standard pages beside the
+classic five, specimens for every construct and state, Harbor and Lantern migrated and passing
+rendered checks on all pages. Also: packages by path, save targets and configured sign-off.
+
+Open: the status-emphasis and inverse-surface decisions; component treatments for the new
+constructs beyond structure (each language currently relies on its roles); a real Factory run of
+the checkout request through the hand-off.
 
 ## Factory briefs (per milestone)
 

@@ -1163,3 +1163,99 @@ Open **Content pages** (`/content`). Place a content JSON file and its media ben
 choose 320, 375, 768 or 1280 CSS px. The server renders the same file map as `render-page` in the
 existing scrollable preview canvases. Forms, comparison and resource loading require no
 JavaScript. Private content stays in the workspace; no capture or network fetch is performed.
+
+## Design packages and sign-off
+
+Hylonome is generic: it holds design languages for any organisation, and nothing in it names a
+person or a product. A **design package** is a directory: `working.json`, immutable `versions/`,
+approved `assets/`, shared `provenance/` and `approvals/`. The library's `languages/` directory
+holds packages, but a package can live anywhere: in another repository, a `packages/` folder, or
+a downloaded directory. Every command that takes a language accepts a package path instead:
+
+```sh
+hylonome validate ../brand-site/packages/my-language
+hylonome apply ../brand-site/packages/my-language --site ../brand-site --adapter generic --branch
+hylonome verify ../brand-site/packages/my-language --page http://localhost:3000/checkout
+```
+
+The package is staged with the Vocabulary it pins, run against, and its working copy and new
+records (minted versions, approvals) are written back; nothing in it is deleted. `hylonome` and
+`kinbase-design` are the same command.
+
+Saving a generated or ingested draft takes a target. Without one it goes to the library's
+`languages/` directory; with one, the package is written there and carries a copy of its
+Vocabulary version, so it stays usable wherever it is moved:
+
+```sh
+hylonome save-draft my-language                       # library/languages/my-language
+hylonome save-draft my-language --target ../brand-site/packages
+```
+
+**Sign-off.** A version can be approved by an account this installation trusts. Who that is
+belongs in local, git-ignored configuration, `.hylonome/config.toml` (or
+`~/.config/hylonome/config.toml`, or the file named by `HYLONOME_CONFIG`):
+
+```toml
+[approval]
+approvers = ["github-login", "another-login"]
+require = false   # true: Apply refuses a version no configured approver signed off
+```
+
+```sh
+hylonome approve my-language --note "Matches the brand review"
+hylonome approvals my-language
+```
+
+`approve` validates and mints the version, asks the GitHub CLI which account is signed in
+(`gh api user`), and records that account against the exact version hash in the package's
+`approvals/`. A typed name is never accepted. A changed design is a new version and needs its own
+sign-off. Apply, the hand-off and `verify` report the status; with `require = true`, Apply
+refuses an unapproved version before exporting anything. A record is not a cryptographic
+signature: its trust comes from the configured approver list and from the history of the
+repository that holds it.
+
+## The element library and standard preview pages (vocabulary v8)
+
+Vocabulary v8 is the default. It keeps every v7 construct and adds the elements real products are
+built from, chosen from a survey of several first-party product front ends and of common design
+systems (application, marketing and commerce component sets):
+
+| Family | Constructs |
+| --- | --- |
+| Forms | `form` (now with a `fields` container), `field`, `fieldset`, `choice-group` |
+| Flow and commerce | `stepper`, `step`, `progress`, `order-summary`, `line-item`, `pricing-tier` |
+| Data | `table`, `table-row`, `table-header`, `table-cell`, `description-list`, `description-item`, `stat`, `timeline-item` |
+| Navigation and page | `page-header`, `breadcrumb`, `pagination`, `sidebar`, `nav-group`, `tabs`, `menu` |
+| Feedback and overlays | `alert`, `dialog`, `disclosure` |
+| Marketing and media | `feature`, `testimonial`, `logo-cloud`, `figure` |
+
+A `field` holds a label, an optional hint, a native control (text, email, tel, number, password,
+date, select, textarea, checkbox, radio, switch) and an optional error, wired with `for`,
+`aria-describedby` and `aria-invalid`. Repetition is always by repeating whole constructs:
+fields inside a `form` or `fieldset`, line items inside an `order-summary`, rows and cells inside
+a `table`.
+
+Every language previews on the same eleven pages, built from fixed semantic HTML with the
+language laid on top:
+
+- the five classic pages: `index.html`, `search.html`, `listing.html`, `form.html`, `states.html`;
+- `checkout.html`: stepper, alert, a multi-section form with field errors and a radio group, and an order summary;
+- `account.html`: sidebar, tabs, a description list, edit and notification forms, a dialog;
+- `dashboard.html`: stats, progress, a menu, a table and pagination, an activity timeline;
+- `article.html`: breadcrumb, page header, figure, content sections, a callout, disclosures, related cards;
+- `pricing.html`: a billing choice, pricing tiers, a comparison table, features, testimonials, FAQ, logos;
+- `sign-in.html`: an error alert and a sign-in form.
+
+`states.html` shows every construct in every state it declares. Media slots on the standard pages
+use the language's own bound assets, or an honest placeholder when it has none. Rendered checks
+and `verify` run on all eleven pages. The compositions live in `library/vocabulary/v8/samples.json`;
+the structural layout for the new constructs is in a low-specificity defaults layer, so a
+language's own treatments always win.
+
+Harbor and Lantern are migrated to v8. The migration gives each new construct an empty treatment,
+sizes new headings like the language's existing headings at each level (including breakpoints),
+and treats a field's error and disabled states with the language's attention and muted colours.
+Both pass the rendered checks on every page. Not yet expressed in the vocabulary, and left as
+open decisions: `positive` and `caution` emphases for status colours, an inverse surface, a
+`complete` step state, and avatar, video and map asset kinds.
+

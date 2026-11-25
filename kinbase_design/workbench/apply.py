@@ -20,6 +20,14 @@ def handle(library,workspace,environ,segments,query,html):
             return page('apply-start.html',title='Apply a language',languages=languages,adapters=ADAPTERS)
         if method=='POST':
             data={k:v[0] for k,v in fields(environ).items()}
+            if data.get('action','handoff')=='handoff' and data.get('package','').strip():
+                from ..package import opened
+                path=data['package'].strip()
+                with opened(library,path) as (staged,language_id):
+                    result=apply(staged,workspace,language_id,data['site'],data['adapter'],
+                                 data.get('target_dir'),data.get('page_urls','').split(),data.get('branch')=='yes',
+                                 data.get('request','').strip() or None,data.get('verify_pages','').split(),package=path)
+                return redirect('/apply/handoffs/'+result['handoff'])
             if data.get('action','handoff')=='handoff':
                 result=apply(library,workspace,data['language'],data['site'],data['adapter'],
                              data.get('target_dir'),data.get('page_urls','').split(),data.get('branch')=='yes',

@@ -27,7 +27,7 @@ def declaration(properties):
 def selector(construct, slot=None, state=None, native=False, child=None):
     root = f'[data-kd-construct="{construct}"]'
     if child is None:child = f' [data-kd-slot="{construct}.{slot}"]' if slot else ''
-    control = ' >img' if native == 'image' else ' :is(input,select,textarea,button)' if native else ''
+    control = ' >img' if native == 'image' else ' :is(input,select,textarea,button,progress)' if native else ''
     if state and state != 'default':
         static = root + f'[data-kd-state="{state}"]' + child + control
         pseudo = PSEUDOS.get(state)
@@ -76,6 +76,8 @@ def stylesheet(document, vocabulary, variables=None):
             base += Path(__file__).with_name('composition.css').read_text()
         if 'label-proximity' in vocabulary.get('composition_rules',[]):
             base += Path(__file__).with_name('readability.css').read_text()
+        if 'field' in vocabulary.get('constructs',{}):
+            base += Path(__file__).with_name('elements.css').read_text()
         base = '@layer kd-defaults {\n' + base + '\n}'
     rules = ['/* Kinbase Design ' + identity + ' */', base]
     body = resolved('page-shell.body')

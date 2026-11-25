@@ -132,7 +132,7 @@ Detail and line citations: evidence/source-verification.md. Revisions checked: d
 373cb5e, page-sections 9d1447d, factory ccf8bfc, kinbase c9267ae, bff-site 6a79a1f, agent-skills
 2c585ac. The local clones were stale and were not modified.
 
-- **Lauren Dorman** is the design-system CODEOWNER (`* @laurendorman`). Verified.
+- The inspected design system has a single design CODEOWNER, who would be the natural design authority. Verified; named only in configuration, not here.
 - **Tokens:** DTCG via Terrazzo; Tailwind v4 `@theme static` with `[data-theme]`. Verified.
 - **color-engine** `resolveTokens` contrast fallbacks: verified (keep seed if ≥3:1; below 2:1 use
   black/white; otherwise search OKLCh lightness). Text floors are 7 / 5.5 / 4.5 / 3.5 / 3.
@@ -142,15 +142,15 @@ Detail and line citations: evidence/source-verification.md. Revisions checked: d
   - **Correction:** PropertyCard "slots" are className overrides, not content slots.
   - `--wos-*` (33 variables) and `wos-*` primitives are permissive: verified.
 - **bff-site:** three authed routes on dev. PR #3 is open and blocked (curated-list resolve and
-  search, loose schema). **Ambiguity:** wandercom/sites-harness is described as the "Sites BFF".
+  search, loose schema). **Ambiguity:** a second repository is described as the "Sites BFF".
 - **agent-skills#118 (Atlas):** open draft, advisory only, unpublished rules, signoffs open. Not
   shipped.
-- **wandercom/factory:** the builder renders and drives UI changes. **No design-grammar or token
+- **factory:** the builder renders and drives UI changes. **No design-grammar or token
   conformance checker exists.**
 - **"Kenbase":** zero hits anywhere. Kinbase is a Rust PoC ("concept remains unproven") with no
   design concept. The user then confirmed Kinbase.
 - **Reusable assets:** site-builder-test-sites (ingest fixtures), page-sections ThemeCustomizer,
-  color-engine, wandershot, webprobe, pregen-preview.
+  color-engine, a screenshot tool, webprobe, pregen-preview.
 
 Other local sources read:
 - ~/Code/factory/docs/SOFTWARE-FACTORY.md
@@ -159,7 +159,7 @@ Other local sources read:
   judicious globals)
 - standards/ARCHITECTURE.md (A1, A9, A10, A23, A24, A30, A41, A52, A55)
 - ~/Code/kindex-personal/docs/kinbase.md
-- wandercom/kinbase@c9267ae README.md, spec/cli.md, spec/architecture.md, spec/glossary.md and
+- kinbase@c9267ae README.md, spec/cli.md, spec/architecture.md, spec/glossary.md and
   spec/product.md (constrain/refs/kinbase-*.md)
 - `kin kinbase submit|sync --help` (captured in constrain/refs/)
 - the simulacrum SKILL.md
@@ -244,7 +244,7 @@ The guard is R5 validation. Variant authoring adds work at M0, and the M0 spike 
 
 ## 8. Final root and independent review corrections (FINAL-CORRECTIONS.md; not re-reviewed)
 
-Jeremy's latest (as relayed): "Excellent. Few constraints, inspiration." All four corrections
+The product owner's latest (as relayed): "Excellent. Few constraints, inspiration." All four corrections
 were applied by rewriting SPEC.md and PLAN.md. The §7 corrections stay in force. There were no
 further Sim, Advocate or Constrain runs, and the Constrain partial-result record (§1) is unchanged.
 
@@ -258,7 +258,7 @@ further Sim, Advocate or Constrain runs, and the Constrain partial-result record
    - My earlier "one CLI + static output" framing confused the minimal deployable with the
      product.
 2. **"Use Kinbase" with a concrete role.** I inspected the Kinbase CLI contract
-   (wandercom/kinbase@c9267ae `spec/cli.md`, copied to constrain/refs/kinbase-spec-cli.md),
+   (kinbase@c9267ae `spec/cli.md`, copied to constrain/refs/kinbase-spec-cli.md),
    alongside the README and the Kindex reader guide.
    - **Verified capabilities used**: signed facts and the reducer (`explain`); named authorities;
      owned Unknowns (`questions ask|answer`); sessions, projection and hooks; digest-approved
@@ -306,10 +306,10 @@ is refined by §9.*
 
 ## 9. Kinbase role and storage clarification (KINBASE-ROLE-CLARIFICATION.md; not re-reviewed)
 
-**Provenance.** The file records Jeremy's words as relayed by root:
+**Provenance.** The file records the product owner's words as relayed by root:
 - "Kinbase would serve the same purpose as it does for software. Monitoring docs and figma and
   slack and linear and git to establish shifting standards and behaviors. To allow this system to
-  learn as it receives feedback from users (with authority ladder so Lauren's feedback matters
+  learn as it receives feedback from users (with an authority ladder so a design authority's feedback matters
   more than a CS team member's)."
 - "Asset and element library can be a subfolder in a GitHub project."
 
@@ -317,7 +317,7 @@ The constraints in that file come from root: no invented permissions or connecto
 authority, no automatic promotion of feedback, the on-dark logo caution, and no new review passes.
 
 **Sources verified for this change** (copies with provenance in constrain/refs/SOURCES.md):
-- wandercom/kinbase@c9267ae `spec/architecture.md`:
+- kinbase@c9267ae `spec/architecture.md`:
   - §4, source adapter contract, initial adapter kinds, origin trust classes;
   - §6, reduction algorithm;
   - §7, authority-seeking loop: heading only; the section was not read in detail.
@@ -334,7 +334,7 @@ authority, no automatic promotion of feedback, the on-dark logo caution, and no 
   - 7.2, the proposed learning loop:
     - the library in Git, observed by existing adapters;
     - workbench feedback as evidence;
-    - the authority ladder via scoped authority, with Lauren registered for design scopes only;
+    - the authority ladder via scoped authority, with a design authority registered for design scopes only;
     - no automatic promotion;
     - authoritative facts as fixed inputs and lower-standing facts as suggestions;
     - direction as a `decision` candidate that becomes current only through the authority;

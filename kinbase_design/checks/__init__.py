@@ -13,6 +13,7 @@ from ..language import validate
 from ..language.versions import digest
 from ..render import build_preview
 from ..storage import identifier, inside, load_language, read_json, write_json
+from ..config import INGEST_JSON_MAX_BYTES
 from ..vocabulary import load
 from .grouping import screenshots
 
@@ -67,8 +68,8 @@ def save_report(library, language_id, version, out, result):
                 name=page.removesuffix('.html')+f'@{width}.png'
                 source=inside(out,name)
                 if source.is_file(): inside(canonical,name).write_bytes(source.read_bytes())
-    write_json(inside(out,'report.json'),result)
-    if canonical.resolve()!=Path(out).resolve(): write_json(inside(canonical,'report.json'),result)
+    write_json(inside(out,'report.json'),result,max_bytes=INGEST_JSON_MAX_BYTES)
+    if canonical.resolve()!=Path(out).resolve(): write_json(inside(canonical,'report.json'),result,max_bytes=INGEST_JSON_MAX_BYTES)
     write_json(inside(library,'generated',language_id,'checks','latest.json'),{'version':version})
     if version!='invalid' and result.get('version')==version:record_outcome(library,language_id,version,result)
 
@@ -77,7 +78,7 @@ def latest_report(library,language_id):
     index=inside(library,'generated',identifier(language_id),'checks','latest.json')
     if not index.exists():return None
     version=read_json(index)['version']
-    return read_json(inside(report_folder(library,language_id,version),'report.json'))
+    return read_json(inside(report_folder(library,language_id,version),'report.json'),max_bytes=INGEST_JSON_MAX_BYTES)
 
 
 def check(library,language_id,out=None,widths=None,content=None):

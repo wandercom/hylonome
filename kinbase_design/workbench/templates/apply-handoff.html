@@ -1,6 +1,7 @@
 {% extends "base.html" %}{% block content %}
 <h1>Hand-off ready</h1><p>{{ record.language }} · {{ record.adapter }}</p>
-<p>Target {{ record.site }} / {{ record.target_dir }}</p>
+<p>Target {{ record.site }} / {{ record.target_dir }}</p>{% if record.package %}<p>Package {{ record.package }}</p>{% endif %}
+<p>Sign-off: {{ record.approval.label if record.approval else 'not recorded' }}{% if record.approval and record.approval.required %} (required by this installation){% endif %}</p>
 {% with report=record.findings %}{% include 'apply-findings.html' %}{% endwith %}
 {% if record.local_branch %}<p>Local branch {{ record.local_branch.branch }} · commit {{ record.local_branch.commit }}</p>{% else %}<p>Proposed branch {{ record.branch }} (not created).</p>{% endif %}
 <p><a href="/apply/handoffs/{{ record.id }}/TASK.md">Factory task</a> · <a href="/apply/handoffs/{{ record.id }}/findings.json">Findings report</a> · <a href="/apply/handoffs/{{ record.id }}/handoff.json">Bundle manifest</a></p>

@@ -1,0 +1,3039 @@
+{
+    "version": "v8",
+    "roles": [
+        "title",
+        "subtitle",
+        "body",
+        "subtext",
+        "label",
+        "caption",
+        "media",
+        "action",
+        "control"
+    ],
+    "emphasis": [
+        "neutral",
+        "primary",
+        "attention",
+        "muted"
+    ],
+    "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "active",
+        "disabled",
+        "selected",
+        "expanded",
+        "loading",
+        "empty",
+        "error"
+    ],
+    "constructs": {
+        "page-shell": {
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "title",
+                    "emphasis": "neutral",
+                    "element": "h1",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "h1",
+                    "content-required": false,
+                    "content-elements": [
+                        "h1",
+                        "h2",
+                        "h3"
+                    ]
+                },
+                {
+                    "id": "body",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p",
+                    "content-required": false
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "active",
+                "disabled",
+                "selected",
+                "expanded",
+                "loading",
+                "empty",
+                "error"
+            ],
+            "root": "main",
+            "contract": {
+                "landmark": "main",
+                "accessible-name": null,
+                "reading-order": [
+                    "title",
+                    "body"
+                ],
+                "focus-order": [],
+                "heading-levels": {
+                    "title": 1
+                }
+            }
+        },
+        "nav": {
+            "slots": [
+                {
+                    "id": "logo",
+                    "role": "media",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "interaction": "navigate",
+                    "href": "index.html",
+                    "asset_kind": "logo",
+                    "kind": "media",
+                    "content-element": "a"
+                },
+                {
+                    "id": "links",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": true,
+                    "interaction": "navigate",
+                    "kind": "action",
+                    "content-element": "div"
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "active",
+                "disabled",
+                "selected",
+                "expanded",
+                "loading",
+                "empty",
+                "error"
+            ],
+            "accessible-name": "Main navigation",
+            "root": "nav",
+            "contract": {
+                "landmark": "nav",
+                "accessible-name": "Main navigation",
+                "reading-order": [
+                    "logo",
+                    "links"
+                ],
+                "focus-order": [
+                    "logo",
+                    "links"
+                ],
+                "heading-levels": {}
+            },
+            "parts": {
+                "link": {
+                    "element": "a",
+                    "contains-content": true
+                }
+            }
+        },
+        "search-bar": {
+            "slots": [
+                {
+                    "id": "query",
+                    "role": "control",
+                    "emphasis": "neutral",
+                    "element": "input",
+                    "required": true,
+                    "label": "Search terms",
+                    "field": "search",
+                    "kind": "control",
+                    "content-element": "label"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "primary",
+                    "element": "button",
+                    "required": true,
+                    "interaction": "submit-search",
+                    "kind": "action",
+                    "content-element": "button"
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "active",
+                "disabled",
+                "selected",
+                "expanded",
+                "loading",
+                "empty",
+                "error"
+            ],
+            "accessible-name": "Search the collection",
+            "action": "search.html",
+            "root": "form",
+            "contract": {
+                "landmark": "form",
+                "accessible-name": "Search the collection",
+                "reading-order": [
+                    "query",
+                    "action"
+                ],
+                "focus-order": [
+                    "query",
+                    "action"
+                ],
+                "heading-levels": {}
+            }
+        },
+        "filter-group": {
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "label",
+                    "emphasis": "neutral",
+                    "element": "legend",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "legend"
+                },
+                {
+                    "id": "options",
+                    "role": "control",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": true,
+                    "interaction": "toggle-filter",
+                    "kind": "control",
+                    "content-element": "div"
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "active",
+                "disabled",
+                "selected",
+                "expanded",
+                "loading",
+                "empty",
+                "error"
+            ],
+            "root": "fieldset",
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "title",
+                    "options"
+                ],
+                "focus-order": [
+                    "options"
+                ],
+                "heading-levels": {}
+            }
+        },
+        "listing-card": {
+            "slots": [
+                {
+                    "id": "media",
+                    "role": "media",
+                    "emphasis": "neutral",
+                    "element": "img",
+                    "required": false,
+                    "asset_kind": "image",
+                    "kind": "media",
+                    "content-element": "figure"
+                },
+                {
+                    "id": "title",
+                    "role": "title",
+                    "emphasis": "neutral",
+                    "element": "h2",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "h2",
+                    "content-elements": [
+                        "h1",
+                        "h2",
+                        "h3"
+                    ]
+                },
+                {
+                    "id": "location",
+                    "role": "subtext",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "rating",
+                    "role": "caption",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "price",
+                    "role": "label",
+                    "emphasis": "primary",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "interaction": "navigate",
+                    "href": "listing.html",
+                    "kind": "action",
+                    "content-element": "a"
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "active",
+                "disabled",
+                "selected",
+                "expanded",
+                "loading",
+                "empty",
+                "error"
+            ],
+            "root": "article",
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "media",
+                    "title",
+                    "location",
+                    "rating",
+                    "price",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {
+                    "title": 2
+                }
+            },
+            "content-template": "<article>{{slot:media}}<div data-kd-part=\"content\">{{slot:title}}{{slot:location}}{{slot:rating}}{{slot:price}}{{slot:action}}</div></article>",
+            "parts": {
+                "content": {
+                    "element": "div",
+                    "contains-content": true
+                }
+            }
+        },
+        "gallery": {
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "subtitle",
+                    "emphasis": "neutral",
+                    "element": "h2",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "h2",
+                    "content-elements": [
+                        "h1",
+                        "h2",
+                        "h3"
+                    ]
+                },
+                {
+                    "id": "media",
+                    "role": "media",
+                    "emphasis": "neutral",
+                    "element": "img",
+                    "required": true,
+                    "asset_kind": "image",
+                    "kind": "media",
+                    "content-element": "figure",
+                    "focusable": true,
+                    "accessible-name": "Photo gallery"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "interaction": "navigate",
+                    "href": "listing.html",
+                    "kind": "action",
+                    "content-element": "a"
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "active",
+                "disabled",
+                "selected",
+                "expanded",
+                "loading",
+                "empty",
+                "error"
+            ],
+            "accessible-name": "Photo gallery",
+            "root": "section",
+            "contract": {
+                "landmark": null,
+                "accessible-name": "Photo gallery",
+                "reading-order": [
+                    "title",
+                    "media",
+                    "action"
+                ],
+                "focus-order": [
+                    "media",
+                    "action"
+                ],
+                "heading-levels": {
+                    "title": 2
+                }
+            }
+        },
+        "detail-header": {
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "title",
+                    "emphasis": "neutral",
+                    "element": "h1",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "h1",
+                    "content-elements": [
+                        "h1",
+                        "h2",
+                        "h3"
+                    ]
+                },
+                {
+                    "id": "location",
+                    "role": "subtext",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "description",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "interaction": "navigate",
+                    "href": "form.html",
+                    "kind": "action",
+                    "content-element": "a"
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "active",
+                "disabled",
+                "selected",
+                "expanded",
+                "loading",
+                "empty",
+                "error"
+            ],
+            "root": "header",
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "title",
+                    "location",
+                    "description",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {
+                    "title": 1
+                }
+            }
+        },
+        "form": {
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "subtitle",
+                    "emphasis": "neutral",
+                    "element": "h2",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "h2",
+                    "content-elements": [
+                        "h1",
+                        "h2",
+                        "h3"
+                    ]
+                },
+                {
+                    "id": "description",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p",
+                    "content-only": true
+                },
+                {
+                    "id": "errors",
+                    "role": "caption",
+                    "emphasis": "attention",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p",
+                    "content-only": true
+                },
+                {
+                    "id": "name",
+                    "role": "control",
+                    "emphasis": "neutral",
+                    "element": "input",
+                    "required": false,
+                    "label": "Name",
+                    "field": "text",
+                    "kind": "control",
+                    "content-element": "label",
+                    "content-required": false
+                },
+                {
+                    "id": "email",
+                    "role": "control",
+                    "emphasis": "neutral",
+                    "element": "input",
+                    "required": false,
+                    "label": "Email address",
+                    "field": "email",
+                    "kind": "control",
+                    "content-element": "label",
+                    "content-required": false
+                },
+                {
+                    "id": "message",
+                    "role": "control",
+                    "emphasis": "neutral",
+                    "element": "textarea",
+                    "required": false,
+                    "label": "Message",
+                    "kind": "control",
+                    "content-element": "label",
+                    "content-required": false
+                },
+                {
+                    "id": "fields",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "div",
+                    "content-only": true
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "primary",
+                    "element": "button",
+                    "required": true,
+                    "interaction": "submit",
+                    "kind": "action",
+                    "content-element": "button"
+                },
+                {
+                    "id": "secondary-action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate",
+                    "content-only": true
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "active",
+                "disabled",
+                "selected",
+                "expanded",
+                "loading",
+                "empty",
+                "error"
+            ],
+            "accessible-name": "Contact form",
+            "action": "form.html",
+            "root": "form",
+            "contract": {
+                "landmark": "form",
+                "accessible-name": "Contact form",
+                "reading-order": [
+                    "title",
+                    "description",
+                    "errors",
+                    "name",
+                    "email",
+                    "message",
+                    "fields",
+                    "action",
+                    "secondary-action"
+                ],
+                "focus-order": [
+                    "name",
+                    "email",
+                    "message",
+                    "fields",
+                    "action",
+                    "secondary-action"
+                ],
+                "heading-levels": {
+                    "title": 2
+                }
+            }
+        },
+        "empty-state": {
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "subtitle",
+                    "emphasis": "neutral",
+                    "element": "h2",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "h2",
+                    "content-elements": [
+                        "h1",
+                        "h2",
+                        "h3"
+                    ]
+                },
+                {
+                    "id": "body",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "interaction": "navigate",
+                    "href": "search.html",
+                    "kind": "action",
+                    "content-element": "a"
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "active",
+                "disabled",
+                "selected",
+                "expanded",
+                "loading",
+                "empty",
+                "error"
+            ],
+            "accessible-name": "No results",
+            "root": "section",
+            "contract": {
+                "landmark": null,
+                "accessible-name": "No results",
+                "reading-order": [
+                    "title",
+                    "body",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {
+                    "title": 2
+                }
+            }
+        },
+        "error-state": {
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "subtitle",
+                    "emphasis": "attention",
+                    "element": "h2",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "h2",
+                    "content-elements": [
+                        "h1",
+                        "h2",
+                        "h3"
+                    ]
+                },
+                {
+                    "id": "body",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "interaction": "navigate",
+                    "href": "form.html",
+                    "kind": "action",
+                    "content-element": "a"
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "active",
+                "disabled",
+                "selected",
+                "expanded",
+                "loading",
+                "empty",
+                "error"
+            ],
+            "accessible-name": "Error",
+            "root": "section",
+            "contract": {
+                "landmark": null,
+                "accessible-name": "Error",
+                "reading-order": [
+                    "title",
+                    "body",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {
+                    "title": 2
+                }
+            }
+        },
+        "footer": {
+            "slots": [
+                {
+                    "id": "body",
+                    "role": "caption",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "links",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": true,
+                    "interaction": "navigate",
+                    "kind": "action",
+                    "content-element": "div"
+                },
+                {
+                    "id": "notices",
+                    "role": "caption",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "div",
+                    "content-only": true
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "active",
+                "disabled",
+                "selected",
+                "expanded",
+                "loading",
+                "empty",
+                "error"
+            ],
+            "root": "footer",
+            "contract": {
+                "landmark": "footer",
+                "accessible-name": null,
+                "reading-order": [
+                    "body",
+                    "links",
+                    "notices"
+                ],
+                "focus-order": [
+                    "links"
+                ],
+                "heading-levels": {}
+            },
+            "parts": {
+                "link": {
+                    "element": "a",
+                    "contains-content": true
+                }
+            }
+        },
+        "hero": {
+            "slots": [
+                {
+                    "id": "eyebrow",
+                    "role": "caption",
+                    "emphasis": "attention",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "title",
+                    "role": "title",
+                    "emphasis": "neutral",
+                    "element": "h1",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "h1",
+                    "content-elements": [
+                        "h1",
+                        "h2",
+                        "h3"
+                    ]
+                },
+                {
+                    "id": "body",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "href": "search.html",
+                    "interaction": "navigate",
+                    "kind": "action",
+                    "content-element": "a"
+                },
+                {
+                    "id": "secondary-action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "href": "form.html",
+                    "interaction": "navigate",
+                    "kind": "action",
+                    "content-element": "a"
+                },
+                {
+                    "id": "actions",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "div",
+                    "content-only": true
+                },
+                {
+                    "id": "media",
+                    "role": "media",
+                    "emphasis": "neutral",
+                    "element": "figure",
+                    "required": false,
+                    "kind": "media",
+                    "content-element": "figure",
+                    "asset_kind": "image",
+                    "content-only": true
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "active",
+                "disabled",
+                "selected",
+                "expanded",
+                "loading",
+                "empty",
+                "error"
+            ],
+            "accessible-name": "Introduction",
+            "root": "section",
+            "contract": {
+                "landmark": null,
+                "accessible-name": "Introduction",
+                "reading-order": [
+                    "eyebrow",
+                    "title",
+                    "body",
+                    "action",
+                    "secondary-action",
+                    "actions",
+                    "media"
+                ],
+                "focus-order": [
+                    "action",
+                    "secondary-action"
+                ],
+                "heading-levels": {
+                    "title": 1
+                }
+            },
+            "parts": {
+                "content": {
+                    "element": "div",
+                    "contains-content": true
+                },
+                "actions": {
+                    "element": "div",
+                    "contains-content": true
+                }
+            },
+            "content-template": "<section><div data-kd-part=\"content\">{{slot:eyebrow}}{{slot:title}}{{slot:body}}<div data-kd-part=\"actions\">{{slot:action}}{{slot:secondary-action}}{{slot:actions}}</div></div>{{slot:media}}</section>"
+        },
+        "content-section": {
+            "slots": [
+                {
+                    "id": "eyebrow",
+                    "role": "caption",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "title",
+                    "role": "subtitle",
+                    "emphasis": "neutral",
+                    "element": "h2",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "h2",
+                    "content-required": false,
+                    "content-elements": [
+                        "h1",
+                        "h2",
+                        "h3"
+                    ]
+                },
+                {
+                    "id": "body",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "div"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "href": "listing.html",
+                    "interaction": "navigate",
+                    "kind": "action",
+                    "content-element": "a"
+                },
+                {
+                    "id": "actions",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "div",
+                    "content-only": true
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "active",
+                "disabled",
+                "selected",
+                "expanded",
+                "loading",
+                "empty",
+                "error"
+            ],
+            "accessible-name": "About the collection",
+            "root": "section",
+            "contract": {
+                "landmark": null,
+                "accessible-name": "About the collection",
+                "reading-order": [
+                    "eyebrow",
+                    "title",
+                    "body",
+                    "action",
+                    "actions"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {
+                    "title": 2
+                }
+            },
+            "parts": {
+                "heading": {
+                    "element": "div",
+                    "contains-content": true
+                },
+                "actions": {
+                    "element": "div",
+                    "contains-content": true
+                }
+            },
+            "content-template": "<section><div data-kd-part=\"heading\">{{slot:eyebrow}}{{slot:title}}</div>{{slot:body}}<div data-kd-part=\"actions\">{{slot:action}}{{slot:actions}}</div></section>"
+        },
+        "card": {
+            "slots": [
+                {
+                    "id": "media",
+                    "role": "media",
+                    "emphasis": "neutral",
+                    "element": "img",
+                    "required": false,
+                    "kind": "media",
+                    "asset_kind": "image",
+                    "content-element": "figure"
+                },
+                {
+                    "id": "eyebrow",
+                    "role": "caption",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "title",
+                    "role": "title",
+                    "emphasis": "neutral",
+                    "element": "h2",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "h2",
+                    "content-elements": [
+                        "h1",
+                        "h2",
+                        "h3"
+                    ]
+                },
+                {
+                    "id": "body",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "meta",
+                    "role": "subtext",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "dl",
+                    "fact-part": "pair"
+                },
+                {
+                    "id": "highlight",
+                    "role": "label",
+                    "emphasis": "primary",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "interaction": "navigate",
+                    "href": "listing.html",
+                    "content-element": "a"
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "active",
+                "disabled",
+                "selected",
+                "expanded",
+                "loading",
+                "empty",
+                "error"
+            ],
+            "root": "article",
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "media",
+                    "eyebrow",
+                    "title",
+                    "body",
+                    "meta",
+                    "highlight",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {
+                    "title": 2
+                }
+            },
+            "parts": {
+                "content": {
+                    "element": "div",
+                    "contains-content": true
+                },
+                "pair": {
+                    "element": "div",
+                    "contains-content": true
+                }
+            },
+            "content-template": "<article>{{slot:media}}<div data-kd-part=\"content\">{{slot:eyebrow}}{{slot:title}}{{slot:body}}{{slot:meta}}{{slot:highlight}}{{slot:action}}</div></article>"
+        },
+        "collection": {
+            "root": "section",
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "subtitle",
+                    "emphasis": "neutral",
+                    "element": "h2",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "h2"
+                },
+                {
+                    "id": "body",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "items",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "div"
+                }
+            ],
+            "states": [
+                "default"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "title",
+                    "body",
+                    "items"
+                ],
+                "focus-order": [],
+                "heading-levels": {
+                    "title": 2
+                }
+            }
+        },
+        "site-header": {
+            "root": "header",
+            "slots": [],
+            "states": [
+                "default"
+            ],
+            "contract": {
+                "landmark": "header",
+                "reading-order": [],
+                "focus-order": [],
+                "heading-levels": {}
+            }
+        },
+        "field": {
+            "root": "div",
+            "slots": [
+                {
+                    "id": "label",
+                    "role": "label",
+                    "emphasis": "neutral",
+                    "element": "label",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "label"
+                },
+                {
+                    "id": "hint",
+                    "role": "subtext",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "control",
+                    "role": "control",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": true,
+                    "kind": "control",
+                    "content-element": "div"
+                },
+                {
+                    "id": "error",
+                    "role": "caption",
+                    "emphasis": "attention",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                }
+            ],
+            "states": [
+                "default",
+                "focus-visible",
+                "disabled",
+                "error"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "label",
+                    "hint",
+                    "control",
+                    "error"
+                ],
+                "focus-order": [
+                    "control"
+                ],
+                "heading-levels": {}
+            }
+        },
+        "fieldset": {
+            "root": "fieldset",
+            "slots": [
+                {
+                    "id": "legend",
+                    "role": "subtitle",
+                    "emphasis": "neutral",
+                    "element": "legend",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "legend"
+                },
+                {
+                    "id": "description",
+                    "role": "subtext",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "fields",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "div"
+                },
+                {
+                    "id": "error",
+                    "role": "caption",
+                    "emphasis": "attention",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                }
+            ],
+            "states": [
+                "default",
+                "disabled",
+                "error"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "legend",
+                    "description",
+                    "fields",
+                    "error"
+                ],
+                "focus-order": [],
+                "heading-levels": {}
+            }
+        },
+        "choice-group": {
+            "root": "fieldset",
+            "slots": [
+                {
+                    "id": "legend",
+                    "role": "label",
+                    "emphasis": "neutral",
+                    "element": "legend",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "legend"
+                },
+                {
+                    "id": "hint",
+                    "role": "subtext",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "options",
+                    "role": "control",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": true,
+                    "kind": "control",
+                    "content-element": "div"
+                },
+                {
+                    "id": "error",
+                    "role": "caption",
+                    "emphasis": "attention",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                }
+            ],
+            "states": [
+                "default",
+                "focus-visible",
+                "disabled",
+                "selected",
+                "error"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "legend",
+                    "hint",
+                    "options",
+                    "error"
+                ],
+                "focus-order": [
+                    "options"
+                ],
+                "heading-levels": {}
+            }
+        },
+        "stepper": {
+            "root": "nav",
+            "slots": [
+                {
+                    "id": "status",
+                    "role": "caption",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "steps",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "ol",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "ol"
+                }
+            ],
+            "states": [
+                "default"
+            ],
+            "contract": {
+                "landmark": "nav",
+                "accessible-name": "Progress",
+                "reading-order": [
+                    "status",
+                    "steps"
+                ],
+                "focus-order": [],
+                "heading-levels": {}
+            },
+            "accessible-name": "Progress"
+        },
+        "step": {
+            "root": "li",
+            "slots": [
+                {
+                    "id": "index",
+                    "role": "caption",
+                    "emphasis": "muted",
+                    "element": "span",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "span"
+                },
+                {
+                    "id": "label",
+                    "role": "label",
+                    "emphasis": "neutral",
+                    "element": "span",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "span"
+                },
+                {
+                    "id": "description",
+                    "role": "subtext",
+                    "emphasis": "muted",
+                    "element": "span",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "span"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "selected",
+                "disabled"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "index",
+                    "label",
+                    "description",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {}
+            }
+        },
+        "progress": {
+            "root": "div",
+            "slots": [
+                {
+                    "id": "label",
+                    "role": "label",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "indicator",
+                    "role": "control",
+                    "emphasis": "primary",
+                    "element": "div",
+                    "required": true,
+                    "kind": "control",
+                    "content-element": "div"
+                },
+                {
+                    "id": "value",
+                    "role": "caption",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                }
+            ],
+            "states": [
+                "default",
+                "loading"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "label",
+                    "indicator",
+                    "value"
+                ],
+                "focus-order": [],
+                "heading-levels": {}
+            }
+        },
+        "order-summary": {
+            "root": "aside",
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "subtitle",
+                    "emphasis": "neutral",
+                    "element": "h2",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "h2"
+                },
+                {
+                    "id": "items",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "ul",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "ul"
+                },
+                {
+                    "id": "adjustments",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "ul",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "ul"
+                },
+                {
+                    "id": "total-label",
+                    "role": "label",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "total",
+                    "role": "label",
+                    "emphasis": "primary",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "note",
+                    "role": "subtext",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "primary",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default",
+                "loading"
+            ],
+            "contract": {
+                "landmark": "complementary",
+                "accessible-name": "Order summary",
+                "reading-order": [
+                    "title",
+                    "items",
+                    "adjustments",
+                    "total-label",
+                    "total",
+                    "note",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {
+                    "title": 2
+                }
+            },
+            "accessible-name": "Order summary"
+        },
+        "line-item": {
+            "root": "li",
+            "slots": [
+                {
+                    "id": "media",
+                    "role": "media",
+                    "emphasis": "neutral",
+                    "element": "figure",
+                    "required": false,
+                    "kind": "media",
+                    "content-element": "figure",
+                    "asset_kind": "image"
+                },
+                {
+                    "id": "title",
+                    "role": "label",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "description",
+                    "role": "subtext",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "value",
+                    "role": "label",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "muted",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "disabled"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "media",
+                    "title",
+                    "description",
+                    "value",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {}
+            }
+        },
+        "pricing-tier": {
+            "root": "article",
+            "slots": [
+                {
+                    "id": "highlight",
+                    "role": "label",
+                    "emphasis": "primary",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "title",
+                    "role": "subtitle",
+                    "emphasis": "neutral",
+                    "element": "h3",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "h3"
+                },
+                {
+                    "id": "body",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "price",
+                    "role": "title",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "price-caption",
+                    "role": "subtext",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "features",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "ul",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "ul"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "primary",
+                    "element": "a",
+                    "required": true,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "selected"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "highlight",
+                    "title",
+                    "body",
+                    "price",
+                    "price-caption",
+                    "features",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {
+                    "title": 3
+                }
+            }
+        },
+        "description-list": {
+            "root": "section",
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "subtitle",
+                    "emphasis": "neutral",
+                    "element": "h2",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "h2"
+                },
+                {
+                    "id": "description",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "items",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "dl",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "dl"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default",
+                "empty"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "title",
+                    "description",
+                    "items",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {
+                    "title": 2
+                }
+            }
+        },
+        "description-item": {
+            "root": "div",
+            "slots": [
+                {
+                    "id": "term",
+                    "role": "label",
+                    "emphasis": "muted",
+                    "element": "dt",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "dt"
+                },
+                {
+                    "id": "detail",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "dd",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "dd"
+                }
+            ],
+            "states": [
+                "default"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "term",
+                    "detail"
+                ],
+                "focus-order": [],
+                "heading-levels": {}
+            }
+        },
+        "table": {
+            "root": "table",
+            "slots": [
+                {
+                    "id": "caption",
+                    "role": "subtitle",
+                    "emphasis": "neutral",
+                    "element": "caption",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "caption"
+                },
+                {
+                    "id": "head",
+                    "role": "label",
+                    "emphasis": "muted",
+                    "element": "thead",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "thead"
+                },
+                {
+                    "id": "rows",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "tbody",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "tbody"
+                }
+            ],
+            "states": [
+                "default",
+                "loading",
+                "empty"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "caption",
+                    "head",
+                    "rows"
+                ],
+                "focus-order": [],
+                "heading-levels": {}
+            }
+        },
+        "table-row": {
+            "root": "tr",
+            "slots": [],
+            "states": [
+                "default",
+                "hover",
+                "selected"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [],
+                "focus-order": [],
+                "heading-levels": {}
+            }
+        },
+        "table-header": {
+            "root": "th",
+            "slots": [
+                {
+                    "id": "label",
+                    "role": "label",
+                    "emphasis": "muted",
+                    "element": "span",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "span"
+                }
+            ],
+            "states": [
+                "default",
+                "selected"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "label"
+                ],
+                "focus-order": [],
+                "heading-levels": {}
+            }
+        },
+        "table-cell": {
+            "root": "td",
+            "slots": [
+                {
+                    "id": "value",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "span",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "span"
+                },
+                {
+                    "id": "subtext",
+                    "role": "subtext",
+                    "emphasis": "muted",
+                    "element": "span",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "span"
+                },
+                {
+                    "id": "badge",
+                    "role": "label",
+                    "emphasis": "primary",
+                    "element": "span",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "span"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "value",
+                    "subtext",
+                    "badge",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {}
+            }
+        },
+        "stat": {
+            "root": "div",
+            "slots": [
+                {
+                    "id": "label",
+                    "role": "label",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "value",
+                    "role": "title",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "change",
+                    "role": "subtext",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "description",
+                    "role": "subtext",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default",
+                "loading"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "label",
+                    "value",
+                    "change",
+                    "description",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {}
+            }
+        },
+        "timeline-item": {
+            "root": "article",
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "body",
+                    "role": "body",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "time",
+                    "role": "subtext",
+                    "emphasis": "muted",
+                    "element": "time",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "time"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "title",
+                    "body",
+                    "time",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {}
+            }
+        },
+        "figure": {
+            "root": "figure",
+            "slots": [
+                {
+                    "id": "media",
+                    "role": "media",
+                    "emphasis": "neutral",
+                    "element": "span",
+                    "required": true,
+                    "kind": "media",
+                    "content-element": "span",
+                    "asset_kind": "image"
+                },
+                {
+                    "id": "caption",
+                    "role": "caption",
+                    "emphasis": "muted",
+                    "element": "figcaption",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "figcaption"
+                }
+            ],
+            "states": [
+                "default"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "media",
+                    "caption"
+                ],
+                "focus-order": [],
+                "heading-levels": {}
+            }
+        },
+        "page-header": {
+            "root": "header",
+            "slots": [
+                {
+                    "id": "eyebrow",
+                    "role": "caption",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "title",
+                    "role": "title",
+                    "emphasis": "neutral",
+                    "element": "h1",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "h1"
+                },
+                {
+                    "id": "body",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "meta",
+                    "role": "subtext",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "primary",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                },
+                {
+                    "id": "secondary-action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "eyebrow",
+                    "title",
+                    "body",
+                    "meta",
+                    "action",
+                    "secondary-action"
+                ],
+                "focus-order": [
+                    "action",
+                    "secondary-action"
+                ],
+                "heading-levels": {
+                    "title": 1
+                }
+            }
+        },
+        "breadcrumb": {
+            "root": "nav",
+            "slots": [
+                {
+                    "id": "items",
+                    "role": "action",
+                    "emphasis": "muted",
+                    "element": "ol",
+                    "required": true,
+                    "kind": "action",
+                    "content-element": "ol",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default"
+            ],
+            "contract": {
+                "landmark": "nav",
+                "accessible-name": "Breadcrumb",
+                "reading-order": [
+                    "items"
+                ],
+                "focus-order": [
+                    "items"
+                ],
+                "heading-levels": {}
+            },
+            "accessible-name": "Breadcrumb"
+        },
+        "pagination": {
+            "root": "nav",
+            "slots": [
+                {
+                    "id": "summary",
+                    "role": "caption",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "previous",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                },
+                {
+                    "id": "pages",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "ol",
+                    "required": true,
+                    "kind": "action",
+                    "content-element": "ol",
+                    "interaction": "navigate"
+                },
+                {
+                    "id": "next",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default",
+                "disabled"
+            ],
+            "contract": {
+                "landmark": "nav",
+                "accessible-name": "Pagination",
+                "reading-order": [
+                    "summary",
+                    "previous",
+                    "pages",
+                    "next"
+                ],
+                "focus-order": [
+                    "previous",
+                    "pages",
+                    "next"
+                ],
+                "heading-levels": {}
+            },
+            "accessible-name": "Pagination"
+        },
+        "sidebar": {
+            "root": "nav",
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "label",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "groups",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "div"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default"
+            ],
+            "contract": {
+                "landmark": "nav",
+                "accessible-name": "Sections",
+                "reading-order": [
+                    "title",
+                    "groups",
+                    "action"
+                ],
+                "focus-order": [
+                    "groups",
+                    "action"
+                ],
+                "heading-levels": {}
+            },
+            "accessible-name": "Sections"
+        },
+        "nav-group": {
+            "root": "div",
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "label",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "links",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "ul",
+                    "required": true,
+                    "kind": "action",
+                    "content-element": "ul",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default",
+                "selected"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "title",
+                    "links"
+                ],
+                "focus-order": [
+                    "links"
+                ],
+                "heading-levels": {}
+            }
+        },
+        "tabs": {
+            "root": "div",
+            "slots": [
+                {
+                    "id": "list",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "ul",
+                    "required": true,
+                    "kind": "action",
+                    "content-element": "ul",
+                    "interaction": "navigate"
+                },
+                {
+                    "id": "panel",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "div"
+                }
+            ],
+            "states": [
+                "default",
+                "selected"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "list",
+                    "panel"
+                ],
+                "focus-order": [
+                    "list"
+                ],
+                "heading-levels": {}
+            }
+        },
+        "menu": {
+            "root": "details",
+            "slots": [
+                {
+                    "id": "trigger",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "summary",
+                    "required": true,
+                    "kind": "action",
+                    "content-element": "summary",
+                    "interaction": "toggle"
+                },
+                {
+                    "id": "items",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "ul",
+                    "required": true,
+                    "kind": "action",
+                    "content-element": "ul",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "expanded"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "trigger",
+                    "items"
+                ],
+                "focus-order": [
+                    "trigger",
+                    "items"
+                ],
+                "heading-levels": {}
+            }
+        },
+        "disclosure": {
+            "root": "details",
+            "slots": [
+                {
+                    "id": "summary",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "summary",
+                    "required": true,
+                    "kind": "action",
+                    "content-element": "summary",
+                    "interaction": "toggle"
+                },
+                {
+                    "id": "body",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": true,
+                    "kind": "text",
+              "content-element": "div",
+              "prose-measure": true
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible",
+                "expanded"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "summary",
+                    "body"
+                ],
+                "focus-order": [
+                    "summary"
+                ],
+                "heading-levels": {}
+            }
+        },
+        "dialog": {
+            "root": "dialog",
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "subtitle",
+                    "emphasis": "neutral",
+                    "element": "h2",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "h2"
+                },
+                {
+                    "id": "body",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "content",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "div",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "div"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "primary",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                },
+                {
+                    "id": "secondary-action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "title",
+                    "body",
+                    "content",
+                    "action",
+                    "secondary-action"
+                ],
+                "focus-order": [
+                    "action",
+                    "secondary-action"
+                ],
+                "heading-levels": {
+                    "title": 2
+                }
+            },
+            "root-attributes": {
+                "open": ""
+            }
+        },
+        "alert": {
+            "root": "div",
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "label",
+                    "emphasis": "attention",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "body",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default",
+                "error"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "title",
+                    "body",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {}
+            },
+            "root-attributes": {
+                "role": "status"
+            }
+        },
+        "feature": {
+            "root": "article",
+            "slots": [
+                {
+                    "id": "eyebrow",
+                    "role": "caption",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "title",
+                    "role": "subtitle",
+                    "emphasis": "neutral",
+                    "element": "h3",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "h3"
+                },
+                {
+                    "id": "body",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "action",
+                    "role": "action",
+                    "emphasis": "neutral",
+                    "element": "a",
+                    "required": false,
+                    "kind": "action",
+                    "content-element": "a",
+                    "interaction": "navigate"
+                }
+            ],
+            "states": [
+                "default",
+                "hover",
+                "focus-visible"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "eyebrow",
+                    "title",
+                    "body",
+                    "action"
+                ],
+                "focus-order": [
+                    "action"
+                ],
+                "heading-levels": {
+                    "title": 3
+                }
+            }
+        },
+        "testimonial": {
+            "root": "article",
+            "slots": [
+                {
+                    "id": "rating",
+                    "role": "caption",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "quote",
+                    "role": "body",
+                    "emphasis": "neutral",
+                    "element": "blockquote",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "blockquote"
+                },
+                {
+                    "id": "name",
+                    "role": "label",
+                    "emphasis": "neutral",
+                    "element": "p",
+                    "required": true,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "subtext",
+                    "role": "subtext",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                }
+            ],
+            "states": [
+                "default"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "rating",
+                    "quote",
+                    "name",
+                    "subtext"
+                ],
+                "focus-order": [],
+                "heading-levels": {}
+            }
+        },
+        "logo-cloud": {
+            "root": "section",
+            "slots": [
+                {
+                    "id": "title",
+                    "role": "caption",
+                    "emphasis": "muted",
+                    "element": "p",
+                    "required": false,
+                    "kind": "text",
+                    "content-element": "p"
+                },
+                {
+                    "id": "logos",
+                    "role": "media",
+                    "emphasis": "neutral",
+                    "element": "ul",
+                    "required": true,
+                    "kind": "media",
+                    "content-element": "ul",
+                    "asset_kind": "logo"
+                }
+            ],
+            "states": [
+                "default"
+            ],
+            "contract": {
+                "landmark": null,
+                "accessible-name": null,
+                "reading-order": [
+                    "title",
+                    "logos"
+                ],
+                "focus-order": [],
+                "heading-levels": {}
+            }
+        }
+    },
+    "context": {
+        "pages": {
+            "index.html": "Home",
+            "search.html": "Search",
+            "listing.html": "Detail",
+            "form.html": "Contact",
+            "states.html": "States",
+            "checkout.html": "Checkout",
+            "account.html": "Account",
+            "dashboard.html": "Dashboard",
+            "article.html": "Article",
+            "pricing.html": "Pricing",
+            "sign-in.html": "Sign in"
+        },
+        "copy": {
+            "title": "A collection of useful ideas",
+            "subtitle": "Resources for your next project",
+            "body": "Explore practical guides, thoughtful examples, and fresh perspectives. Choose a resource to learn more and find a useful next step.",
+            "subtext": "Updated regularly",
+            "label": "Featured",
+            "caption": "Selected resources",
+            "action": "Explore the collection",
+            "control": "Search resources",
+            "media": "Abstract shapes in a sample illustration"
+        },
+        "image-missing": "Image unavailable",
+        "long-word": "Pneumonoultramicroscopicsilicovolcanoconiosis",
+        "long-title": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua — a long title for a small screen",
+        "filter-options": [
+            "Recent",
+            "Popular",
+            "Featured"
+        ],
+        "field-placeholder": "Find a resource",
+        "search-submit": "Search collection",
+        "form-submit": "Send message",
+        "state-gallery-title": "States and stress content",
+        "construct-copy": {
+            "empty-state": {
+                "title": "No results found",
+                "body": "Try a broader search or browse the collection to find something useful.",
+                "action": "Browse the collection"
+            },
+            "error-state": {
+                "title": "Something needs attention",
+                "body": "Your request could not be completed. Review the details and try again.",
+                "action": "Return to the form"
+            },
+            "listing-card": {
+                "title": "A practical guide to moving from a first idea to a working project",
+                "action": "View resource"
+            },
+            "hero": {
+                "eyebrow": "The resource collection",
+                "title": "Ideas worth putting into practice.",
+                "action": "Explore the collection",
+                "secondary-action": "Get in touch",
+                "body": "Browse guides and examples that turn a good idea into a useful next step."
+            },
+            "detail-header": {
+                "title": "A practical starting point",
+                "action": "Learn more"
+            },
+            "footer": {
+                "body": "The resource collection · Ideas for everyday work"
+            },
+            "filter-group": {
+                "title": "Refine the collection"
+            },
+            "card": {
+                "eyebrow": "From the collection",
+                "title": "Build on a good idea",
+                "body": "A concise guide with examples you can adapt to your next project.",
+                "meta": "Guide · 5 minute read",
+                "highlight": "Featured",
+                "action": "Read more"
+            }
+        },
+        "gallery-images": 3,
+        "full-content-label": "Full item titles"
+    },
+    "extends": "v7",
+    "content_pages": {
+        "landmarks": {
+            "header": "site-header",
+            "footer": "footer",
+            "main": "[data-kd-construct=\"page-shell\"]"
+        },
+        "blocks": {
+            "hero": "hero",
+            "section": "content-section",
+            "cta": "content-section",
+            "collection": {
+                "container": "collection",
+                "item": "card"
+            }
+        }
+    },
+    "composition_rules": [
+        "heading-scale",
+        "text-inset",
+        "control-separation",
+        "measure",
+        "word-break",
+        "label-proximity",
+        "heading-binding",
+        "gutter"
+    ],
+    "measure_minimum_em": 15
+}

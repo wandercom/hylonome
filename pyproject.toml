@@ -11,6 +11,7 @@ dependencies = ["jinja2", "rfc8785", "fonttools", "pillow", "playwright"]
 
 [project.scripts]
 kinbase-design = "kinbase_design.cli:main"
+hylonome = "kinbase_design.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["kinbase_design*"]

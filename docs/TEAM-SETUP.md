@@ -56,7 +56,7 @@ created. The existing 100 MiB response and 100,000-node traversal limits still a
 
 ## Company learning: one service, separate evidence and authority
 
-Reuse the existing Wander Company Kinbase deployment and its scoped source publishers, not a
+Reuse the organisation's existing Company Kinbase deployment and its scoped source publishers, not a
 second Company store or a copy of its database/seed. Each repository retains its own `.kin`
 codebase evidence; private personal memory is separate. Configure the installed Kinbase client
 with that deployment's endpoint, trusted Company key and a per-user facts token via the Company's
@@ -68,14 +68,14 @@ actual client. Unknown or conflicting standards remain visible, not invented.
 
 Figma snapshots are observations. To make them part of shared learning, extend the existing
 Company source publisher with version/node provenance and the approved file scope. Keep machine
-observations capped at the existing machine standing; Lauren's design rulings belong to an
+observations capped at the existing machine standing; the design authority's rulings belong to an
 explicit design authority scope. A document importer alone is not sufficient: generic documents
 may default to Personal, and copying a snapshot into `.kin` does not establish Company authority.
 Vision interpretation, when added, runs outside the authoritative reducer and retains its source
 image/version and uncertainty. Feedback must not silently become a mandatory standard.
 
 Still required from the existing Company deployment owners: approved Figma account/files, the
-publisher adapter and refresh schedule, Lauren's registered design scope/logical keys, and a
+publisher adapter and refresh schedule, the registered design scope/logical keys, and a
 verified end-to-end source change -> observation -> authorized ruling -> refreshed design input.
 This release does not claim that live learning or automatic Figma monitoring is connected.
 
@@ -108,8 +108,8 @@ or automatic design rulings. Status is `prepared-not-submitted`; neither source 
 export contacts Kinbase. Do not place this evidence in the public design tool repository.
 Only the approved Company publisher should submit it with its existing capped machine standing.
 The publisher adapter and authorized deployment must be verified before claiming shared learning.
-Lauren's delegated design authority requires the Company policy to support it; never relabel her
-as founder or infer authority from a typed name.
+Delegated design authority requires the Company policy to support it; never relabel a person's
+role or infer authority from a typed name.
 
 Observation IDs are stable by Figma file and evidence kind, plus node ID for node values/renders
 or comment ID for comments. Versions, artifact digests and values remain provenance, not identity.
