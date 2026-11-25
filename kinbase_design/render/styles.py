@@ -76,6 +76,8 @@ def stylesheet(document, vocabulary, variables=None):
             base += Path(__file__).with_name('composition.css').read_text()
         if 'label-proximity' in vocabulary.get('composition_rules',[]):
             base += Path(__file__).with_name('readability.css').read_text()
+        if 'field' in vocabulary.get('constructs',{}):
+            base += Path(__file__).with_name('elements.css').read_text()
         base = '@layer kd-defaults {\n' + base + '\n}'
     rules = ['/* Kinbase Design ' + identity + ' */', base]
     body = resolved('page-shell.body')

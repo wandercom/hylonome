@@ -11,7 +11,7 @@ from ..config import APPLY_GIT_TIMEOUT_SECONDS, FACTORY_TIMEOUT_SECONDS
 from ..language.versions import digest
 from ..storage import identifier, inside, load_language, write_json
 from . import contract
-from .handoff import git, read_handoff, target_directory, target_repository
+from .handoff import git, read_handoff, target_directory, target_repository, verify_command
 
 
 CONSTRAINTS = [
@@ -138,6 +138,8 @@ def directive(record, document, files, run_id):
                 'contract':(record['target_dir']+'/'+contract.FOLDER+'/CONTRACT.md') if record.get('contract_files') else None,
                 'oracle':(record['target_dir']+'/'+contract.ORACLE) if record.get('contract_files') else None,
                 'contract_files':record['contract_entries'],
+                'request':record.get('request'),
+                'acceptance_command':verify_command(record) if record.get('contract_files') else None,
                 'commit':record['local_branch']['commit'],'hooks':record['target_dir']+'/hooks.json',
                 'files':files,'findings':{'accepted':review['accepted'],'count':len(review['findings'])},
                 'constraints':CONSTRAINTS,'acceptance':ACCEPTANCE}
@@ -146,6 +148,10 @@ def directive(record, document, files, run_id):
              '# Apply '+code(record['language'])+' to this repository at '+code(record['target_dir']),
              '', builder_label(record['builder']), 'Design attribution: '+record['builder_status'], '', 'Factory run: '+code(run_id), '', '```json kinbase-design-directive',payload,'```','',
              '## Instructions','']
+    if record.get('request'):
+        lines[-2:-2] = ['## Requested capability','','The request, verbatim:','']+['> '+line for line in record['request'].splitlines()]+['',
+                        'Build what the request asks from the design contract. The instructions below about preserving text, links,'
+                        ' controls and reading order apply to existing pages, not to the new content the request calls for.','']
     lines.extend(str(i)+'. '+rule for i,rule in enumerate(CONSTRAINTS,1))
     if record.get('contract_files'):
         lines.extend(['','## Design contract','',
@@ -161,6 +167,10 @@ def directive(record, document, files, run_id):
     if not review['findings']:lines.append('No hand-off findings.')
     lines.extend(['','## Acceptance',''])
     lines.extend('- '+rule for rule in ACCEPTANCE)
+    if metadata['acceptance_command']:
+        lines.extend(['','## Design compliance check','',
+                      'Run this on the exact candidate with the page built or served; exit 0 is required, exit 2 is never a pass:','',
+                      code(metadata['acceptance_command'])])
     return ('\n'.join(lines)+'\n').encode('utf-8')
 
 

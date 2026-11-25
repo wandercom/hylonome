@@ -1,7 +1,7 @@
 {
   "id": "lantern",
   "name": "Lantern",
-  "vocabulary": "v7",
+  "vocabulary": "v8",
   "description": "Warm editorial evenings, quiet paper, and rust-colored invitations.",
   "style": {
     "color": {
@@ -990,6 +990,141 @@
           "grid-template-columns": "1fr"
         }
       }
+    },
+    "field": {
+      "variant": "default"
+    },
+    "fieldset": {
+      "variant": "default"
+    },
+    "choice-group": {
+      "variant": "default"
+    },
+    "stepper": {
+      "variant": "default"
+    },
+    "step": {
+      "variant": "default"
+    },
+    "progress": {
+      "variant": "default"
+    },
+    "order-summary": {
+      "variant": "default",
+      "slots": {
+        "title": {
+          "properties": {
+            "font-size": "{type.section}"
+          }
+        }
+      }
+    },
+    "line-item": {
+      "variant": "default"
+    },
+    "pricing-tier": {
+      "variant": "default",
+      "slots": {
+        "title": {
+          "properties": {
+            "font-size": "{type.card}"
+          }
+        }
+      }
+    },
+    "description-list": {
+      "variant": "default",
+      "slots": {
+        "title": {
+          "properties": {
+            "font-size": "{type.section}"
+          }
+        }
+      }
+    },
+    "description-item": {
+      "variant": "default"
+    },
+    "table": {
+      "variant": "default"
+    },
+    "table-row": {
+      "variant": "default"
+    },
+    "table-header": {
+      "variant": "default"
+    },
+    "table-cell": {
+      "variant": "default"
+    },
+    "stat": {
+      "variant": "default"
+    },
+    "timeline-item": {
+      "variant": "default"
+    },
+    "figure": {
+      "variant": "default"
+    },
+    "page-header": {
+      "variant": "default",
+      "slots": {
+        "title": {
+          "properties": {
+            "font-size": "{type.title}"
+          }
+        }
+      }
+    },
+    "breadcrumb": {
+      "variant": "default"
+    },
+    "pagination": {
+      "variant": "default"
+    },
+    "sidebar": {
+      "variant": "default"
+    },
+    "nav-group": {
+      "variant": "default"
+    },
+    "tabs": {
+      "variant": "default"
+    },
+    "menu": {
+      "variant": "default"
+    },
+    "disclosure": {
+      "variant": "default"
+    },
+    "dialog": {
+      "variant": "default",
+      "slots": {
+        "title": {
+          "properties": {
+            "font-size": "{type.section}"
+          }
+        }
+      }
+    },
+    "alert": {
+      "variant": "default"
+    },
+    "feature": {
+      "variant": "default",
+      "slots": {
+        "title": {
+          "properties": {
+            "font-size": "{type.card}"
+          }
+        }
+      }
+    },
+    "testimonial": {
+      "variant": "default"
+    },
+    "logo-cloud": {
+      "variant": "default"
     }
   },
   "overrides": [
@@ -1130,6 +1265,48 @@
         "grid-column": "1 / -1"
       },
       "reason": "Actions follow editorial prose at their natural width."
+    },
+    {
+      "scope": "page-header.title@md",
+      "properties": {
+        "font-size": "{type.title-md}"
+      },
+      "reason": "Matches page-shell headings at this breakpoint"
+    },
+    {
+      "scope": "order-summary.title@md",
+      "properties": {
+        "font-size": "{type.section-md}"
+      },
+      "reason": "Matches content-section headings at this breakpoint"
+    },
+    {
+      "scope": "description-list.title@md",
+      "properties": {
+        "font-size": "{type.section-md}"
+      },
+      "reason": "Matches content-section headings at this breakpoint"
+    },
+    {
+      "scope": "dialog.title@md",
+      "properties": {
+        "font-size": "{type.section-md}"
+      },
+      "reason": "Matches content-section headings at this breakpoint"
+    },
+    {
+      "scope": "pricing-tier.title@md",
+      "properties": {
+        "font-size": "{type.card-md}"
+      },
+      "reason": "Matches card headings at this breakpoint"
+    },
+    {
+      "scope": "feature.title@md",
+      "properties": {
+        "font-size": "{type.card-md}"
+      },
+      "reason": "Matches card headings at this breakpoint"
     }
   ],
   "behaviors": [

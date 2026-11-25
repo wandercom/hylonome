@@ -24,11 +24,34 @@ def media(value, attrs=None):
     return element('figure',attrs or {},image)
 
 
-def links(values, listed=False):
+def links(values, listed=False, items=False):
     from .html import element
-    chunks = [element('a',{'href':item['href'],'data-kd-part':'link' if listed else None},escape(item['text'])) for item in values]
+    chunks = [element('a',{'href':item['href'],'data-kd-part':'link' if listed else None,
+                           'aria-current':'page' if item.get('current') else None},escape(item['text'])) for item in values]
+    if items:return ''.join(element('li',{},chunk) for chunk in chunks)  # The slot element is itself the list.
     if listed:return element('ul',{},''.join(element('li',{},chunk) for chunk in chunks))
     return ''.join(chunks)
+
+
+def control(spec):
+    """Native form controls from a data description; every value is escaped."""
+    from .html import element
+    kind = spec.get('type','text')
+    common = {'id':spec.get('id'),'name':spec.get('name'),'disabled':'' if spec.get('disabled') else None,
+              'required':'' if spec.get('required') else None,'aria-invalid':'true' if spec.get('invalid') else None,
+              'aria-describedby':spec.get('describedby'),'autocomplete':spec.get('autocomplete'),'inputmode':spec.get('inputmode')}
+    if 'options' in spec and kind in {'radio','checkbox'}:
+        return ''.join(element('label',{},element('input',{'type':kind,'name':spec.get('name'),'value':option['value'],
+                       'checked':'' if option.get('checked') else None,'disabled':'' if option.get('disabled') or spec.get('disabled') else None})
+                       +element('span',{},escape(option['label']))) for option in spec['options'])
+    if kind == 'select':
+        return element('select',common,''.join(element('option',{'value':option,'selected':'' if option==spec.get('value') else None},escape(option))
+                                               for option in spec.get('options',[])))
+    if kind == 'textarea':return element('textarea',{**common,'rows':str(spec.get('rows',3))},escape(spec.get('value','')))
+    if kind == 'progress':return element('progress',{'value':str(spec['value']),'max':str(spec['max'])},escape(spec.get('text','')))
+    attrs = {**common,'type':'checkbox' if kind=='switch' else kind,'role':'switch' if kind=='switch' else None,
+             'placeholder':spec.get('placeholder'),'value':spec.get('value'),'checked':'' if spec.get('checked') else None}
+    return element('input',attrs)
 
 
 def prose(values):
@@ -53,10 +76,19 @@ def slot(definition, attrs, value, heading=None):
     tag = definition.get('content-element', definition['element'])
     if heading is not None:tag = 'h' + str(heading)
     kind, data = value['kind'], value['value']
-    if kind == 'media':return media(data,attrs)
+    if value.get('id'):attrs['id'] = value['id']
+    if kind == 'media':
+        if tag=='figure':return media(data,attrs)
+        return element(tag,attrs,element('img',{'src':data['src'],'alt':data['alt'],'loading':'eager'}))
+    if kind == 'placeholder':
+        return element(tag if tag not in {'img','ul','ol'} else 'span',{**attrs,'class':'kd-placeholder','role':'img','aria-label':data},escape(data))
     if kind == 'inline':text = inline(data)
+    elif kind == 'label':
+        attrs['for'] = data['for'];text = inline(data['text'])
+    elif kind == 'control':text = control(data)
+    elif kind == 'list':text = ''.join(element('li',{},inline(item)) for item in data) if tag in {'ul','ol'} else '<br>'.join(inline(item) for item in data)
     elif kind == 'prose':text = prose(data)
-    elif kind == 'links':text = links(data, listed=True)
+    elif kind == 'links':text = links(data, listed=True, items=tag in {'ul','ol'})
     elif kind == 'actions':
         if tag=='a':return ''.join(element('a',{**attrs,'href':item['href']},escape(item['text'])) for item in data)
         text = links(data)

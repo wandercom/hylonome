@@ -12,8 +12,17 @@
       || root?.dataset.kdConstruct || 'page';
   };
   const rect = e => {const r=e.getBoundingClientRect(); return [r.x+scrollX,r.y+scrollY,r.width,r.height];};
-  const visible = e => {const r=e.getBoundingClientRect(),s=getComputedStyle(e);if(!(r.width>0&&r.height>0&&s.display!=='none'&&s.visibility!=='hidden'))return false;for(let p=e;p;p=p.parentElement)if(parseFloat(getComputedStyle(p).opacity)===0)return false;return true;};
-  const interactive = e => e.matches('a[href],button,input:not([type="hidden"]),textarea,select,summary,[tabindex]') && e.tabIndex>=0;
+  // Content of a closed <details> is skipped by the browser (content-visibility), not display:none.
+  const collapsed = e => {const d=e.closest('details:not([open])');return !!d && !e.closest('summary') && e!==d;};
+  const visible = e => {const r=e.getBoundingClientRect(),s=getComputedStyle(e);if(collapsed(e)||!(r.width>0&&r.height>0&&s.display!=='none'&&s.visibility!=='hidden'))return false;for(let p=e;p;p=p.parentElement)if(parseFloat(getComputedStyle(p).opacity)===0)return false;return true;};
+  // A radio group is one Tab stop: its checked radio, or its first when none is checked.
+  const radioStop = e => {
+    if(!e.matches('input[type="radio"]') || !e.name) return true;
+    const group=[...document.querySelectorAll('input[type="radio"]')].filter(r=>r.name===e.name && r.form===e.form && !r.disabled);
+    const checked=group.find(r=>r.checked);
+    return checked ? checked===e : group[0]===e;
+  };
+  const interactive = e => e.matches('a[href],button,input:not([type="hidden"]),textarea,select,summary,[tabindex]') && e.tabIndex>=0 && radioStop(e);
   const background = e => {
     const result=[];
     for(let p=e;p;p=p.parentElement) {

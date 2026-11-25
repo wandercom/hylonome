@@ -1,4 +1,5 @@
 """Sample HTML belongs to Vocabulary. A language may only select validated templates/assets."""
+from copy import deepcopy
 from html import escape
 import re
 from urllib.parse import urlsplit
@@ -147,7 +148,7 @@ class SampleRenderer:
             # The label owns annotation/treatment; native control inherits its type styles.
             return element('label', {**attrs, 'for':control_id}, escape(definition['label']) + content)
         if tag == 'a':
-            attrs['href'] = captured_href(hrefs.get(name)) if hrefs is not None else definition['href']
+            attrs['href'] = captured_href(hrefs.get(name)) if hrefs is not None else definition.get('href','#')
         if tag == 'button':
             attrs['type'] = 'button' if icon else 'submit'
             if state == 'disabled':
@@ -187,7 +188,10 @@ class SampleRenderer:
         if not fragments and tag!='a' and hrefs is not None and (href:=captured_href(hrefs.get(name))):content=element('a',{'href':href},content)
         return element(tag, attrs, content)
 
-    def construct(self, construct, state=None, values=None, missing_image=False, media=None, captured=False, treatment=None, children='',background=None,box=None,geometry=None,hrefs=None,action_icons=None,accessible_names=None,fragments=None,flow=False,heading_levels=None,provided_only=False,content_document=False,content_id=None,action_items=None):
+    def construct(self, construct, state=None, values=None, missing_image=False, media=None, captured=False, treatment=None, children='',background=None,box=None,geometry=None,hrefs=None,action_icons=None,accessible_names=None,fragments=None,flow=False,heading_levels=None,provided_only=False,content_document=False,content_id=None,action_items=None,named=False,root_attributes=None):
+        if not (content_document or captured or provided_only or values) and construct in self.samples.get('examples',{}):
+            # Constructs composed of children render from their specimen wherever a sample is asked for.
+            return self.example(construct,state or 'default')
         self.sequence += 1
         contract = self.vocabulary['constructs'][construct]
         copy = dict(values or {}) if captured or provided_only else {**self.context.get('construct-copy', {}).get(construct, {}), **(values or {})}
@@ -207,7 +211,10 @@ class SampleRenderer:
         attrs = {'data-kd-construct':construct, 'data-kd-state':state,
                  'aria-label':contract.get('accessible-name')}
         if content_document:
-            attrs = {'data-kd-construct':construct,'id':content_id}
+            attrs = {'data-kd-construct':construct,'id':content_id,'data-kd-state':state,
+                     'aria-label':contract.get('accessible-name') if named else None}
+        for key,value in {**contract.get('root-attributes',{}),**(root_attributes or {})}.items():
+            if key in {'open','role'}:attrs[key]=value
         if captured:attrs['data-kd-captured']='true'
         if flow:attrs['data-kd-flow']='true'
         # A captured context owns omitted properties too. Otherwise reusable
@@ -276,6 +283,76 @@ class SampleRenderer:
         body_style=f'--kd-captured-space:{max(0,float(page["spacing_base"])):g}px' if page.get('captured') and 'spacing_base' in page else ''
         return env.from_string(PAGE).render(title=page.get('title','Captured page'),navigation='',content=Markup(content),footer='',body_style=body_style).encode('utf-8')
 
+    def asset_value(self, construct, slot, spec):
+        """A language-bound asset for a standard page, or an honest placeholder."""
+        binding = self.document.get('components',{}).get(construct,{}).get('assets',{}).get(slot)
+        if not binding:
+            for asset, entry in sorted(self.document.get('assets',{}).items()):
+                if entry.get('kind')==spec['asset_kind'] and entry.get('variants'):
+                    binding = asset+':'+sorted(entry['variants'])[0];break
+        if not binding:return {'kind':'placeholder','value':spec.get('alt') or self.context['image-missing']}
+        asset, variant = binding.split(':')
+        detail = self.document['assets'][asset]['variants'][variant]
+        return {'kind':'media','value':{'src':f'assets/{asset}-{variant}.{detail["format"]}','alt':spec.get('alt','')}}
+
+    def content_item(self, item):
+        """Render one standard-page instance and its children through the content path."""
+        construct = item['construct']
+        values = {}
+        for slot, value in item.get('values',{}).items():
+            if value['kind']=='asset':value = self.asset_value(construct,slot,value['value'])
+            elif value['kind']=='logos':
+                logo = self.asset_value(construct,slot,{'asset_kind':'logo','alt':value['value']['alt']})
+                one = (element('img',{'src':logo['value']['src'],'alt':logo['value']['alt']}) if logo['kind']=='media'
+                       else element('span',{'class':'kd-placeholder','role':'img','aria-label':logo['value']},escape(logo['value'])))
+                value = {'kind':'children','value':''.join(element('li',{},one) for _ in range(int(value['value']['count'])))}
+            values[slot] = value
+        for slot, children in item.get('slot_children',{}).items():
+            values[slot] = {'kind':'children','value':''.join(self.content_item(child) for child in children)}
+        children = ''.join(self.content_item(child) for child in item.get('children',[]))
+        if item.get('children_slot'):
+            values[item['children_slot']] = {'kind':'children','value':children};children = ''
+        root = self.vocabulary['constructs'][construct]['root']
+        return self.construct(construct,state=item.get('state'),values=values,children=children,heading_levels=item.get('heading_levels'),
+                              provided_only=True,content_document=True,named=root in {'nav','aside'},root_attributes=item.get('attributes'))
+
+    def example(self, construct, state):
+        """A construct's specimen in one state, with identifiers unique on the page."""
+        def adjust(value):
+            if isinstance(value,list):return [adjust(entry) for entry in value]
+            if not isinstance(value,dict):return value
+            result = {}
+            for key, entry in value.items():
+                if key in {'id','for','name'} and isinstance(entry,str):entry = entry+'-'+construct+'-'+state
+                elif key=='describedby' and isinstance(entry,str):entry = ' '.join(part+'-'+construct+'-'+state for part in entry.split())
+                elif key=='disabled' and state=='disabled':entry = True
+                else:entry = adjust(entry)
+                result[key] = entry
+            if value.get('kind')=='control' and state=='disabled':result['value'] = {**result['value'],'disabled':True}
+            return result
+        specimen = adjust(deepcopy(self.samples['examples'][construct]))
+        specimen['state'] = state
+        contract = self.vocabulary['constructs'][construct]
+        html = self.content_item(specimen)
+        # Table parts, list items and description items need their parent for the parser to keep them.
+        root = contract['root']
+        if root == 'tr':html = element('table',{'class':'kd-specimen'},element('tbody',{},html))
+        elif root in {'th','td'}:html = element('table',{'class':'kd-specimen'},element('tbody',{},element('tr',{},html)))
+        elif root == 'li':html = element('ol' if construct=='step' else 'ul',{'class':'kd-specimen'},html)
+        elif construct == 'description-item':html = element('dl',{'class':'kd-specimen'},html)
+        return html
+
+    def standard_page(self, filename):
+        """A standard preview page: fixed semantic HTML, the language laid on top."""
+        page = self.samples['compositions'][filename]
+        navigation = self.construct('nav')
+        shell = {slot:{'kind':'inline','value':text} for slot,text in page.get('shell',{}).items()}
+        body = ''.join(self.content_item(item) for item in page['instances'])
+        content = self.construct('page-shell',values=shell,children=body,provided_only=True,content_document=True)
+        footer = self.construct('footer')
+        env = Environment(autoescape=select_autoescape(default_for_string=True))
+        return env.from_string(PAGE).render(title=self.context['pages'][filename], navigation=Markup(navigation), content=Markup(content), footer=Markup(footer)).encode('utf-8')
+
     def collection_group(self,content):
         if not self.samples.get('collection-hooks'):return element('div',{'class':'kd-grid'},content)
         items=element('div',{'data-kd-slot':'collection.items','data-kd-role':'body','data-kd-emphasis':'neutral'},content)
@@ -298,6 +375,7 @@ class SampleRenderer:
 
     def page(self, filename):
         self.sequence = 0
+        if filename in self.samples.get('compositions',{}):return self.standard_page(filename)
         ordinary_title=' '.join([self.context['long-title']]*2)
         ordinary_stress=self.vocabulary.get('composition_rules') and self.samples.get('ordinary-stress-content',True)
         navigation = self.construct('nav')
@@ -306,7 +384,8 @@ class SampleRenderer:
             for construct in self.samples['pages'][filename]:
                 for state in self.vocabulary['constructs'][construct]['states']:
                     heading = element('div' if self.vocabulary.get('composition_rules') else 'h2', {'class':'kd-context-heading'} if self.vocabulary.get('composition_rules') else {}, escape(construct + ' · ' + state))
-                    content += element('section', {'class':'kd-state'}, heading + self.construct(construct,state))
+                    specimen = self.example(construct,state) if construct in self.samples.get('examples',{}) else self.construct(construct,state)
+                    content += element('section', {'class':'kd-state'}, heading + specimen)
             content += self.stress()
             if self.vocabulary.get('composition_rules'):
                 content = self.construct('page-shell',values={'title':self.context['state-gallery-title']},provided_only=True)+content

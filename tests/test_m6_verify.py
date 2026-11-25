@@ -93,7 +93,10 @@ def test_handoff_gives_each_factory_role_its_own_input(library, harbor, handoff)
         assert expected["treatments"][scope][state] == {name: value["value"] for name, value in resolved.items()}
     assert expected["closed_set"]["colors"]["color.primary"] == pointer_value(harbor, "/style/color/primary/$value")
     contract = (repo / TARGET / "kinbase-design" / "CONTRACT.md").read_text()
-    assert reference in contract and "| `form` | `<form>` | title, name, email, message, action |" in contract
+    assert reference in contract and "| `form` | `<form>` | title, action |" in contract
+    assert "| `field` | `<div>` | label, control |" in contract
+    assert 'data-kd-construct="field"' in (repo / TARGET / "kinbase-design" / "markup" / "form.html").read_text() or \
+        'data-kd-construct="field"' in (repo / TARGET / "kinbase-design" / "markup" / "field.html").read_text()
     assert "expected" not in contract.lower().replace("expected.json", "")  # the builder's contract holds no oracle values
 
 

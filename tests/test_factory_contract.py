@@ -72,3 +72,19 @@ def test_a_hand_off_from_before_the_contract_still_submits(factory_case):
     task_cli(case, "legacy", dry=True)
     _, payload, _ = directive_document(case.bundle / "directive.md")
     assert payload["oracle"] is None and payload["contract_files"] == []
+
+
+def test_the_directive_carries_the_request_and_the_compliance_check(factory_case):
+    case, _ = factory_case
+    path = case.bundle / "handoff.json"
+    record = json.loads(path.read_text())
+    record["request"] = "Build a checkout page for this site."
+    record["verify_pages"] = ["http://localhost:3000/checkout"]
+    path.write_text(json.dumps(record))
+    task_cli(case, "with-request", dry=True)
+    text, payload, prose = directive_document(case.bundle / "directive.md")
+    assert payload["request"] == "Build a checkout page for this site."
+    assert "> Build a checkout page for this site." in prose
+    assert payload["acceptance_command"].startswith("kinbase-design verify " + record["language"])
+    assert "--page http://localhost:3000/checkout" in payload["acceptance_command"]
+    assert "exit 0 is required" in prose

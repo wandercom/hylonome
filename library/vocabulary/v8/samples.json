@@ -1,0 +1,4397 @@
+{
+  "version": "v8",
+  "pages": {
+    "index.html": [
+      "hero",
+      "search-bar",
+      "content-section",
+      "listing-card"
+    ],
+    "search.html": [
+      "page-shell",
+      "search-bar",
+      "filter-group",
+      "listing-card"
+    ],
+    "listing.html": [
+      "detail-header",
+      "gallery",
+      "content-section"
+    ],
+    "form.html": [
+      "page-shell",
+      "form"
+    ],
+    "states.html": [
+      "page-shell",
+      "nav",
+      "search-bar",
+      "filter-group",
+      "listing-card",
+      "gallery",
+      "detail-header",
+      "form",
+      "empty-state",
+      "error-state",
+      "footer",
+      "hero",
+      "content-section",
+      "card",
+      "collection",
+      "site-header",
+      "field",
+      "fieldset",
+      "choice-group",
+      "stepper",
+      "step",
+      "progress",
+      "order-summary",
+      "line-item",
+      "pricing-tier",
+      "description-list",
+      "description-item",
+      "table",
+      "table-row",
+      "table-header",
+      "table-cell",
+      "stat",
+      "timeline-item",
+      "figure",
+      "page-header",
+      "breadcrumb",
+      "pagination",
+      "sidebar",
+      "nav-group",
+      "tabs",
+      "menu",
+      "disclosure",
+      "dialog",
+      "alert",
+      "feature",
+      "testimonial",
+      "logo-cloud"
+    ]
+  },
+  "stress": [
+    {
+      "name": "long-word",
+      "construct": "listing-card",
+      "slot": "title",
+      "context": "long-word"
+    },
+    {
+      "name": "long-title",
+      "construct": "listing-card",
+      "slot": "title",
+      "context": "long-title"
+    },
+    {
+      "name": "missing-image",
+      "construct": "listing-card",
+      "missing-image": true
+    },
+    {
+      "name": "zero-items",
+      "items": 0
+    },
+    {
+      "name": "one-item",
+      "items": 1
+    },
+    {
+      "name": "many-items",
+      "items": 12
+    }
+  ],
+  "collection-size": 3,
+  "collection-hooks": true,
+  "omit-unbound-optional-media": true,
+  "ordinary-stress-content": false,
+  "page-shell-hook": true,
+  "compositions": {
+    "checkout.html": {
+      "title": "Checkout",
+      "shell": {
+        "title": "Checkout",
+        "body": "Review your order and enter your details."
+      },
+      "instances": [
+        {
+          "construct": "stepper",
+          "values": {
+            "status": {
+              "kind": "inline",
+              "value": "Step 2 of 4"
+            }
+          },
+          "slot_children": {
+            "steps": [
+              {
+                "construct": "step",
+                "values": {
+                  "index": {
+                    "kind": "inline",
+                    "value": "1"
+                  },
+                  "label": {
+                    "kind": "inline",
+                    "value": "Cart"
+                  },
+                  "description": {
+                    "kind": "inline",
+                    "value": "Complete"
+                  },
+                  "action": {
+                    "kind": "link",
+                    "value": {
+                      "text": "Edit cart",
+                      "href": "index.html"
+                    }
+                  }
+                }
+              },
+              {
+                "construct": "step",
+                "values": {
+                  "index": {
+                    "kind": "inline",
+                    "value": "2"
+                  },
+                  "label": {
+                    "kind": "inline",
+                    "value": "Details"
+                  },
+                  "description": {
+                    "kind": "inline",
+                    "value": "Current step"
+                  }
+                },
+                "state": "selected"
+              },
+              {
+                "construct": "step",
+                "values": {
+                  "index": {
+                    "kind": "inline",
+                    "value": "3"
+                  },
+                  "label": {
+                    "kind": "inline",
+                    "value": "Payment"
+                  }
+                },
+                "state": "disabled"
+              },
+              {
+                "construct": "step",
+                "values": {
+                  "index": {
+                    "kind": "inline",
+                    "value": "4"
+                  },
+                  "label": {
+                    "kind": "inline",
+                    "value": "Review"
+                  }
+                },
+                "state": "disabled"
+              }
+            ]
+          }
+        },
+        {
+          "construct": "alert",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Check the highlighted field"
+            },
+            "body": {
+              "kind": "inline",
+              "value": "The postcode needs attention before you continue."
+            },
+            "action": {
+              "kind": "link",
+              "value": {
+                "text": "Go to postcode",
+                "href": "#postcode"
+              }
+            }
+          },
+          "state": "error"
+        },
+        {
+          "construct": "form",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Your details"
+            },
+            "action": {
+              "kind": "inline",
+              "value": "Continue to payment"
+            },
+            "description": {
+              "kind": "inline",
+              "value": "We use these details only for this order."
+            },
+            "secondary-action": {
+              "kind": "link",
+              "value": {
+                "text": "Back to cart",
+                "href": "index.html"
+              }
+            }
+          },
+          "slot_children": {
+            "fields": [
+              {
+                "construct": "fieldset",
+                "values": {
+                  "legend": {
+                    "kind": "inline",
+                    "value": "Contact"
+                  }
+                },
+                "slot_children": {
+                  "fields": [
+                    {
+                      "construct": "field",
+                      "values": {
+                        "label": {
+                          "kind": "label",
+                          "value": {
+                            "text": "Email address",
+                            "for": "email"
+                          }
+                        },
+                        "control": {
+                          "kind": "control",
+                          "value": {
+                            "type": "email",
+                            "id": "email",
+                            "name": "email",
+                            "describedby": null,
+                            "invalid": false,
+                            "disabled": false,
+                            "autocomplete": "email"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "construct": "field",
+                      "values": {
+                        "label": {
+                          "kind": "label",
+                          "value": {
+                            "text": "Phone number",
+                            "for": "phone"
+                          }
+                        },
+                        "control": {
+                          "kind": "control",
+                          "value": {
+                            "type": "tel",
+                            "id": "phone",
+                            "name": "phone",
+                            "describedby": "phone-hint",
+                            "invalid": false,
+                            "disabled": false
+                          }
+                        },
+                        "hint": {
+                          "kind": "inline",
+                          "value": "Only used for delivery updates.",
+                          "id": "phone-hint"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "construct": "fieldset",
+                "values": {
+                  "legend": {
+                    "kind": "inline",
+                    "value": "Address"
+                  }
+                },
+                "slot_children": {
+                  "fields": [
+                    {
+                      "construct": "field",
+                      "values": {
+                        "label": {
+                          "kind": "label",
+                          "value": {
+                            "text": "Address",
+                            "for": "address"
+                          }
+                        },
+                        "control": {
+                          "kind": "control",
+                          "value": {
+                            "type": "text",
+                            "id": "address",
+                            "name": "address",
+                            "describedby": null,
+                            "invalid": false,
+                            "disabled": false
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "construct": "field",
+                      "values": {
+                        "label": {
+                          "kind": "label",
+                          "value": {
+                            "text": "Town or city",
+                            "for": "city"
+                          }
+                        },
+                        "control": {
+                          "kind": "control",
+                          "value": {
+                            "type": "text",
+                            "id": "city",
+                            "name": "city",
+                            "describedby": null,
+                            "invalid": false,
+                            "disabled": false
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "construct": "field",
+                      "values": {
+                        "label": {
+                          "kind": "label",
+                          "value": {
+                            "text": "Region",
+                            "for": "region"
+                          }
+                        },
+                        "control": {
+                          "kind": "control",
+                          "value": {
+                            "type": "select",
+                            "id": "region",
+                            "name": "region",
+                            "describedby": null,
+                            "invalid": false,
+                            "disabled": false,
+                            "options": [
+                              "Choose a region",
+                              "North",
+                              "South",
+                              "East",
+                              "West"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "construct": "field",
+                      "values": {
+                        "label": {
+                          "kind": "label",
+                          "value": {
+                            "text": "Postcode",
+                            "for": "postcode"
+                          }
+                        },
+                        "control": {
+                          "kind": "control",
+                          "value": {
+                            "type": "text",
+                            "id": "postcode",
+                            "name": "postcode",
+                            "describedby": "postcode-error",
+                            "invalid": true,
+                            "disabled": false
+                          }
+                        },
+                        "error": {
+                          "kind": "inline",
+                          "value": "Enter a postcode in the expected format.",
+                          "id": "postcode-error"
+                        }
+                      },
+                      "state": "error"
+                    }
+                  ]
+                }
+              },
+              {
+                "construct": "choice-group",
+                "values": {
+                  "legend": {
+                    "kind": "inline",
+                    "value": "Delivery"
+                  },
+                  "options": {
+                    "kind": "control",
+                    "value": {
+                      "type": "radio",
+                      "name": "delivery",
+                      "options": [
+                        {
+                          "label": "Standard, 3 to 5 days",
+                          "value": "standard,-3-to-5-days",
+                          "checked": true
+                        },
+                        {
+                          "label": "Express, next working day",
+                          "value": "express,-next-working-day",
+                          "checked": false
+                        },
+                        {
+                          "label": "Collect in person",
+                          "value": "collect-in-person",
+                          "checked": false
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "construct": "fieldset",
+                "values": {
+                  "legend": {
+                    "kind": "inline",
+                    "value": "Payment"
+                  }
+                },
+                "slot_children": {
+                  "fields": [
+                    {
+                      "construct": "field",
+                      "values": {
+                        "label": {
+                          "kind": "label",
+                          "value": {
+                            "text": "Card number",
+                            "for": "card"
+                          }
+                        },
+                        "control": {
+                          "kind": "control",
+                          "value": {
+                            "type": "text",
+                            "id": "card",
+                            "name": "card",
+                            "describedby": null,
+                            "invalid": false,
+                            "disabled": false,
+                            "inputmode": "numeric"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "construct": "field",
+                      "values": {
+                        "label": {
+                          "kind": "label",
+                          "value": {
+                            "text": "Expiry date",
+                            "for": "expiry"
+                          }
+                        },
+                        "control": {
+                          "kind": "control",
+                          "value": {
+                            "type": "text",
+                            "id": "expiry",
+                            "name": "expiry",
+                            "describedby": null,
+                            "invalid": false,
+                            "disabled": false,
+                            "placeholder": "MM / YY"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "construct": "field",
+                      "values": {
+                        "label": {
+                          "kind": "label",
+                          "value": {
+                            "text": "Security code",
+                            "for": "security"
+                          }
+                        },
+                        "control": {
+                          "kind": "control",
+                          "value": {
+                            "type": "text",
+                            "id": "security",
+                            "name": "security",
+                            "describedby": "security-hint",
+                            "invalid": false,
+                            "disabled": false
+                          }
+                        },
+                        "hint": {
+                          "kind": "inline",
+                          "value": "The last three digits on the back.",
+                          "id": "security-hint"
+                        }
+                      }
+                    },
+                    {
+                      "construct": "field",
+                      "values": {
+                        "label": {
+                          "kind": "label",
+                          "value": {
+                            "text": "Save this card for next time",
+                            "for": "save-card"
+                          }
+                        },
+                        "control": {
+                          "kind": "control",
+                          "value": {
+                            "type": "checkbox",
+                            "id": "save-card",
+                            "name": "save-card",
+                            "describedby": null,
+                            "invalid": false,
+                            "disabled": false
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "construct": "field",
+                "values": {
+                  "label": {
+                    "kind": "label",
+                    "value": {
+                      "text": "I agree to the terms of sale",
+                      "for": "terms"
+                    }
+                  },
+                  "control": {
+                    "kind": "control",
+                    "value": {
+                      "type": "checkbox",
+                      "id": "terms",
+                      "name": "terms",
+                      "describedby": null,
+                      "invalid": false,
+                      "disabled": false,
+                      "required": true
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "construct": "order-summary",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Order summary"
+            },
+            "total-label": {
+              "kind": "inline",
+              "value": "Total"
+            },
+            "total": {
+              "kind": "inline",
+              "value": "$214.00"
+            },
+            "note": {
+              "kind": "inline",
+              "value": "Taxes are included where they apply."
+            },
+            "action": {
+              "kind": "link",
+              "value": {
+                "text": "Review order",
+                "href": "#review"
+              }
+            }
+          },
+          "slot_children": {
+            "items": [
+              {
+                "construct": "line-item",
+                "values": {
+                  "title": {
+                    "kind": "inline",
+                    "value": "Field notebook, set of three"
+                  },
+                  "value": {
+                    "kind": "inline",
+                    "value": "$48.00"
+                  },
+                  "description": {
+                    "kind": "inline",
+                    "value": "Ruled, A5"
+                  },
+                  "action": {
+                    "kind": "link",
+                    "value": {
+                      "text": "Remove",
+                      "href": "#"
+                    }
+                  },
+                  "media": {
+                    "kind": "asset",
+                    "value": {
+                      "asset_kind": "image",
+                      "alt": ""
+                    }
+                  }
+                }
+              },
+              {
+                "construct": "line-item",
+                "values": {
+                  "title": {
+                    "kind": "inline",
+                    "value": "Desk lamp"
+                  },
+                  "value": {
+                    "kind": "inline",
+                    "value": "$129.00"
+                  },
+                  "description": {
+                    "kind": "inline",
+                    "value": "Warm white"
+                  },
+                  "action": {
+                    "kind": "link",
+                    "value": {
+                      "text": "Remove",
+                      "href": "#"
+                    }
+                  },
+                  "media": {
+                    "kind": "asset",
+                    "value": {
+                      "asset_kind": "image",
+                      "alt": ""
+                    }
+                  }
+                }
+              },
+              {
+                "construct": "line-item",
+                "values": {
+                  "title": {
+                    "kind": "inline",
+                    "value": "Gift wrapping"
+                  },
+                  "value": {
+                    "kind": "inline",
+                    "value": "$6.00"
+                  },
+                  "description": {
+                    "kind": "inline",
+                    "value": "Recycled paper"
+                  },
+                  "action": {
+                    "kind": "link",
+                    "value": {
+                      "text": "Remove",
+                      "href": "#"
+                    }
+                  }
+                }
+              }
+            ],
+            "adjustments": [
+              {
+                "construct": "line-item",
+                "values": {
+                  "title": {
+                    "kind": "inline",
+                    "value": "Subtotal"
+                  },
+                  "value": {
+                    "kind": "inline",
+                    "value": "$183.00"
+                  }
+                }
+              },
+              {
+                "construct": "line-item",
+                "values": {
+                  "title": {
+                    "kind": "inline",
+                    "value": "Delivery"
+                  },
+                  "value": {
+                    "kind": "inline",
+                    "value": "$12.00"
+                  }
+                }
+              },
+              {
+                "construct": "line-item",
+                "values": {
+                  "title": {
+                    "kind": "inline",
+                    "value": "Tax"
+                  },
+                  "value": {
+                    "kind": "inline",
+                    "value": "$19.00"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "account.html": {
+      "title": "Account",
+      "shell": {
+        "title": "Account",
+        "body": "Manage your profile and how we contact you."
+      },
+      "instances": [
+        {
+          "construct": "sidebar",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Settings"
+            },
+            "action": {
+              "kind": "link",
+              "value": {
+                "text": "Sign out",
+                "href": "sign-in.html"
+              }
+            }
+          },
+          "slot_children": {
+            "groups": [
+              {
+                "construct": "nav-group",
+                "values": {
+                  "title": {
+                    "kind": "inline",
+                    "value": "Account"
+                  },
+                  "links": {
+                    "kind": "links",
+                    "value": [
+                      {
+                        "text": "Profile",
+                        "href": "#profile",
+                        "current": true
+                      },
+                      {
+                        "text": "Security",
+                        "href": "#security"
+                      },
+                      {
+                        "text": "Notifications",
+                        "href": "#notifications"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "construct": "nav-group",
+                "values": {
+                  "title": {
+                    "kind": "inline",
+                    "value": "Billing"
+                  },
+                  "links": {
+                    "kind": "links",
+                    "value": [
+                      {
+                        "text": "Plan",
+                        "href": "pricing.html"
+                      },
+                      {
+                        "text": "Invoices",
+                        "href": "#invoices"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "construct": "alert",
+          "values": {
+            "body": {
+              "kind": "inline",
+              "value": "Your changes have been saved."
+            }
+          }
+        },
+        {
+          "construct": "tabs",
+          "values": {
+            "list": {
+              "kind": "links",
+              "value": [
+                {
+                  "text": "Profile",
+                  "href": "#profile",
+                  "current": true
+                },
+                {
+                  "text": "Security",
+                  "href": "#security"
+                },
+                {
+                  "text": "Notifications",
+                  "href": "#notifications"
+                }
+              ]
+            }
+          },
+          "slot_children": {
+            "panel": [
+              {
+                "construct": "description-list",
+                "values": {
+                  "title": {
+                    "kind": "inline",
+                    "value": "Personal details"
+                  },
+                  "description": {
+                    "kind": "inline",
+                    "value": "Shown on your receipts."
+                  },
+                  "action": {
+                    "kind": "link",
+                    "value": {
+                      "text": "Edit details",
+                      "href": "#edit"
+                    }
+                  }
+                },
+                "slot_children": {
+                  "items": [
+                    {
+                      "construct": "description-item",
+                      "values": {
+                        "term": {
+                          "kind": "inline",
+                          "value": "Name"
+                        },
+                        "detail": {
+                          "kind": "inline",
+                          "value": "Alex Morgan"
+                        }
+                      }
+                    },
+                    {
+                      "construct": "description-item",
+                      "values": {
+                        "term": {
+                          "kind": "inline",
+                          "value": "Email"
+                        },
+                        "detail": {
+                          "kind": "inline",
+                          "value": "alex@example.com"
+                        }
+                      }
+                    },
+                    {
+                      "construct": "description-item",
+                      "values": {
+                        "term": {
+                          "kind": "inline",
+                          "value": "Language"
+                        },
+                        "detail": {
+                          "kind": "inline",
+                          "value": "English"
+                        }
+                      }
+                    },
+                    {
+                      "construct": "description-item",
+                      "values": {
+                        "term": {
+                          "kind": "inline",
+                          "value": "Member since"
+                        },
+                        "detail": {
+                          "kind": "inline",
+                          "value": "March 2024"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "construct": "form",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Edit profile"
+            },
+            "action": {
+              "kind": "inline",
+              "value": "Save changes"
+            },
+            "secondary-action": {
+              "kind": "link",
+              "value": {
+                "text": "Cancel",
+                "href": "#profile"
+              }
+            }
+          },
+          "slot_children": {
+            "fields": [
+              {
+                "construct": "field",
+                "values": {
+                  "label": {
+                    "kind": "label",
+                    "value": {
+                      "text": "Full name",
+                      "for": "full-name"
+                    }
+                  },
+                  "control": {
+                    "kind": "control",
+                    "value": {
+                      "type": "text",
+                      "id": "full-name",
+                      "name": "full-name",
+                      "describedby": null,
+                      "invalid": false,
+                      "disabled": false,
+                      "autocomplete": "name",
+                      "value": "Alex Morgan"
+                    }
+                  }
+                }
+              },
+              {
+                "construct": "field",
+                "values": {
+                  "label": {
+                    "kind": "label",
+                    "value": {
+                      "text": "Email address",
+                      "for": "profile-email"
+                    }
+                  },
+                  "control": {
+                    "kind": "control",
+                    "value": {
+                      "type": "email",
+                      "id": "profile-email",
+                      "name": "profile-email",
+                      "describedby": null,
+                      "invalid": false,
+                      "disabled": false,
+                      "value": "alex@example.com"
+                    }
+                  }
+                }
+              },
+              {
+                "construct": "field",
+                "values": {
+                  "label": {
+                    "kind": "label",
+                    "value": {
+                      "text": "Language",
+                      "for": "language"
+                    }
+                  },
+                  "control": {
+                    "kind": "control",
+                    "value": {
+                      "type": "select",
+                      "id": "language",
+                      "name": "language",
+                      "describedby": null,
+                      "invalid": false,
+                      "disabled": false,
+                      "options": [
+                        "English",
+                        "Español",
+                        "Français",
+                        "Deutsch"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "construct": "field",
+                "values": {
+                  "label": {
+                    "kind": "label",
+                    "value": {
+                      "text": "About you",
+                      "for": "bio"
+                    }
+                  },
+                  "control": {
+                    "kind": "control",
+                    "value": {
+                      "type": "textarea",
+                      "id": "bio",
+                      "name": "bio",
+                      "describedby": "bio-hint",
+                      "invalid": false,
+                      "disabled": false
+                    }
+                  },
+                  "hint": {
+                    "kind": "inline",
+                    "value": "A sentence or two shown on your public profile.",
+                    "id": "bio-hint"
+                  }
+                }
+              },
+              {
+                "construct": "field",
+                "values": {
+                  "label": {
+                    "kind": "label",
+                    "value": {
+                      "text": "Username",
+                      "for": "handle"
+                    }
+                  },
+                  "control": {
+                    "kind": "control",
+                    "value": {
+                      "type": "text",
+                      "id": "handle",
+                      "name": "handle",
+                      "describedby": "handle-hint",
+                      "invalid": false,
+                      "disabled": true,
+                      "value": "alexmorgan"
+                    }
+                  },
+                  "hint": {
+                    "kind": "inline",
+                    "value": "Usernames cannot be changed.",
+                    "id": "handle-hint"
+                  }
+                },
+                "state": "disabled"
+              }
+            ]
+          }
+        },
+        {
+          "construct": "form",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Notifications"
+            },
+            "action": {
+              "kind": "inline",
+              "value": "Save preferences"
+            }
+          },
+          "slot_children": {
+            "fields": [
+              {
+                "construct": "fieldset",
+                "values": {
+                  "legend": {
+                    "kind": "inline",
+                    "value": "Email me about"
+                  }
+                },
+                "slot_children": {
+                  "fields": [
+                    {
+                      "construct": "field",
+                      "values": {
+                        "label": {
+                          "kind": "label",
+                          "value": {
+                            "text": "Order updates",
+                            "for": "n-orders"
+                          }
+                        },
+                        "control": {
+                          "kind": "control",
+                          "value": {
+                            "type": "checkbox",
+                            "id": "n-orders",
+                            "name": "n-orders",
+                            "describedby": null,
+                            "invalid": false,
+                            "disabled": false,
+                            "checked": true
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "construct": "field",
+                      "values": {
+                        "label": {
+                          "kind": "label",
+                          "value": {
+                            "text": "News and offers",
+                            "for": "n-news"
+                          }
+                        },
+                        "control": {
+                          "kind": "control",
+                          "value": {
+                            "type": "checkbox",
+                            "id": "n-news",
+                            "name": "n-news",
+                            "describedby": null,
+                            "invalid": false,
+                            "disabled": false
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "construct": "field",
+                      "values": {
+                        "label": {
+                          "kind": "label",
+                          "value": {
+                            "text": "Tips for getting started",
+                            "for": "n-tips"
+                          }
+                        },
+                        "control": {
+                          "kind": "control",
+                          "value": {
+                            "type": "checkbox",
+                            "id": "n-tips",
+                            "name": "n-tips",
+                            "describedby": null,
+                            "invalid": false,
+                            "disabled": false,
+                            "checked": true
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "construct": "choice-group",
+                "values": {
+                  "legend": {
+                    "kind": "inline",
+                    "value": "How often"
+                  },
+                  "options": {
+                    "kind": "control",
+                    "value": {
+                      "type": "radio",
+                      "name": "frequency",
+                      "options": [
+                        {
+                          "label": "As it happens",
+                          "value": "as-it-happens",
+                          "checked": true
+                        },
+                        {
+                          "label": "Daily summary",
+                          "value": "daily-summary",
+                          "checked": false
+                        },
+                        {
+                          "label": "Weekly summary",
+                          "value": "weekly-summary",
+                          "checked": false
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "construct": "dialog",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Delete your account?"
+            },
+            "body": {
+              "kind": "inline",
+              "value": "This removes your profile and order history. It cannot be undone."
+            },
+            "action": {
+              "kind": "link",
+              "value": {
+                "text": "Delete account",
+                "href": "#delete"
+              }
+            },
+            "secondary-action": {
+              "kind": "link",
+              "value": {
+                "text": "Keep my account",
+                "href": "#profile"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "dashboard.html": {
+      "title": "Dashboard",
+      "shell": {
+        "title": "Overview",
+        "body": "Activity for the last 30 days."
+      },
+      "instances": [
+        {
+          "construct": "collection",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Key figures"
+            }
+          },
+          "children": [
+            {
+              "construct": "stat",
+              "values": {
+                "label": {
+                  "kind": "inline",
+                  "value": "Revenue"
+                },
+                "value": {
+                  "kind": "inline",
+                  "value": "$48,210"
+                },
+                "change": {
+                  "kind": "inline",
+                  "value": "+12% on last month"
+                },
+                "description": {
+                  "kind": "inline",
+                  "value": "Across all channels"
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "View report",
+                    "href": "#"
+                  }
+                }
+              }
+            },
+            {
+              "construct": "stat",
+              "values": {
+                "label": {
+                  "kind": "inline",
+                  "value": "Orders"
+                },
+                "value": {
+                  "kind": "inline",
+                  "value": "1,284"
+                },
+                "change": {
+                  "kind": "inline",
+                  "value": "+4% on last month"
+                },
+                "description": {
+                  "kind": "inline",
+                  "value": "Completed orders"
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "View report",
+                    "href": "#"
+                  }
+                }
+              }
+            },
+            {
+              "construct": "stat",
+              "values": {
+                "label": {
+                  "kind": "inline",
+                  "value": "Returning customers"
+                },
+                "value": {
+                  "kind": "inline",
+                  "value": "38%"
+                },
+                "change": {
+                  "kind": "inline",
+                  "value": "No change"
+                },
+                "description": {
+                  "kind": "inline",
+                  "value": "Ordered more than once"
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "View report",
+                    "href": "#"
+                  }
+                }
+              }
+            },
+            {
+              "construct": "stat",
+              "values": {
+                "label": {
+                  "kind": "inline",
+                  "value": "Average order"
+                },
+                "value": {
+                  "kind": "inline",
+                  "value": "$37.55"
+                },
+                "change": {
+                  "kind": "inline",
+                  "value": "+$1.20 on last month"
+                },
+                "description": {
+                  "kind": "inline",
+                  "value": "Before tax"
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "View report",
+                    "href": "#"
+                  }
+                }
+              }
+            }
+          ],
+          "children_slot": "items"
+        },
+        {
+          "construct": "progress",
+          "values": {
+            "label": {
+              "kind": "inline",
+              "value": "Setup completion"
+            },
+            "indicator": {
+              "kind": "control",
+              "value": {
+                "type": "progress",
+                "value": 3,
+                "max": 5,
+                "text": "3 of 5"
+              }
+            },
+            "value": {
+              "kind": "inline",
+              "value": "3 of 5 steps complete"
+            }
+          }
+        },
+        {
+          "construct": "menu",
+          "values": {
+            "trigger": {
+              "kind": "inline",
+              "value": "Bulk actions"
+            },
+            "items": {
+              "kind": "links",
+              "value": [
+                {
+                  "text": "Export selected",
+                  "href": "#export"
+                },
+                {
+                  "text": "Archive selected",
+                  "href": "#archive"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "construct": "table",
+          "values": {
+            "caption": {
+              "kind": "inline",
+              "value": "Recent orders"
+            }
+          },
+          "slot_children": {
+            "head": [
+              {
+                "construct": "table-row",
+                "children": [
+                  {
+                    "construct": "table-header",
+                    "values": {
+                      "label": {
+                        "kind": "inline",
+                        "value": "Order"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-header",
+                    "values": {
+                      "label": {
+                        "kind": "inline",
+                        "value": "Customer"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-header",
+                    "values": {
+                      "label": {
+                        "kind": "inline",
+                        "value": "Status"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-header",
+                    "values": {
+                      "label": {
+                        "kind": "inline",
+                        "value": "Details"
+                      }
+                    }
+                  }
+                ],
+                "values": {}
+              }
+            ],
+            "rows": [
+              {
+                "construct": "table-row",
+                "children": [
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "#1042"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "subtext": {
+                        "kind": "inline",
+                        "value": "2 items"
+                      },
+                      "value": {
+                        "kind": "inline",
+                        "value": "A. Morgan"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "badge": {
+                        "kind": "inline",
+                        "value": "Paid"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "action": {
+                        "kind": "link",
+                        "value": {
+                          "text": "View order",
+                          "href": "#"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "values": {},
+                "state": "selected"
+              },
+              {
+                "construct": "table-row",
+                "children": [
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "#1041"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "subtext": {
+                        "kind": "inline",
+                        "value": "2 items"
+                      },
+                      "value": {
+                        "kind": "inline",
+                        "value": "S. Patel"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "badge": {
+                        "kind": "inline",
+                        "value": "Pending"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "action": {
+                        "kind": "link",
+                        "value": {
+                          "text": "View order",
+                          "href": "#"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "values": {}
+              },
+              {
+                "construct": "table-row",
+                "children": [
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "#1040"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "subtext": {
+                        "kind": "inline",
+                        "value": "2 items"
+                      },
+                      "value": {
+                        "kind": "inline",
+                        "value": "J. Okafor"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "badge": {
+                        "kind": "inline",
+                        "value": "Paid"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "action": {
+                        "kind": "link",
+                        "value": {
+                          "text": "View order",
+                          "href": "#"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "values": {}
+              },
+              {
+                "construct": "table-row",
+                "children": [
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "#1039"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "subtext": {
+                        "kind": "inline",
+                        "value": "2 items"
+                      },
+                      "value": {
+                        "kind": "inline",
+                        "value": "M. Rossi"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "badge": {
+                        "kind": "inline",
+                        "value": "Refunded"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "action": {
+                        "kind": "link",
+                        "value": {
+                          "text": "View order",
+                          "href": "#"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "values": {}
+              },
+              {
+                "construct": "table-row",
+                "children": [
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "#1038"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "subtext": {
+                        "kind": "inline",
+                        "value": "2 items"
+                      },
+                      "value": {
+                        "kind": "inline",
+                        "value": "L. Chen"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "badge": {
+                        "kind": "inline",
+                        "value": "Paid"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "action": {
+                        "kind": "link",
+                        "value": {
+                          "text": "View order",
+                          "href": "#"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "values": {}
+              }
+            ]
+          }
+        },
+        {
+          "construct": "pagination",
+          "values": {
+            "summary": {
+              "kind": "inline",
+              "value": "Showing 1 to 5 of 42 orders"
+            },
+            "previous": {
+              "kind": "link",
+              "value": {
+                "text": "Previous",
+                "href": "#"
+              }
+            },
+            "pages": {
+              "kind": "links",
+              "value": [
+                {
+                  "text": "1",
+                  "href": "#page-1",
+                  "current": true
+                },
+                {
+                  "text": "2",
+                  "href": "#page-2"
+                },
+                {
+                  "text": "3",
+                  "href": "#page-3"
+                }
+              ]
+            },
+            "next": {
+              "kind": "link",
+              "value": {
+                "text": "Next",
+                "href": "#"
+              }
+            }
+          }
+        },
+        {
+          "construct": "collection",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Activity"
+            }
+          },
+          "children": [
+            {
+              "construct": "timeline-item",
+              "values": {
+                "title": {
+                  "kind": "inline",
+                  "value": "Order #1042 was paid"
+                },
+                "body": {
+                  "kind": "inline",
+                  "value": "Card payment confirmed."
+                },
+                "time": {
+                  "kind": "inline",
+                  "value": "10 minutes ago"
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "Open",
+                    "href": "#"
+                  }
+                }
+              }
+            },
+            {
+              "construct": "timeline-item",
+              "values": {
+                "title": {
+                  "kind": "inline",
+                  "value": "A refund was issued"
+                },
+                "body": {
+                  "kind": "inline",
+                  "value": "Order #1039, full amount."
+                },
+                "time": {
+                  "kind": "inline",
+                  "value": "2 hours ago"
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "Open",
+                    "href": "#"
+                  }
+                }
+              }
+            },
+            {
+              "construct": "timeline-item",
+              "values": {
+                "title": {
+                  "kind": "inline",
+                  "value": "Stock is running low"
+                },
+                "body": {
+                  "kind": "inline",
+                  "value": "Desk lamp, 4 left."
+                },
+                "time": {
+                  "kind": "inline",
+                  "value": "Yesterday"
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "Open",
+                    "href": "#"
+                  }
+                }
+              }
+            },
+            {
+              "construct": "timeline-item",
+              "values": {
+                "title": {
+                  "kind": "inline",
+                  "value": "A new team member joined"
+                },
+                "body": {
+                  "kind": "inline",
+                  "value": "Invited by an administrator."
+                },
+                "time": {
+                  "kind": "inline",
+                  "value": "3 days ago"
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "Open",
+                    "href": "#"
+                  }
+                }
+              }
+            }
+          ],
+          "children_slot": "items"
+        }
+      ]
+    },
+    "article.html": {
+      "title": "Article",
+      "shell": {},
+      "instances": [
+        {
+          "construct": "breadcrumb",
+          "values": {
+            "items": {
+              "kind": "links",
+              "value": [
+                {
+                  "text": "Home",
+                  "href": "index.html"
+                },
+                {
+                  "text": "Guides",
+                  "href": "#guides"
+                },
+                {
+                  "text": "Planning a project",
+                  "href": "#",
+                  "current": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "construct": "page-header",
+          "values": {
+            "eyebrow": {
+              "kind": "inline",
+              "value": "Guide"
+            },
+            "title": {
+              "kind": "inline",
+              "value": "Planning a project from first idea to launch"
+            },
+            "body": {
+              "kind": "inline",
+              "value": "A practical sequence for turning a rough idea into something people can use."
+            },
+            "meta": {
+              "kind": "inline",
+              "value": "Six minute read"
+            },
+            "action": {
+              "kind": "link",
+              "value": {
+                "text": "Save for later",
+                "href": "#save"
+              }
+            },
+            "secondary-action": {
+              "kind": "link",
+              "value": {
+                "text": "Share",
+                "href": "#share"
+              }
+            }
+          }
+        },
+        {
+          "construct": "figure",
+          "values": {
+            "media": {
+              "kind": "asset",
+              "value": {
+                "asset_kind": "image",
+                "alt": "A workspace laid out for planning"
+              }
+            },
+            "caption": {
+              "kind": "inline",
+              "value": "Plan in the open, where everyone can see the next step."
+            }
+          }
+        },
+        {
+          "construct": "content-section",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Start with the problem"
+            },
+            "body": {
+              "kind": "prose",
+              "value": [
+                {
+                  "paragraph": "Write down who has the problem and what they do today. Keep it short enough to read aloud."
+                },
+                {
+                  "paragraph": "A clear problem statement makes every later decision easier to explain."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "construct": "alert",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Tip"
+            },
+            "body": {
+              "kind": "inline",
+              "value": "Share the problem statement before you share any solution."
+            }
+          }
+        },
+        {
+          "construct": "content-section",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Decide what done looks like"
+            },
+            "body": {
+              "kind": "prose",
+              "value": [
+                {
+                  "paragraph": "Agree on one result you can observe. A launch date alone is not a result."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "construct": "collection",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Common questions"
+            }
+          },
+          "children": [
+            {
+              "construct": "disclosure",
+              "values": {
+                "summary": {
+                  "kind": "inline",
+                  "value": "How long should planning take?"
+                },
+                "body": {
+                  "kind": "prose",
+                  "value": [
+                    {
+                      "paragraph": "Long enough to agree on the problem and the first result. Usually days, not weeks."
+                    }
+                  ]
+                }
+              },
+              "attributes": {
+                "open": ""
+              }
+            },
+            {
+              "construct": "disclosure",
+              "values": {
+                "summary": {
+                  "kind": "inline",
+                  "value": "Who should be involved?"
+                },
+                "body": {
+                  "kind": "prose",
+                  "value": [
+                    {
+                      "paragraph": "Everyone who will build, support or use the result."
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "construct": "disclosure",
+              "values": {
+                "summary": {
+                  "kind": "inline",
+                  "value": "What if the plan changes?"
+                },
+                "body": {
+                  "kind": "prose",
+                  "value": [
+                    {
+                      "paragraph": "Expect it to. Record why it changed, and carry on."
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "children_slot": "items"
+        },
+        {
+          "construct": "collection",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Related reading"
+            }
+          },
+          "children": [
+            {
+              "construct": "card",
+              "values": {
+                "title": {
+                  "kind": "inline",
+                  "value": "Running a useful kickoff"
+                },
+                "body": {
+                  "kind": "inline",
+                  "value": "An agenda that ends with decisions."
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "Read the guide",
+                    "href": "#"
+                  }
+                }
+              },
+              "heading_levels": {
+                "title": 3
+              }
+            },
+            {
+              "construct": "card",
+              "values": {
+                "title": {
+                  "kind": "inline",
+                  "value": "Writing for review"
+                },
+                "body": {
+                  "kind": "inline",
+                  "value": "How to make a proposal easy to approve."
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "Read the guide",
+                    "href": "#"
+                  }
+                }
+              },
+              "heading_levels": {
+                "title": 3
+              }
+            },
+            {
+              "construct": "card",
+              "values": {
+                "title": {
+                  "kind": "inline",
+                  "value": "Measuring a launch"
+                },
+                "body": {
+                  "kind": "inline",
+                  "value": "What to look at in the first month."
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "Read the guide",
+                    "href": "#"
+                  }
+                }
+              },
+              "heading_levels": {
+                "title": 3
+              }
+            }
+          ],
+          "children_slot": "items"
+        }
+      ]
+    },
+    "pricing.html": {
+      "title": "Pricing",
+      "shell": {
+        "title": "Pricing",
+        "body": "Choose the plan that fits how you work. Change it at any time."
+      },
+      "instances": [
+        {
+          "construct": "choice-group",
+          "values": {
+            "legend": {
+              "kind": "inline",
+              "value": "Billing period"
+            },
+            "options": {
+              "kind": "control",
+              "value": {
+                "type": "radio",
+                "name": "billing",
+                "options": [
+                  {
+                    "label": "Monthly",
+                    "value": "monthly",
+                    "checked": true
+                  },
+                  {
+                    "label": "Yearly, two months free",
+                    "value": "yearly,-two-months-free",
+                    "checked": false
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "construct": "collection",
+          "values": {},
+          "children": [
+            {
+              "construct": "pricing-tier",
+              "values": {
+                "title": {
+                  "kind": "inline",
+                  "value": "Starter"
+                },
+                "price": {
+                  "kind": "inline",
+                  "value": "$0"
+                },
+                "price-caption": {
+                  "kind": "inline",
+                  "value": "per month, billed monthly"
+                },
+                "body": {
+                  "kind": "inline",
+                  "value": "For trying things out."
+                },
+                "features": {
+                  "kind": "list",
+                  "value": [
+                    "One project",
+                    "Community support"
+                  ]
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "Start for free",
+                    "href": "sign-in.html"
+                  }
+                }
+              }
+            },
+            {
+              "construct": "pricing-tier",
+              "values": {
+                "title": {
+                  "kind": "inline",
+                  "value": "Team"
+                },
+                "price": {
+                  "kind": "inline",
+                  "value": "$24"
+                },
+                "price-caption": {
+                  "kind": "inline",
+                  "value": "per month, billed monthly"
+                },
+                "body": {
+                  "kind": "inline",
+                  "value": "For small teams that ship together."
+                },
+                "features": {
+                  "kind": "list",
+                  "value": [
+                    "Unlimited projects",
+                    "Shared workspaces",
+                    "Email support"
+                  ]
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "Choose Team",
+                    "href": "sign-in.html"
+                  }
+                },
+                "highlight": {
+                  "kind": "inline",
+                  "value": "Most popular"
+                }
+              },
+              "state": "selected"
+            },
+            {
+              "construct": "pricing-tier",
+              "values": {
+                "title": {
+                  "kind": "inline",
+                  "value": "Organisation"
+                },
+                "price": {
+                  "kind": "inline",
+                  "value": "$96"
+                },
+                "price-caption": {
+                  "kind": "inline",
+                  "value": "per month, billed monthly"
+                },
+                "body": {
+                  "kind": "inline",
+                  "value": "For larger groups with more control."
+                },
+                "features": {
+                  "kind": "list",
+                  "value": [
+                    "Everything in Team",
+                    "Single sign-on",
+                    "Priority support"
+                  ]
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "Contact us",
+                    "href": "sign-in.html"
+                  }
+                }
+              }
+            }
+          ],
+          "children_slot": "items"
+        },
+        {
+          "construct": "table",
+          "values": {
+            "caption": {
+              "kind": "inline",
+              "value": "Compare plans"
+            }
+          },
+          "slot_children": {
+            "head": [
+              {
+                "construct": "table-row",
+                "children": [
+                  {
+                    "construct": "table-header",
+                    "values": {
+                      "label": {
+                        "kind": "inline",
+                        "value": "Feature"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-header",
+                    "values": {
+                      "label": {
+                        "kind": "inline",
+                        "value": "Starter"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-header",
+                    "values": {
+                      "label": {
+                        "kind": "inline",
+                        "value": "Team"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-header",
+                    "values": {
+                      "label": {
+                        "kind": "inline",
+                        "value": "Organisation"
+                      }
+                    }
+                  }
+                ],
+                "values": {}
+              }
+            ],
+            "rows": [
+              {
+                "construct": "table-row",
+                "children": [
+                  {
+                    "construct": "table-header",
+                    "values": {
+                      "label": {
+                        "kind": "inline",
+                        "value": "Projects"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "One"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "Unlimited"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "Unlimited"
+                      }
+                    }
+                  }
+                ],
+                "values": {}
+              },
+              {
+                "construct": "table-row",
+                "children": [
+                  {
+                    "construct": "table-header",
+                    "values": {
+                      "label": {
+                        "kind": "inline",
+                        "value": "Workspaces"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "Personal"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "Shared"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "Shared"
+                      }
+                    }
+                  }
+                ],
+                "values": {}
+              },
+              {
+                "construct": "table-row",
+                "children": [
+                  {
+                    "construct": "table-header",
+                    "values": {
+                      "label": {
+                        "kind": "inline",
+                        "value": "Support"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "Community"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "Email"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "Priority"
+                      }
+                    }
+                  }
+                ],
+                "values": {}
+              },
+              {
+                "construct": "table-row",
+                "children": [
+                  {
+                    "construct": "table-header",
+                    "values": {
+                      "label": {
+                        "kind": "inline",
+                        "value": "Single sign-on"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "Not included"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "Not included"
+                      }
+                    }
+                  },
+                  {
+                    "construct": "table-cell",
+                    "values": {
+                      "value": {
+                        "kind": "inline",
+                        "value": "Included"
+                      }
+                    }
+                  }
+                ],
+                "values": {}
+              }
+            ]
+          }
+        },
+        {
+          "construct": "collection",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Frequently asked questions"
+            }
+          },
+          "children": [
+            {
+              "construct": "disclosure",
+              "values": {
+                "summary": {
+                  "kind": "inline",
+                  "value": "Can I change plans later?"
+                },
+                "body": {
+                  "kind": "prose",
+                  "value": [
+                    {
+                      "paragraph": "Yes. Changes take effect at the start of the next billing period."
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "construct": "disclosure",
+              "values": {
+                "summary": {
+                  "kind": "inline",
+                  "value": "Is there a contract?"
+                },
+                "body": {
+                  "kind": "prose",
+                  "value": [
+                    {
+                      "paragraph": "No. You can cancel at any time."
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "construct": "disclosure",
+              "values": {
+                "summary": {
+                  "kind": "inline",
+                  "value": "Do you offer discounts?"
+                },
+                "body": {
+                  "kind": "prose",
+                  "value": [
+                    {
+                      "paragraph": "Yearly billing includes two months free."
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "children_slot": "items"
+        },
+        {
+          "construct": "collection",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Included in every plan"
+            }
+          },
+          "children": [
+            {
+              "construct": "feature",
+              "values": {
+                "eyebrow": {
+                  "kind": "inline",
+                  "value": "Organise"
+                },
+                "title": {
+                  "kind": "inline",
+                  "value": "Shared workspaces"
+                },
+                "body": {
+                  "kind": "inline",
+                  "value": "Keep projects, files and decisions in one place."
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "Learn more",
+                    "href": "#"
+                  }
+                }
+              }
+            },
+            {
+              "construct": "feature",
+              "values": {
+                "eyebrow": {
+                  "kind": "inline",
+                  "value": "Organise"
+                },
+                "title": {
+                  "kind": "inline",
+                  "value": "Clear history"
+                },
+                "body": {
+                  "kind": "inline",
+                  "value": "See what changed, when and why."
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "Learn more",
+                    "href": "#"
+                  }
+                }
+              }
+            },
+            {
+              "construct": "feature",
+              "values": {
+                "eyebrow": {
+                  "kind": "inline",
+                  "value": "Organise"
+                },
+                "title": {
+                  "kind": "inline",
+                  "value": "Fair billing"
+                },
+                "body": {
+                  "kind": "inline",
+                  "value": "Pay for active members only."
+                },
+                "action": {
+                  "kind": "link",
+                  "value": {
+                    "text": "Learn more",
+                    "href": "#"
+                  }
+                }
+              }
+            }
+          ],
+          "children_slot": "items"
+        },
+        {
+          "construct": "collection",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "What teams say"
+            }
+          },
+          "children": [
+            {
+              "construct": "testimonial",
+              "values": {
+                "rating": {
+                  "kind": "inline",
+                  "value": "Rated 5 out of 5"
+                },
+                "quote": {
+                  "kind": "inline",
+                  "value": "We moved our planning here in a week and never looked back."
+                },
+                "name": {
+                  "kind": "inline",
+                  "value": "Sam Rivera"
+                },
+                "subtext": {
+                  "kind": "inline",
+                  "value": "Operations lead"
+                }
+              }
+            },
+            {
+              "construct": "testimonial",
+              "values": {
+                "rating": {
+                  "kind": "inline",
+                  "value": "Rated 5 out of 5"
+                },
+                "quote": {
+                  "kind": "inline",
+                  "value": "The history view alone saves us an hour every review."
+                },
+                "name": {
+                  "kind": "inline",
+                  "value": "Priya Nair"
+                },
+                "subtext": {
+                  "kind": "inline",
+                  "value": "Design manager"
+                }
+              }
+            }
+          ],
+          "children_slot": "items"
+        },
+        {
+          "construct": "logo-cloud",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Used by teams of every size"
+            },
+            "logos": {
+              "kind": "logos",
+              "value": {
+                "count": 4,
+                "alt": "Customer logo"
+              }
+            }
+          }
+        },
+        {
+          "construct": "content-section",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Ready to start?"
+            },
+            "body": {
+              "kind": "prose",
+              "value": [
+                {
+                  "paragraph": "Create an account in a minute. No card needed for Starter."
+                }
+              ]
+            },
+            "action": {
+              "kind": "link",
+              "value": {
+                "text": "Create an account",
+                "href": "sign-in.html"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "sign-in.html": {
+      "title": "Sign in",
+      "shell": {
+        "title": "Sign in",
+        "body": "Use your email address to continue."
+      },
+      "instances": [
+        {
+          "construct": "alert",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "We could not sign you in"
+            },
+            "body": {
+              "kind": "inline",
+              "value": "That email address and password do not match."
+            }
+          },
+          "state": "error"
+        },
+        {
+          "construct": "form",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Welcome back"
+            },
+            "action": {
+              "kind": "inline",
+              "value": "Sign in"
+            },
+            "secondary-action": {
+              "kind": "link",
+              "value": {
+                "text": "Create an account",
+                "href": "#create"
+              }
+            }
+          },
+          "slot_children": {
+            "fields": [
+              {
+                "construct": "field",
+                "values": {
+                  "label": {
+                    "kind": "label",
+                    "value": {
+                      "text": "Email address",
+                      "for": "signin-email"
+                    }
+                  },
+                  "control": {
+                    "kind": "control",
+                    "value": {
+                      "type": "email",
+                      "id": "signin-email",
+                      "name": "signin-email",
+                      "describedby": null,
+                      "invalid": false,
+                      "disabled": false,
+                      "autocomplete": "email"
+                    }
+                  }
+                }
+              },
+              {
+                "construct": "field",
+                "values": {
+                  "label": {
+                    "kind": "label",
+                    "value": {
+                      "text": "Password",
+                      "for": "password"
+                    }
+                  },
+                  "control": {
+                    "kind": "control",
+                    "value": {
+                      "type": "password",
+                      "id": "password",
+                      "name": "password",
+                      "describedby": "password-hint",
+                      "invalid": false,
+                      "disabled": false,
+                      "autocomplete": "current-password"
+                    }
+                  },
+                  "hint": {
+                    "kind": "inline",
+                    "value": "At least 12 characters.",
+                    "id": "password-hint"
+                  }
+                }
+              },
+              {
+                "construct": "field",
+                "values": {
+                  "label": {
+                    "kind": "label",
+                    "value": {
+                      "text": "Keep me signed in",
+                      "for": "remember"
+                    }
+                  },
+                  "control": {
+                    "kind": "control",
+                    "value": {
+                      "type": "checkbox",
+                      "id": "remember",
+                      "name": "remember",
+                      "describedby": null,
+                      "invalid": false,
+                      "disabled": false
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "construct": "content-section",
+          "values": {
+            "title": {
+              "kind": "inline",
+              "value": "Need help?"
+            },
+            "body": {
+              "kind": "prose",
+              "value": [
+                {
+                  "paragraph": "If you cannot sign in, reset your password from the link in your last email."
+                }
+              ]
+            },
+            "action": {
+              "kind": "link",
+              "value": {
+                "text": "Contact support",
+                "href": "#support"
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "examples": {
+    "field": {
+      "construct": "field",
+      "values": {
+        "label": {
+          "kind": "label",
+          "value": {
+            "text": "Email address",
+            "for": "email"
+          }
+        },
+        "control": {
+          "kind": "control",
+          "value": {
+            "type": "email",
+            "id": "email",
+            "name": "email",
+            "describedby": null,
+            "invalid": false,
+            "disabled": false,
+            "autocomplete": "email"
+          }
+        }
+      }
+    },
+    "fieldset": {
+      "construct": "fieldset",
+      "values": {
+        "legend": {
+          "kind": "inline",
+          "value": "Contact"
+        }
+      },
+      "slot_children": {
+        "fields": [
+          {
+            "construct": "field",
+            "values": {
+              "label": {
+                "kind": "label",
+                "value": {
+                  "text": "Email address",
+                  "for": "email"
+                }
+              },
+              "control": {
+                "kind": "control",
+                "value": {
+                  "type": "email",
+                  "id": "email",
+                  "name": "email",
+                  "describedby": null,
+                  "invalid": false,
+                  "disabled": false,
+                  "autocomplete": "email"
+                }
+              }
+            }
+          },
+          {
+            "construct": "field",
+            "values": {
+              "label": {
+                "kind": "label",
+                "value": {
+                  "text": "Phone number",
+                  "for": "phone"
+                }
+              },
+              "control": {
+                "kind": "control",
+                "value": {
+                  "type": "tel",
+                  "id": "phone",
+                  "name": "phone",
+                  "describedby": "phone-hint",
+                  "invalid": false,
+                  "disabled": false
+                }
+              },
+              "hint": {
+                "kind": "inline",
+                "value": "Only used for delivery updates.",
+                "id": "phone-hint"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "choice-group": {
+      "construct": "choice-group",
+      "values": {
+        "legend": {
+          "kind": "inline",
+          "value": "Delivery"
+        },
+        "options": {
+          "kind": "control",
+          "value": {
+            "type": "radio",
+            "name": "delivery",
+            "options": [
+              {
+                "label": "Standard, 3 to 5 days",
+                "value": "standard,-3-to-5-days",
+                "checked": true
+              },
+              {
+                "label": "Express, next working day",
+                "value": "express,-next-working-day",
+                "checked": false
+              },
+              {
+                "label": "Collect in person",
+                "value": "collect-in-person",
+                "checked": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    "stepper": {
+      "construct": "stepper",
+      "values": {
+        "status": {
+          "kind": "inline",
+          "value": "Step 2 of 4"
+        }
+      },
+      "slot_children": {
+        "steps": [
+          {
+            "construct": "step",
+            "values": {
+              "index": {
+                "kind": "inline",
+                "value": "1"
+              },
+              "label": {
+                "kind": "inline",
+                "value": "Cart"
+              },
+              "description": {
+                "kind": "inline",
+                "value": "Complete"
+              },
+              "action": {
+                "kind": "link",
+                "value": {
+                  "text": "Edit cart",
+                  "href": "index.html"
+                }
+              }
+            }
+          },
+          {
+            "construct": "step",
+            "values": {
+              "index": {
+                "kind": "inline",
+                "value": "2"
+              },
+              "label": {
+                "kind": "inline",
+                "value": "Details"
+              },
+              "description": {
+                "kind": "inline",
+                "value": "Current step"
+              }
+            },
+            "state": "selected"
+          },
+          {
+            "construct": "step",
+            "values": {
+              "index": {
+                "kind": "inline",
+                "value": "3"
+              },
+              "label": {
+                "kind": "inline",
+                "value": "Payment"
+              }
+            },
+            "state": "disabled"
+          },
+          {
+            "construct": "step",
+            "values": {
+              "index": {
+                "kind": "inline",
+                "value": "4"
+              },
+              "label": {
+                "kind": "inline",
+                "value": "Review"
+              }
+            },
+            "state": "disabled"
+          }
+        ]
+      }
+    },
+    "step": {
+      "construct": "step",
+      "values": {
+        "index": {
+          "kind": "inline",
+          "value": "1"
+        },
+        "label": {
+          "kind": "inline",
+          "value": "Cart"
+        },
+        "description": {
+          "kind": "inline",
+          "value": "Complete"
+        },
+        "action": {
+          "kind": "link",
+          "value": {
+            "text": "Edit cart",
+            "href": "index.html"
+          }
+        }
+      }
+    },
+    "progress": {
+      "construct": "progress",
+      "values": {
+        "label": {
+          "kind": "inline",
+          "value": "Setup completion"
+        },
+        "indicator": {
+          "kind": "control",
+          "value": {
+            "type": "progress",
+            "value": 3,
+            "max": 5,
+            "text": "3 of 5"
+          }
+        },
+        "value": {
+          "kind": "inline",
+          "value": "3 of 5 steps complete"
+        }
+      }
+    },
+    "order-summary": {
+      "construct": "order-summary",
+      "values": {
+        "title": {
+          "kind": "inline",
+          "value": "Order summary"
+        },
+        "total-label": {
+          "kind": "inline",
+          "value": "Total"
+        },
+        "total": {
+          "kind": "inline",
+          "value": "$214.00"
+        },
+        "note": {
+          "kind": "inline",
+          "value": "Taxes are included where they apply."
+        },
+        "action": {
+          "kind": "link",
+          "value": {
+            "text": "Review order",
+            "href": "#review"
+          }
+        }
+      },
+      "slot_children": {
+        "items": [
+          {
+            "construct": "line-item",
+            "values": {
+              "title": {
+                "kind": "inline",
+                "value": "Field notebook, set of three"
+              },
+              "value": {
+                "kind": "inline",
+                "value": "$48.00"
+              },
+              "description": {
+                "kind": "inline",
+                "value": "Ruled, A5"
+              },
+              "action": {
+                "kind": "link",
+                "value": {
+                  "text": "Remove",
+                  "href": "#"
+                }
+              },
+              "media": {
+                "kind": "asset",
+                "value": {
+                  "asset_kind": "image",
+                  "alt": ""
+                }
+              }
+            }
+          },
+          {
+            "construct": "line-item",
+            "values": {
+              "title": {
+                "kind": "inline",
+                "value": "Desk lamp"
+              },
+              "value": {
+                "kind": "inline",
+                "value": "$129.00"
+              },
+              "description": {
+                "kind": "inline",
+                "value": "Warm white"
+              },
+              "action": {
+                "kind": "link",
+                "value": {
+                  "text": "Remove",
+                  "href": "#"
+                }
+              },
+              "media": {
+                "kind": "asset",
+                "value": {
+                  "asset_kind": "image",
+                  "alt": ""
+                }
+              }
+            }
+          },
+          {
+            "construct": "line-item",
+            "values": {
+              "title": {
+                "kind": "inline",
+                "value": "Gift wrapping"
+              },
+              "value": {
+                "kind": "inline",
+                "value": "$6.00"
+              },
+              "description": {
+                "kind": "inline",
+                "value": "Recycled paper"
+              },
+              "action": {
+                "kind": "link",
+                "value": {
+                  "text": "Remove",
+                  "href": "#"
+                }
+              }
+            }
+          }
+        ],
+        "adjustments": [
+          {
+            "construct": "line-item",
+            "values": {
+              "title": {
+                "kind": "inline",
+                "value": "Subtotal"
+              },
+              "value": {
+                "kind": "inline",
+                "value": "$183.00"
+              }
+            }
+          },
+          {
+            "construct": "line-item",
+            "values": {
+              "title": {
+                "kind": "inline",
+                "value": "Delivery"
+              },
+              "value": {
+                "kind": "inline",
+                "value": "$12.00"
+              }
+            }
+          },
+          {
+            "construct": "line-item",
+            "values": {
+              "title": {
+                "kind": "inline",
+                "value": "Tax"
+              },
+              "value": {
+                "kind": "inline",
+                "value": "$19.00"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "line-item": {
+      "construct": "line-item",
+      "values": {
+        "title": {
+          "kind": "inline",
+          "value": "Field notebook, set of three"
+        },
+        "value": {
+          "kind": "inline",
+          "value": "$48.00"
+        },
+        "description": {
+          "kind": "inline",
+          "value": "Ruled, A5"
+        },
+        "action": {
+          "kind": "link",
+          "value": {
+            "text": "Remove",
+            "href": "#"
+          }
+        },
+        "media": {
+          "kind": "asset",
+          "value": {
+            "asset_kind": "image",
+            "alt": ""
+          }
+        }
+      }
+    },
+    "pricing-tier": {
+      "construct": "pricing-tier",
+      "values": {
+        "title": {
+          "kind": "inline",
+          "value": "Starter"
+        },
+        "price": {
+          "kind": "inline",
+          "value": "$0"
+        },
+        "price-caption": {
+          "kind": "inline",
+          "value": "per month, billed monthly"
+        },
+        "body": {
+          "kind": "inline",
+          "value": "For trying things out."
+        },
+        "features": {
+          "kind": "list",
+          "value": [
+            "One project",
+            "Community support"
+          ]
+        },
+        "action": {
+          "kind": "link",
+          "value": {
+            "text": "Start for free",
+            "href": "sign-in.html"
+          }
+        }
+      }
+    },
+    "description-list": {
+      "construct": "description-list",
+      "values": {
+        "title": {
+          "kind": "inline",
+          "value": "Personal details"
+        },
+        "description": {
+          "kind": "inline",
+          "value": "Shown on your receipts."
+        },
+        "action": {
+          "kind": "link",
+          "value": {
+            "text": "Edit details",
+            "href": "#edit"
+          }
+        }
+      },
+      "slot_children": {
+        "items": [
+          {
+            "construct": "description-item",
+            "values": {
+              "term": {
+                "kind": "inline",
+                "value": "Name"
+              },
+              "detail": {
+                "kind": "inline",
+                "value": "Alex Morgan"
+              }
+            }
+          },
+          {
+            "construct": "description-item",
+            "values": {
+              "term": {
+                "kind": "inline",
+                "value": "Email"
+              },
+              "detail": {
+                "kind": "inline",
+                "value": "alex@example.com"
+              }
+            }
+          },
+          {
+            "construct": "description-item",
+            "values": {
+              "term": {
+                "kind": "inline",
+                "value": "Language"
+              },
+              "detail": {
+                "kind": "inline",
+                "value": "English"
+              }
+            }
+          },
+          {
+            "construct": "description-item",
+            "values": {
+              "term": {
+                "kind": "inline",
+                "value": "Member since"
+              },
+              "detail": {
+                "kind": "inline",
+                "value": "March 2024"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "description-item": {
+      "construct": "description-item",
+      "values": {
+        "term": {
+          "kind": "inline",
+          "value": "Name"
+        },
+        "detail": {
+          "kind": "inline",
+          "value": "Alex Morgan"
+        }
+      }
+    },
+    "table": {
+      "construct": "table",
+      "values": {
+        "caption": {
+          "kind": "inline",
+          "value": "Recent orders"
+        }
+      },
+      "slot_children": {
+        "head": [
+          {
+            "construct": "table-row",
+            "children": [
+              {
+                "construct": "table-header",
+                "values": {
+                  "label": {
+                    "kind": "inline",
+                    "value": "Order"
+                  }
+                }
+              },
+              {
+                "construct": "table-header",
+                "values": {
+                  "label": {
+                    "kind": "inline",
+                    "value": "Customer"
+                  }
+                }
+              },
+              {
+                "construct": "table-header",
+                "values": {
+                  "label": {
+                    "kind": "inline",
+                    "value": "Status"
+                  }
+                }
+              },
+              {
+                "construct": "table-header",
+                "values": {
+                  "label": {
+                    "kind": "inline",
+                    "value": "Details"
+                  }
+                }
+              }
+            ],
+            "values": {}
+          }
+        ],
+        "rows": [
+          {
+            "construct": "table-row",
+            "children": [
+              {
+                "construct": "table-cell",
+                "values": {
+                  "value": {
+                    "kind": "inline",
+                    "value": "#1042"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "subtext": {
+                    "kind": "inline",
+                    "value": "2 items"
+                  },
+                  "value": {
+                    "kind": "inline",
+                    "value": "A. Morgan"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "badge": {
+                    "kind": "inline",
+                    "value": "Paid"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "action": {
+                    "kind": "link",
+                    "value": {
+                      "text": "View order",
+                      "href": "#"
+                    }
+                  }
+                }
+              }
+            ],
+            "values": {},
+            "state": "selected"
+          },
+          {
+            "construct": "table-row",
+            "children": [
+              {
+                "construct": "table-cell",
+                "values": {
+                  "value": {
+                    "kind": "inline",
+                    "value": "#1041"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "subtext": {
+                    "kind": "inline",
+                    "value": "2 items"
+                  },
+                  "value": {
+                    "kind": "inline",
+                    "value": "S. Patel"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "badge": {
+                    "kind": "inline",
+                    "value": "Pending"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "action": {
+                    "kind": "link",
+                    "value": {
+                      "text": "View order",
+                      "href": "#"
+                    }
+                  }
+                }
+              }
+            ],
+            "values": {}
+          },
+          {
+            "construct": "table-row",
+            "children": [
+              {
+                "construct": "table-cell",
+                "values": {
+                  "value": {
+                    "kind": "inline",
+                    "value": "#1040"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "subtext": {
+                    "kind": "inline",
+                    "value": "2 items"
+                  },
+                  "value": {
+                    "kind": "inline",
+                    "value": "J. Okafor"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "badge": {
+                    "kind": "inline",
+                    "value": "Paid"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "action": {
+                    "kind": "link",
+                    "value": {
+                      "text": "View order",
+                      "href": "#"
+                    }
+                  }
+                }
+              }
+            ],
+            "values": {}
+          },
+          {
+            "construct": "table-row",
+            "children": [
+              {
+                "construct": "table-cell",
+                "values": {
+                  "value": {
+                    "kind": "inline",
+                    "value": "#1039"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "subtext": {
+                    "kind": "inline",
+                    "value": "2 items"
+                  },
+                  "value": {
+                    "kind": "inline",
+                    "value": "M. Rossi"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "badge": {
+                    "kind": "inline",
+                    "value": "Refunded"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "action": {
+                    "kind": "link",
+                    "value": {
+                      "text": "View order",
+                      "href": "#"
+                    }
+                  }
+                }
+              }
+            ],
+            "values": {}
+          },
+          {
+            "construct": "table-row",
+            "children": [
+              {
+                "construct": "table-cell",
+                "values": {
+                  "value": {
+                    "kind": "inline",
+                    "value": "#1038"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "subtext": {
+                    "kind": "inline",
+                    "value": "2 items"
+                  },
+                  "value": {
+                    "kind": "inline",
+                    "value": "L. Chen"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "badge": {
+                    "kind": "inline",
+                    "value": "Paid"
+                  }
+                }
+              },
+              {
+                "construct": "table-cell",
+                "values": {
+                  "action": {
+                    "kind": "link",
+                    "value": {
+                      "text": "View order",
+                      "href": "#"
+                    }
+                  }
+                }
+              }
+            ],
+            "values": {}
+          }
+        ]
+      }
+    },
+    "table-row": {
+      "construct": "table-row",
+      "children": [
+        {
+          "construct": "table-header",
+          "values": {
+            "label": {
+              "kind": "inline",
+              "value": "Order"
+            }
+          }
+        },
+        {
+          "construct": "table-header",
+          "values": {
+            "label": {
+              "kind": "inline",
+              "value": "Customer"
+            }
+          }
+        },
+        {
+          "construct": "table-header",
+          "values": {
+            "label": {
+              "kind": "inline",
+              "value": "Status"
+            }
+          }
+        },
+        {
+          "construct": "table-header",
+          "values": {
+            "label": {
+              "kind": "inline",
+              "value": "Details"
+            }
+          }
+        }
+      ],
+      "values": {}
+    },
+    "table-header": {
+      "construct": "table-header",
+      "values": {
+        "label": {
+          "kind": "inline",
+          "value": "Order"
+        }
+      }
+    },
+    "table-cell": {
+      "construct": "table-cell",
+      "values": {
+        "value": {
+          "kind": "inline",
+          "value": "#1042"
+        }
+      }
+    },
+    "stat": {
+      "construct": "stat",
+      "values": {
+        "label": {
+          "kind": "inline",
+          "value": "Revenue"
+        },
+        "value": {
+          "kind": "inline",
+          "value": "$48,210"
+        },
+        "change": {
+          "kind": "inline",
+          "value": "+12% on last month"
+        },
+        "description": {
+          "kind": "inline",
+          "value": "Across all channels"
+        },
+        "action": {
+          "kind": "link",
+          "value": {
+            "text": "View report",
+            "href": "#"
+          }
+        }
+      }
+    },
+    "timeline-item": {
+      "construct": "timeline-item",
+      "values": {
+        "title": {
+          "kind": "inline",
+          "value": "Order #1042 was paid"
+        },
+        "body": {
+          "kind": "inline",
+          "value": "Card payment confirmed."
+        },
+        "time": {
+          "kind": "inline",
+          "value": "10 minutes ago"
+        },
+        "action": {
+          "kind": "link",
+          "value": {
+            "text": "Open",
+            "href": "#"
+          }
+        }
+      }
+    },
+    "figure": {
+      "construct": "figure",
+      "values": {
+        "media": {
+          "kind": "asset",
+          "value": {
+            "asset_kind": "image",
+            "alt": "A workspace laid out for planning"
+          }
+        },
+        "caption": {
+          "kind": "inline",
+          "value": "Plan in the open, where everyone can see the next step."
+        }
+      }
+    },
+    "page-header": {
+      "construct": "page-header",
+      "values": {
+        "eyebrow": {
+          "kind": "inline",
+          "value": "Guide"
+        },
+        "title": {
+          "kind": "inline",
+          "value": "Planning a project from first idea to launch"
+        },
+        "body": {
+          "kind": "inline",
+          "value": "A practical sequence for turning a rough idea into something people can use."
+        },
+        "meta": {
+          "kind": "inline",
+          "value": "Six minute read"
+        },
+        "action": {
+          "kind": "link",
+          "value": {
+            "text": "Save for later",
+            "href": "#save"
+          }
+        },
+        "secondary-action": {
+          "kind": "link",
+          "value": {
+            "text": "Share",
+            "href": "#share"
+          }
+        }
+      }
+    },
+    "breadcrumb": {
+      "construct": "breadcrumb",
+      "values": {
+        "items": {
+          "kind": "links",
+          "value": [
+            {
+              "text": "Home",
+              "href": "index.html"
+            },
+            {
+              "text": "Guides",
+              "href": "#guides"
+            },
+            {
+              "text": "Planning a project",
+              "href": "#",
+              "current": true
+            }
+          ]
+        }
+      }
+    },
+    "pagination": {
+      "construct": "pagination",
+      "values": {
+        "summary": {
+          "kind": "inline",
+          "value": "Showing 1 to 5 of 42 orders"
+        },
+        "previous": {
+          "kind": "link",
+          "value": {
+            "text": "Previous",
+            "href": "#"
+          }
+        },
+        "pages": {
+          "kind": "links",
+          "value": [
+            {
+              "text": "1",
+              "href": "#page-1",
+              "current": true
+            },
+            {
+              "text": "2",
+              "href": "#page-2"
+            },
+            {
+              "text": "3",
+              "href": "#page-3"
+            }
+          ]
+        },
+        "next": {
+          "kind": "link",
+          "value": {
+            "text": "Next",
+            "href": "#"
+          }
+        }
+      }
+    },
+    "sidebar": {
+      "construct": "sidebar",
+      "values": {
+        "title": {
+          "kind": "inline",
+          "value": "Settings"
+        },
+        "action": {
+          "kind": "link",
+          "value": {
+            "text": "Sign out",
+            "href": "sign-in.html"
+          }
+        }
+      },
+      "slot_children": {
+        "groups": [
+          {
+            "construct": "nav-group",
+            "values": {
+              "title": {
+                "kind": "inline",
+                "value": "Account"
+              },
+              "links": {
+                "kind": "links",
+                "value": [
+                  {
+                    "text": "Profile",
+                    "href": "#profile",
+                    "current": true
+                  },
+                  {
+                    "text": "Security",
+                    "href": "#security"
+                  },
+                  {
+                    "text": "Notifications",
+                    "href": "#notifications"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "construct": "nav-group",
+            "values": {
+              "title": {
+                "kind": "inline",
+                "value": "Billing"
+              },
+              "links": {
+                "kind": "links",
+                "value": [
+                  {
+                    "text": "Plan",
+                    "href": "pricing.html"
+                  },
+                  {
+                    "text": "Invoices",
+                    "href": "#invoices"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "nav-group": {
+      "construct": "nav-group",
+      "values": {
+        "title": {
+          "kind": "inline",
+          "value": "Account"
+        },
+        "links": {
+          "kind": "links",
+          "value": [
+            {
+              "text": "Profile",
+              "href": "#profile",
+              "current": true
+            },
+            {
+              "text": "Security",
+              "href": "#security"
+            },
+            {
+              "text": "Notifications",
+              "href": "#notifications"
+            }
+          ]
+        }
+      }
+    },
+    "tabs": {
+      "construct": "tabs",
+      "values": {
+        "list": {
+          "kind": "links",
+          "value": [
+            {
+              "text": "Profile",
+              "href": "#profile",
+              "current": true
+            },
+            {
+              "text": "Security",
+              "href": "#security"
+            },
+            {
+              "text": "Notifications",
+              "href": "#notifications"
+            }
+          ]
+        }
+      },
+      "slot_children": {
+        "panel": [
+          {
+            "construct": "description-list",
+            "values": {
+              "title": {
+                "kind": "inline",
+                "value": "Personal details"
+              },
+              "description": {
+                "kind": "inline",
+                "value": "Shown on your receipts."
+              },
+              "action": {
+                "kind": "link",
+                "value": {
+                  "text": "Edit details",
+                  "href": "#edit"
+                }
+              }
+            },
+            "slot_children": {
+              "items": [
+                {
+                  "construct": "description-item",
+                  "values": {
+                    "term": {
+                      "kind": "inline",
+                      "value": "Name"
+                    },
+                    "detail": {
+                      "kind": "inline",
+                      "value": "Alex Morgan"
+                    }
+                  }
+                },
+                {
+                  "construct": "description-item",
+                  "values": {
+                    "term": {
+                      "kind": "inline",
+                      "value": "Email"
+                    },
+                    "detail": {
+                      "kind": "inline",
+                      "value": "alex@example.com"
+                    }
+                  }
+                },
+                {
+                  "construct": "description-item",
+                  "values": {
+                    "term": {
+                      "kind": "inline",
+                      "value": "Language"
+                    },
+                    "detail": {
+                      "kind": "inline",
+                      "value": "English"
+                    }
+                  }
+                },
+                {
+                  "construct": "description-item",
+                  "values": {
+                    "term": {
+                      "kind": "inline",
+                      "value": "Member since"
+                    },
+                    "detail": {
+                      "kind": "inline",
+                      "value": "March 2024"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "menu": {
+      "construct": "menu",
+      "values": {
+        "trigger": {
+          "kind": "inline",
+          "value": "Bulk actions"
+        },
+        "items": {
+          "kind": "links",
+          "value": [
+            {
+              "text": "Export selected",
+              "href": "#export"
+            },
+            {
+              "text": "Archive selected",
+              "href": "#archive"
+            }
+          ]
+        }
+      }
+    },
+    "disclosure": {
+      "construct": "disclosure",
+      "values": {
+        "summary": {
+          "kind": "inline",
+          "value": "How long should planning take?"
+        },
+        "body": {
+          "kind": "prose",
+          "value": [
+            {
+              "paragraph": "Long enough to agree on the problem and the first result. Usually days, not weeks."
+            }
+          ]
+        }
+      },
+      "attributes": {
+        "open": ""
+      }
+    },
+    "dialog": {
+      "construct": "dialog",
+      "values": {
+        "title": {
+          "kind": "inline",
+          "value": "Delete your account?"
+        },
+        "body": {
+          "kind": "inline",
+          "value": "This removes your profile and order history. It cannot be undone."
+        },
+        "action": {
+          "kind": "link",
+          "value": {
+            "text": "Delete account",
+            "href": "#delete"
+          }
+        },
+        "secondary-action": {
+          "kind": "link",
+          "value": {
+            "text": "Keep my account",
+            "href": "#profile"
+          }
+        }
+      }
+    },
+    "alert": {
+      "construct": "alert",
+      "values": {
+        "title": {
+          "kind": "inline",
+          "value": "Check the highlighted field"
+        },
+        "body": {
+          "kind": "inline",
+          "value": "The postcode needs attention before you continue."
+        },
+        "action": {
+          "kind": "link",
+          "value": {
+            "text": "Go to postcode",
+            "href": "#postcode"
+          }
+        }
+      }
+    },
+    "feature": {
+      "construct": "feature",
+      "values": {
+        "eyebrow": {
+          "kind": "inline",
+          "value": "Organise"
+        },
+        "title": {
+          "kind": "inline",
+          "value": "Shared workspaces"
+        },
+        "body": {
+          "kind": "inline",
+          "value": "Keep projects, files and decisions in one place."
+        },
+        "action": {
+          "kind": "link",
+          "value": {
+            "text": "Learn more",
+            "href": "#"
+          }
+        }
+      }
+    },
+    "testimonial": {
+      "construct": "testimonial",
+      "values": {
+        "rating": {
+          "kind": "inline",
+          "value": "Rated 5 out of 5"
+        },
+        "quote": {
+          "kind": "inline",
+          "value": "We moved our planning here in a week and never looked back."
+        },
+        "name": {
+          "kind": "inline",
+          "value": "Sam Rivera"
+        },
+        "subtext": {
+          "kind": "inline",
+          "value": "Operations lead"
+        }
+      }
+    },
+    "logo-cloud": {
+      "construct": "logo-cloud",
+      "values": {
+        "title": {
+          "kind": "inline",
+          "value": "Used by teams of every size"
+        },
+        "logos": {
+          "kind": "logos",
+          "value": {
+            "count": 4,
+            "alt": "Customer logo"
+          }
+        }
+      }
+    }
+  }
+}

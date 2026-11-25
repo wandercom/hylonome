@@ -56,7 +56,10 @@ def expected(document, vocabulary, reference):
 
 def markup(document, vocabulary, samples):
     renderer = SampleRenderer(document, vocabulary, samples)
-    return {name: renderer.construct(name) + '\n' for name in vocabulary['constructs']}
+    specimens = samples.get('examples', {})
+    # Constructs with a composed specimen render through it, so nested children are real markup.
+    return {name: (renderer.example(name, 'default') if name in specimens else renderer.construct(name)) + '\n'
+            for name in vocabulary['constructs']}
 
 
 def contract_text(document, vocabulary, reference, adapter, target_dir, export_names, command):
