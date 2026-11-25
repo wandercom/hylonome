@@ -25,11 +25,11 @@ PARAGRAPH = (
 )
 
 
-def composition_report(library, language, out, content=None, widths=WIDTHS):
+def composition_report(library, language, out, content=None, widths=WIDTHS, timeout=180):
     args = ["check", language, "--out", out, "--widths", ",".join(map(str, widths))]
     if content is not None:
         args += ["--content", content]
-    result = library.cli(*args, code=(0, 1), timeout=180)
+    result = library.cli(*args, code=(0, 1), timeout=timeout)
     report_file = out / "report.json"
     assert report_file.is_file(), (
         "check produced no report", result.returncode, result.stdout, result.stderr)
