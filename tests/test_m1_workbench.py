@@ -38,7 +38,7 @@ def submit_check(page, server):
 def persisted_report(library, document):
     directory = library.library / "generated" / "tidal" / "checks" / expected_hash(document)
     report = json.loads((directory / "report.json").read_text())
-    assert set(PAGES) <= set(report["checked"]["pages"])  # every vocabulary keeps the five classic pages
+    assert set(report["checked"]["pages"]) == set(PAGES)
     assert set(report["checked"]["widths"]) == {320, 768, 1280}
     assert report["needs_review"] == sum(f["type"] == "needs-review" for f in report["findings"])
     return directory, report
