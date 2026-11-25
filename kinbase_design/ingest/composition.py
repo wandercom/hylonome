@@ -166,7 +166,7 @@ def transfer(document,vocabulary,mappings,treatments,properties,token,space_toke
         prose_width=median(n['box'][2] for n in prose) if prose else body*36
         for construct,spec in vocabulary['constructs'].items():
             for slot in spec['slots']:
-                if slot['kind']!='text' or slot['element']!='p':continue
+                if slot['kind']!='text' or not (slot['element']=='p' or slot.get('prose-measure')):continue
                 scope=construct+'.'+slot['id'];current=treatments.setdefault((scope,width),{})
                 ref=current.get('font-size') or document['roles'][slot['role']][slot['emphasis']]['font-size']
                 size=pixels(Tokens(document['style']).reference(ref)[1]) or body

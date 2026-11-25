@@ -27,7 +27,7 @@ def declaration(properties):
 def selector(construct, slot=None, state=None, native=False, child=None):
     root = f'[data-kd-construct="{construct}"]'
     if child is None:child = f' [data-kd-slot="{construct}.{slot}"]' if slot else ''
-    control = ' >img' if native == 'image' else ' :is(input,select,textarea,button)' if native else ''
+    control = ' >img' if native == 'image' else ' :is(input,select,textarea,button,progress)' if native else ''
     if state and state != 'default':
         static = root + f'[data-kd-state="{state}"]' + child + control
         pseudo = PSEUDOS.get(state)

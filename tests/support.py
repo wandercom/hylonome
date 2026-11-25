@@ -13,6 +13,7 @@ from wsgiref.util import setup_testing_defaults
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = Path(__file__).parent / "fixtures"
 PAGES = ("index.html", "search.html", "listing.html", "form.html", "states.html")
+V8_EXTRA_PAGES = ("checkout.html", "account.html", "dashboard.html", "article.html", "pricing.html", "sign-in.html")
 
 
 class LibraryCase:
