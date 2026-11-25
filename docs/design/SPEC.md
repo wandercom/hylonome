@@ -720,4 +720,7 @@ checks and site verification run on all of them.
 
 Open decisions (vocabulary versions, not side effects of an import): status emphases (`positive`,
 `caution`), an inverse surface, a `complete` step state, and avatar, video and map asset kinds.
+Common design-system elements not yet constructs, each waiting on one of those decisions or on a
+no-JS contract: badge (status emphases), avatar (asset kind), toast and tooltip (transient,
+JavaScript-dependent), skeleton loading (a state, not an element).
 
