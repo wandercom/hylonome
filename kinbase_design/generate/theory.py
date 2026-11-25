@@ -165,7 +165,9 @@ def language(language_id,vocabulary,values,resources,preferences=None):
                 if slot['asset_kind']=='logo':props={'width':logo_width}
                 elif slot['asset_kind']=='image':props.update({'aspect-ratio':'3 / 2','object-fit':'cover'})
             if vocabulary.get('content_pages') and slot['element'] in {'h1','h2','h3','h4','h5','h6'}:
-                props['font-size']=sizes['card' if construct in {'card','listing-card'} else 'title' if slot['element']=='h1' else 'subtitle']
+                # Item titles (cards, and any h3 or deeper) take the card size, so they
+                # never outrank the h2 section and card headings above them.
+                props['font-size']=sizes['card' if construct in {'card','listing-card'} or slot['element'] not in {'h1','h2'} else 'title' if slot['element']=='h1' else 'subtitle']
             if props:treatment['slots'][slot['id']]={'properties':props}
         doc['components'][construct]=treatment
     # Make the attention and formality decisions visible on the common A/B screen.

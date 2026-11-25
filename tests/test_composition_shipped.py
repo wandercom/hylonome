@@ -40,7 +40,7 @@ def composition_report(library, language, out, content=None, widths=WIDTHS):
     assert set(report["checked"]["widths"]) == set(widths), report
     assert report["checked"]["pages"], "No page was checked"
     if content is None:
-        assert set(report["checked"]["pages"]) == set(PAGES)
+        assert set(PAGES) <= set(report["checked"]["pages"])  # every vocabulary keeps the five classic pages
     return report
 
 
