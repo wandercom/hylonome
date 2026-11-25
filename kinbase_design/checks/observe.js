@@ -79,7 +79,7 @@
     const backgroundDecoded=backgroundAsset?window.__kdBackgroundImages?.[backgroundURL]===true:null;
     const image=e.tagName==='IMG';
     const fontSize=parseFloat(s.fontSize),fontWeight=parseFloat(s.fontWeight)||400;
-    const controlStyles=args.controlSlots.includes(scope(e))?[...e.querySelectorAll('input,select,textarea,button')].map(control=>{
+    const controlStyles=args.controlSlots.includes(scope(e))?[...e.querySelectorAll('input,select,textarea,button,progress')].map(control=>{
       const style=getComputedStyle(control);
       return {css:Object.fromEntries(properties.map(p=>[p,style.getPropertyValue(p)])),fontSize:parseFloat(style.fontSize),blockified:blockified(control)};
     }):null;

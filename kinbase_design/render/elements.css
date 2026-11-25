@@ -38,6 +38,7 @@ input[type="radio"]{width:auto}
 :where([data-kd-slot="order-summary.items"],[data-kd-slot="order-summary.adjustments"]){display:grid;gap:.75rem}
 :where([data-kd-construct="line-item"]){display:grid;grid-template-columns:auto 1fr auto;column-gap:1rem;align-items:start}
 [data-kd-construct="line-item"] [data-kd-slot="line-item.media"]{grid-row:span 3;width:4rem}
+[data-kd-construct="line-item"] [data-kd-slot="line-item.media"]:is(.kd-placeholder,:has(>.kd-placeholder)){inline-size:max-content;min-inline-size:4rem;max-inline-size:min(12rem,40vw)}
 :where([data-kd-construct="line-item"]) [data-kd-slot="line-item.media"] img{width:4rem;aspect-ratio:1;object-fit:cover}
 :where([data-kd-construct="line-item"]) :where([data-kd-slot="line-item.title"],[data-kd-slot="line-item.description"],[data-kd-slot="line-item.action"]){grid-column:2}
 :where([data-kd-construct="line-item"]) [data-kd-slot="line-item.value"]{grid-column:3;grid-row:1;text-align:end;white-space:nowrap}
