@@ -32,7 +32,7 @@ input[type="radio"]{width:auto}
 :where([data-kd-construct="disclosure"]){padding:.75rem .5rem;border-block-end:1px solid currentColor}
 :where([data-kd-construct="disclosure"]) [data-kd-slot="disclosure.body"]{padding-block-start:.5rem}
 :where([data-kd-construct="alert"]){display:grid;gap:.25rem;padding-block:1rem;border-inline-start:4px solid currentColor}
-:where([data-kd-construct="dialog"]){position:static;display:grid;gap:.75rem;max-width:36rem;margin:0;padding:1rem;border:1px solid currentColor;color:inherit;background:inherit}
+:where([data-kd-construct="dialog"]){position:static;display:grid;gap:.75rem;max-width:36rem;margin:0;padding:max(8px,1rem);border:1px solid currentColor;color:inherit;background:inherit}
 :where([data-kd-construct="dialog"]) :where([data-kd-slot="dialog.action"],[data-kd-slot="dialog.secondary-action"]){margin-inline-end:1rem}
 :where([data-kd-construct="order-summary"]){display:grid;gap:1rem;padding:1.5rem;border:1px solid currentColor;max-width:36rem}
 :where([data-kd-slot="order-summary.items"],[data-kd-slot="order-summary.adjustments"]){display:grid;gap:.75rem}
@@ -51,7 +51,7 @@ input[type="radio"]{width:auto}
 :where([data-kd-construct="description-item"]) dd{margin:0}
 :where([data-kd-construct="table"],table.kd-specimen){border-collapse:separate;border-spacing:.5rem;width:calc(100% - 3rem);margin-inline:1.5rem;padding:0}
 :where([data-kd-construct="table"]) caption{text-align:start;padding-block-end:.75rem}
-:where([data-kd-construct="table-header"],[data-kd-construct="table-cell"]){text-align:start;vertical-align:top;padding:.5rem;border-block-end:1px solid currentColor}
+:where([data-kd-construct="table-header"],[data-kd-construct="table-cell"]){text-align:start;vertical-align:top;padding:max(8px,.5rem);border-block-end:1px solid currentColor}
 :where([data-kd-construct="table-cell"]) [data-kd-slot]{display:block}
 @media (max-width:40rem){
   :where([data-kd-construct="table"],table.kd-specimen),:where([data-kd-construct="table"],table.kd-specimen) :where(tbody,tr,th,td){display:block;width:auto}

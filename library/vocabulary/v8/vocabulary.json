@@ -2618,7 +2618,8 @@
                     "element": "div",
                     "required": true,
                     "kind": "text",
-                    "content-element": "div"
+              "content-element": "div",
+              "prose-measure": true
                 }
             ],
             "states": [
