@@ -702,3 +702,22 @@ Boundaries:
   is reported as coverage. Adding a construct remains a Vocabulary decision.
 - Compliance is about values and construct contracts. Layout composition, margins and taste are
   not judged.
+
+## 14. The element library and standard pages (EA)
+
+The vocabulary must hold the elements real products are built from, or a request such as "build
+a checkout page in this language" falls outside constructs and is judged only by the closed set.
+Vocabulary v8 adds 30 generic constructs, chosen from a survey of first-party product front ends
+and common design systems, and generalises `form` with an optional `fields` container. It is
+additive: every v7 contract except `form`'s is unchanged, and `form`'s contact slots become
+optional rather than removed, so v7 languages keep their meaning.
+
+A language's preview is a fixed set of standard pages: semantic HTML that does not change between
+languages, with the language laid on top. The five classic pages stay; six composed pages
+(checkout, account, dashboard, article, pricing, sign-in) exercise the library in realistic,
+domain-neutral content; the states page shows every construct in every declared state. Rendered
+checks and site verification run on all of them.
+
+Open decisions (vocabulary versions, not side effects of an import): status emphases (`positive`,
+`caution`), an inverse surface, a `complete` step state, and avatar, video and map asset kinds.
+

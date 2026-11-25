@@ -150,6 +150,15 @@ Open:
 
 Exit: B22–B24 pass.
 
+### M7 — Element library and standard pages (SPEC §14)
+Built: vocabulary v8 (30 new constructs, a general form), six composed standard pages beside the
+classic five, specimens for every construct and state, Harbor and Lantern migrated and passing
+rendered checks on all pages. Also: packages by path, save targets and configured sign-off.
+
+Open: the status-emphasis and inverse-surface decisions; component treatments for the new
+constructs beyond structure (each language currently relies on its roles); a real Factory run of
+the checkout request through the hand-off.
+
 ## Factory briefs (per milestone)
 
 - **Builder** receives: the milestone's SPEC sections, R1–R5, the pinned vocabulary and

@@ -1025,7 +1025,19 @@
       }
     },
     "field": {
-      "variant": "default"
+      "variant": "default",
+      "slots": {
+        "control": {
+          "states": {
+            "error": {
+              "border-color": "{color.attention}"
+            },
+            "disabled": {
+              "border-color": "{color.muted}"
+            }
+          }
+        }
+      }
     },
     "fieldset": {
       "variant": "default"

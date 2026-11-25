@@ -1214,3 +1214,48 @@ refuses an unapproved version before exporting anything. A record is not a crypt
 signature: its trust comes from the configured approver list and from the history of the
 repository that holds it.
 
+## The element library and standard preview pages (vocabulary v8)
+
+Vocabulary v8 is the default. It keeps every v7 construct and adds the elements real products are
+built from, chosen from a survey of several first-party product front ends and of common design
+systems (application, marketing and commerce component sets):
+
+| Family | Constructs |
+| --- | --- |
+| Forms | `form` (now with a `fields` container), `field`, `fieldset`, `choice-group` |
+| Flow and commerce | `stepper`, `step`, `progress`, `order-summary`, `line-item`, `pricing-tier` |
+| Data | `table`, `table-row`, `table-header`, `table-cell`, `description-list`, `description-item`, `stat`, `timeline-item` |
+| Navigation and page | `page-header`, `breadcrumb`, `pagination`, `sidebar`, `nav-group`, `tabs`, `menu` |
+| Feedback and overlays | `alert`, `dialog`, `disclosure` |
+| Marketing and media | `feature`, `testimonial`, `logo-cloud`, `figure` |
+
+A `field` holds a label, an optional hint, a native control (text, email, tel, number, password,
+date, select, textarea, checkbox, radio, switch) and an optional error, wired with `for`,
+`aria-describedby` and `aria-invalid`. Repetition is always by repeating whole constructs:
+fields inside a `form` or `fieldset`, line items inside an `order-summary`, rows and cells inside
+a `table`.
+
+Every language previews on the same eleven pages, built from fixed semantic HTML with the
+language laid on top:
+
+- the five classic pages: `index.html`, `search.html`, `listing.html`, `form.html`, `states.html`;
+- `checkout.html`: stepper, alert, a multi-section form with field errors and a radio group, and an order summary;
+- `account.html`: sidebar, tabs, a description list, edit and notification forms, a dialog;
+- `dashboard.html`: stats, progress, a menu, a table and pagination, an activity timeline;
+- `article.html`: breadcrumb, page header, figure, content sections, a callout, disclosures, related cards;
+- `pricing.html`: a billing choice, pricing tiers, a comparison table, features, testimonials, FAQ, logos;
+- `sign-in.html`: an error alert and a sign-in form.
+
+`states.html` shows every construct in every state it declares. Media slots on the standard pages
+use the language's own bound assets, or an honest placeholder when it has none. Rendered checks
+and `verify` run on all eleven pages. The compositions live in `library/vocabulary/v8/samples.json`;
+the structural layout for the new constructs is in a low-specificity defaults layer, so a
+language's own treatments always win.
+
+Harbor and Lantern are migrated to v8. The migration gives each new construct an empty treatment,
+sizes new headings like the language's existing headings at each level (including breakpoints),
+and treats a field's error and disabled states with the language's attention and muted colours.
+Both pass the rendered checks on every page. Not yet expressed in the vocabulary, and left as
+open decisions: `positive` and `caution` emphases for status colours, an inverse surface, a
+`complete` step state, and avatar, video and map asset kinds.
+
