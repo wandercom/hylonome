@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>$title$ | Wander Labs</title>
+<meta name="description" content="$summary$">
+<link rel="canonical" href="https://labs.wander.com/blogs/hylonome">
+<link rel="stylesheet" href="design/generated/tokens.css">
+<link rel="stylesheet" href="preview.css">
+</head>
+<body>
+<main>
+  <div class="post-layout">
+    $if(toc)$<nav aria-label="On this page" class="contents"><span>On this page</span>$table-of-contents$</nav>$endif$
+    <article>
+      <a class="back" href="https://labs.wander.com/blogs">Back</a>
+      <header>
+        <h1>$title$</h1>
+        <div class="byline">
+          <div>Wander Labs</div>
+          <p>Engineering <span aria-hidden="true">·</span> <time datetime="$date$">November 23, 2026</time></p>
+        </div>
+      </header>
+      <div class="prose">$body$</div>
+      <footer><a class="back" href="https://labs.wander.com/blogs">Back</a></footer>
+    </article>
+  </div>
+</main>
+<footer class="site-footer">© Wander</footer>
+</body>
+</html>
